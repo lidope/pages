@@ -1,0 +1,488 @@
+@import 'vendor.styl'
+$speed = .8s // 总速度
+_orageCenter()
+  -webkit-transform-origin: center
+  -moz-transform-origin: center
+  -ms-transform-origin: center
+  -o-transform-origin: center
+  transform-origin: center
+
+.animate
+  animation-duration $speed
+  animation-fill-mode both
+  animation-timing-function ease-in
+
+  &.duration00
+    animation-duration 0s
+
+  &.duration01
+    animation-duration .1s
+
+  &.duration02
+    animation-duration .2s
+
+  &.duration03
+    animation-duration .3s
+
+  &.duration04
+    animation-duration .4s
+
+  &.duration05
+    animation-duration .5s
+
+  &.duration06
+    animation-duration .6s
+
+  &.duration07
+    animation-duration .7s
+
+  &.duration08
+    animation-duration .8s
+
+  &.duration09
+    animation-duration .9s
+
+  &.duration10
+    animation-duration 10s
+
+  &.duration11
+    animation-duration 1.1s
+
+  &.duration12
+    animation-duration 1.2s
+
+  &.duration13
+    animation-duration 1.3s
+
+  &.duration14
+    animation-duration 1.4s
+
+  &.duration15
+    animation-duration 1.5s
+
+  &.duration16
+    animation-duration 1.6s
+
+  &.duration17
+    animation-duration 1.7s
+
+  &.duration18
+    animation-duration 1.8s
+
+  &.duration19
+    animation-duration 1.9s
+
+  &.duration20
+    animation-duration 2s
+
+  &.duration25
+    animation-duration 2.5s
+
+  &.duration30
+    animation-duration 3s
+
+  // 隐藏到显示
+  &.animate_showOpacity
+    -webkit-animation-name showOpacity
+    animation-name showOpacity
+
+    @keyframes showOpacity
+      0%
+        opacity 0
+        transform-origin(50% 50%)
+        filter(blur(2px))
+
+      100%
+        opacity 1
+        transform-origin(50% 50%)
+        filter(blur(0px))
+
+  // 显示到隐藏
+  &.animate_hideOpacity
+    -webkit-animation-name hideOpacity
+    animation-name hideOpacity
+
+    @keyframes hideOpacity
+      0%
+        opacity 1
+        transform-origin(50% 50%)
+        filter(blur(2px))
+
+      100%
+        opacity 0
+        transform-origin(50% 50%)
+        filter(blur(0px))
+
+  // 由大到小
+  &.animate_BigToSmall
+    -webkit-animation-name: bigToSmall
+    animation-name bigToSmall
+
+  @keyframes bigToSmall
+    0%
+      opacity 0
+      transform-origin(50% 50%)
+      transform(scale(1.4))
+      filter(blur(2px))
+
+    100%
+      opacity 1
+      transform-origin(50% 50%)
+      transform(scale(1))
+      filter(blur(0px))
+
+  // 由小到大
+  &.animate_SmallToBig
+    -webkit-animation-name: smallToBig
+    animation-name smallToBig
+    _orageCenter()
+
+  @keyframes smallToBig
+    0%
+      opacity 0
+      transform-origin(50% 50%)
+      transform(scale(.4))
+    //filter(blur(2px))
+
+    100%
+      opacity 1
+      transform-origin(50% 50%)
+      transform(scale(1))
+  //filter(blur(0px))
+
+  // 从下至上
+  &.animate_DownToUp
+    -webkit-animation-name: downToUp
+    animation-name: downToUp
+
+  @keyframes downToUp
+    0%
+      transform(translateY(200px))
+      opacity 0
+
+    40%
+      opacity 0
+
+    100%
+      transform(translateY(0px))
+
+  // 从上至下
+  &.animate_UpToDown
+    -webkit-animation-name: upToDown
+    animation-name: upToDown
+
+  @keyframes upToDown
+    0%
+      transform(translateY(-200px))
+      opacity 0
+
+    40%
+      opacity 0
+
+    100%
+      transform(translateY(0px))
+
+  // 从左至右
+  &.animate_LeftToRight
+    -webkit-animation-name: leftToRight
+    animation-name: leftToRight
+
+  @keyframes leftToRight
+    0%
+      transform(translateX(-200px))
+      opacity 0
+
+    40%
+      opacity 0
+
+    100%
+      transform(translateY(0))
+
+  // 从右至左
+  &.animate_RightToLeft
+    -webkit-animation-name: rightToLeft
+    animation-name: rightToLeft
+
+  @keyframes rightToLeft
+    0%
+      transform(translateX(200px))
+      opacity 0
+
+    40%
+      opacity 0
+
+    100%
+      transform(translateY(0))
+
+  // 从右向左滚动
+  &.animate_ScrollRightIn
+    animation-name scrollRightIn
+
+  @keyframes scrollRightIn
+    0%
+      opacity 0
+      transform(translateX(500%) rotateZ(-720deg))
+
+    100%
+      transform(translateX(0%) rotateZ(0deg))
+
+  // 从左向右滚动
+  &.animate_ScrollLeftIn
+    animation-name scrollLeftIn
+
+  @keyframes scrollLeftIn
+    0%
+      opacity 0
+      transform(translateX(-500%) rotateZ(720deg))
+
+    100%
+      transform(translateX(-0%) rotateZ(0deg))
+
+  &.animate_rotate
+    animation: rotate 3s linear infinite;
+
+    @keyframes rotate
+      from
+        transform(rotate(0deg))
+      to
+        transform(rotate(360deg))
+
+.delay00
+  animation-delay 0s
+  -webkit-animation-delay 0s
+
+.delay01
+  animation-delay .1s
+  -webkit-animation-delay .1s
+
+.delay02
+  animation-delay .2s
+  -webkit-animation-delay .2s
+
+.delay03
+  animation-delay .3s
+  -webkit-animation-delay .3s
+
+.delay04
+  animation-delay .4s
+  -webkit-animation-delay .4s
+
+.delay05
+  animation-delay .5s
+  -webkit-animation-delay .5s
+
+.delay06
+  animation-delay .6s
+  -webkit-animation-delay .6s
+
+.delay07
+  animation-delay .7s
+  -webkit-animation-delay .7s
+
+.delay08
+  animation-delay .8s
+  -webkit-animation-delay .8s
+
+.delay09
+  animation-delay .9s
+  -webkit-animation-delay .9s
+
+.delay10
+  animation-delay 1s
+  -webkit-animation-delay 1s
+
+.delay11
+  animation-delay 1.1s
+  -webkit-animation-delay 1.1s
+
+.delay12
+  animation-delay 1.2s
+  -webkit-animation-delay 1.2s
+
+.delay13
+  animation-delay 1.3s
+  -webkit-animation-delay 1.3s
+
+.delay14
+  animation-delay 1.4s
+  -webkit-animation-delay 1.4s
+
+.delay15
+  animation-delay 1.5s
+  -webkit-animation-delay 1.5s
+
+.delay16
+  animation-delay 1.6s
+  -webkit-animation-delay 1.6s
+
+.delay17
+  animation-delay 1.7s
+  -webkit-animation-delay 1.7s
+
+.delay18
+  animation-delay 1.8s
+  -webkit-animation-delay 1.8s
+
+.delay19
+  animation-delay 1.9s
+  -webkit-animation-delay 1.9s
+
+.delay20
+  animation-delay 2s
+  -webkit-animation-delay 2s
+
+.delay21
+  animation-delay 2.1s
+  -webkit-animation-delay 2.1s
+
+.delay22
+  animation-delay 2.2s
+  -webkit-animation-delay 2.2s
+
+.delay23
+  animation-delay 2.3s
+  -webkit-animation-delay 2.3s
+
+.delay24
+  animation-delay 2.4s
+  -webkit-animation-delay 2.4s
+
+.delay25
+  animation-delay 2.5s
+  -webkit-animation-delay 2.5s
+
+.delay26
+  animation-delay 2.6s
+  -webkit-animation-delay 2.6s
+
+.delay27
+  animation-delay 2.7s
+  -webkit-animation-delay 2.7s
+
+.delay28
+  animation-delay 2.8s
+  -webkit-animation-delay 2.8s
+
+.delay29
+  animation-delay 2.9s
+  -webkit-animation-delay 2.9s
+
+.delay30
+  animation-delay 3s
+  -webkit-animation-delay 3s
+
+.delay31
+  animation-delay 3.1s
+  -webkit-animation-delay 3.1s
+
+.delay32
+  animation-delay 3.2s
+  -webkit-animation-delay 3.2s
+
+.delay33
+  animation-delay 3.3s
+  -webkit-animation-delay 3.3s
+
+.delay34
+  animation-delay 3.4s
+  -webkit-animation-delay 3.4s
+
+.delay35
+  animation-delay 3.5s
+  -webkit-animation-delay 3.5s
+
+.delay36
+  animation-delay 3.6s
+  -webkit-animation-delay 3.6s
+
+.delay37
+  animation-delay 3.7s
+  -webkit-animation-delay 3.7s
+
+.delay38
+  animation-delay 3.8s
+  -webkit-animation-delay 3.8s
+
+.delay39
+  animation-delay 3.9s
+  -webkit-animation-delay 3.9s
+
+.delay40
+  animation-delay 4s
+  -webkit-animation-delay 4s
+
+.delay41
+  animation-delay 4.1s
+  -webkit-animation-delay 4.1s
+
+.delay42
+  animation-delay 4.2s
+  -webkit-animation-delay 4.2s
+
+.delay43
+  animation-delay 4.3s
+  -webkit-animation-delay 4.3s
+
+.delay42
+  animation-delay 4.2s
+  -webkit-animation-delay 4.2s
+
+.delay44
+  animation-delay 4.4s
+  -webkit-animation-delay 4.4s
+
+.delay45
+  animation-delay 4.5s
+  -webkit-animation-delay 4.5s
+
+.delay46
+  animation-delay 4.6s
+  -webkit-animation-delay 4.6s
+
+.delay47
+  animation-delay 4.7s
+  -webkit-animation-delay 4.7s
+
+.delay48
+  animation-delay 4.8s
+  -webkit-animation-delay 4.8s
+
+.delay49
+  animation-delay 4.9s
+  -webkit-animation-delay 4.9s
+
+.delay50
+  animation-delay 5s
+  -webkit-animation-delay 5s
+
+.delay51
+  animation-delay 5.1s
+  -webkit-animation-delay 5.1s
+
+.delay52
+  animation-delay 5.2s
+  -webkit-animation-delay 5.2s
+
+.delay53
+  animation-delay 5.3s
+  -webkit-animation-delay 5.3s
+
+.delay54
+  animation-delay 5.4s
+  -webkit-animation-delay 5.4s
+
+.delay55
+  animation-delay 5.5s
+  -webkit-animation-delay 5.5s
+
+.delay60
+  animation-delay 6s
+  -webkit-animation-delay 6s
+
+.delay70
+  animation-delay 7s
+  -webkit-animation-delay 7s
+
+.delay75
+  animation-delay 7.5s
+  -webkit-animation-delay 7.5s

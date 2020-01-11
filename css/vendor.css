@@ -1,0 +1,23 @@
+/*
+ * Legacy syntax support for background-clip and background-origin
+ */
+/*
+ * Size utility.
+ *
+ * Synopsis:
+ *
+ *   size: <width> <height> | <width & height>
+ *
+ * Examples:
+ *
+ *     size: 100% 30px
+ *       yields:
+ *         width: 100%
+ *         height: 30px
+ *
+ *     size: 5px
+ *       yields:
+ *         width: 5px
+ *         height: 5px
+ *
+ */

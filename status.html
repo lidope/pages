@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="apple-touch-fullscreen" content="yes"/>
+    <meta name="viewport" content="user-scalable=no">
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1">
+    <title></title>
+    <script>
+        var phoneWidth = parseInt(window.screen.width);var phoneScale = phoneWidth / 750;var ua = navigator.userAgent;if (/Android (\d+\.\d+)/.test(ua)) {var version = parseFloat(RegExp.$1);if (version > 2.3) {document.write('<meta name="viewport" content="width=750, minimum-scale = ' + phoneScale + ', maximum-scale = ' + phoneScale + ', target-densitydpi=device-dpi">');} else {document.write('<meta name="viewport" content="width=750, target-densitydpi=device-dpi">');}} else {document.write('<meta name="viewport" content="width=750, user-scalable=no, target-densitydpi=device-dpi">');}
+    </script>
+    <link href="" rel="shortcut icon">
+    <link rel="stylesheet" href="./css/reset.css?v1.0">
+    <style>
+        .showModal {
+            position: fixed;
+            width: 750px;
+            height: 100%;
+            z-index: 6;
+            top: 0;
+        }
+
+        .showModal .modal_bg i {
+            font-size: 32px;
+            line-height: 60px;
+            color: #ff7d01;
+            font-style: normal;
+        }
+    </style>
+</head>
+<body>
+<div class="container page" id="trauson">
+    <mask class="active"></mask>
+    <div class="col items center showModal">
+        <div class="modal_bg col items center">
+            <i></i>
+        </div>
+    </div>
+</div>
+</body>
+<script src="./js/main.js?v1.0"></script>
+<script src="./js/common.js?v1.0"></script>
+<script type="text/javascript" src="//wxshare.leaddevelop.net/wxShare.js"></script>
+<script>
+
+    $(function() {
+        //微信分享
+        var options = {
+            title : 'SWN给你的一份圣诞心意',
+            desc : '您还等什么，赶紧加入我们的活动吧～',
+            link : baseUrl + 'trauson',
+            imgUrl : baseUrl + 'trauson/images/page08/tree.png'
+        };
+
+        wxShare.init(options);
+    })
+
+    window.onload = function () {
+        http.ajaxPost('swn/Api/getStatus', {}, res => {
+            if (res.d.type == 2) {
+                http.redirectTo('./index.html');
+            } else {
+                $('.modal_bg i').html(res.d.content)
+            }
+        }, res => {
+            http.showModal(res.m)
+        }, 0)
+    };
+</script>
+</html>
