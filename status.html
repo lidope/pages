@@ -52,17 +52,17 @@
     $(function() {
         //微信分享
         var options = {
-            title : 'SWN给你的一份圣诞心意',
-            desc : '您还等什么，赶紧加入我们的活动吧～',
-            link : baseUrl + 'trauson',
-            imgUrl : baseUrl + 'trauson/images/page08/tree.png'
+            title : '',
+            desc : '',
+            link : '',
+            imgUrl : ''
         };
 
         wxShare.init(options);
     })
 
     window.onload = function () {
-        http.ajaxPost('swn/Api/getStatus', {}, res => {
+        http.ajaxPost('', {}, res => {
             if (res.d.type == 2) {
                 http.redirectTo('./index.html');
             } else {

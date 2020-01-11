@@ -15,3 +15,6 @@ node_modules/
 
 # webstorm phpstorm
 .project
+
+# pages
+js/wxshare.js
