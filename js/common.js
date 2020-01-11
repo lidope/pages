@@ -1,7 +1,6 @@
 /*
- * common.js v1.0.3 *
+ * common.js v1.0.4 *
  */
-// var baseUrl = 'https://h5.fitsns.cn/';
 var baseUrl = window.location.protocol + "//" + window.location.host + "/";
 var authUrl = baseUrl + "work/WechatApi/getAuthUser";
 var errorUrl = baseUrl + "qiye/error.html";
