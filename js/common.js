@@ -200,11 +200,15 @@ var http = {
                     callback(data);
                 }
             },
-            error : function (msg){
-                http.showModal('服务器开小差了~')
-                console.error('status: ' + msg.status + '\nerr: ' + msg.responseText)
-                console.error(msg)
+            error : function (msg) {
                 http.hideLoading();
+                http.showModal('服务器开小差了~')
+
+                console.group('服务器返回错误');
+                    console.log('└─状态码: ' + msg.status);
+                        console.group('原因');
+                    console.error(msg.responseText);
+                console.groupEnd();
             }
         });
     },
@@ -1107,55 +1111,6 @@ var leadAPi = {
     };
     window.scrollPage = scrollPage;
 
-    // 音乐播放
-    // var _music;
-    // var _musicPlay = function (musicPathElement, element) {
-    //     if (!element || !musicPathElement) {
-    //         http.showModal('musicPlay参数错误');
-    //         return false;
-    //     }
-    //     var _el = $(element);
-    //     _music = new Player($(musicPathElement), true);
-    //     // 自动播放音乐效果，解决浏览器或者APP自动播放问题
-    //     function musicInBrowserHandler() {
-    //         var playPromise = _music._audio.play();
-    //         if (playPromise !== undefined) {
-    //             playPromise.then(_ => {
-    //                 _el.attr('playAudio', 'true');
-    //                 _el.addClass('playMusic animate animate_rotate')
-    //             })
-    //             .catch(error => {
-    //                 _el.attr('playAudio', 'false');
-    //                 _el.hasClass('playMusic') && _el.removeClass('playMusic animate animate_rotate')
-    //                 _music._audio.play();
-    //             });
-    //         } else {
-    //             _el.hasClass('playMusic') && _el.removeClass('playMusic animate animate_rotate')
-    //         }
-    //
-    //         document.body.removeEventListener('touchstart', musicInBrowserHandler);
-    //     }
-    //
-    //     document.body.addEventListener('touchstart', musicInBrowserHandler);
-    //
-    //     document.addEventListener("WeixinJSBridgeReady", function () {
-    //         musicInBrowserHandler();
-    //     }, false);
-    //
-    //     _el.on('click', function () {
-    //         if (_el.attr('playAudio') == 'true') {
-    //             _el.attr('playAudio', 'false');
-    //             _el.hasClass('playMusic') && _el.removeClass('playMusic animate animate_rotate')
-    //             _music._audio.pause();
-    //         } else {
-    //             _el.attr('playAudio', 'true');
-    //             _el.addClass('playMusic animate animate_rotate')
-    //             _music._audio.play();
-    //         }
-    //     })
-    //
-    //     musicInBrowserHandler()
-    // }
-    // window.music = _music;
-    // window.musicPlay = _musicPlay;
+    window.c = console;
+    window.log = console.log;
 })();
