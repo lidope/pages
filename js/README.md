@@ -1,4 +1,9 @@
 # commin.js
+### v1.0.5 更新 - 2020.01.19
+```
+1. 优化ajaxPost的error回调数据过多导致污染控制台
+2. 增加log和c方法，使得console更加轻捷 c = console demo: log('test') c.info('text')
+```
 
 ### v1.0.4 更新 - 2020.01.11
 ```$xslt
@@ -11,7 +16,6 @@
 2. 微信预览图片
 3. 微信上传图片
 ```
-
 ### v1.0.3 更新 - 2020.01.04
 ```$xslt
 1. 新增自定义showMessage、showModal弹窗文字按钮自定义
