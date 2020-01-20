@@ -140,117 +140,99 @@ var http = {
         showLoading = showLoading == 0 ? 0 : 1;
         params.v = new Date().getTime();
 
-        $.ajax({
-            url : baseUrl + url + '?_' + new Date().getTime(),
+        var token = sessionStorage.getItem('token') || '';
+        var header = {
+            token: token,
+            client: '2',
+        };
+
+        var url = baseUrl + url + '?_' + new Date().getTime();
+
+        var ajaxBeforeSend = function() {
+            if (showLoading == 1) {
+                http.showLoading();
+            }
+        };
+
+        var ajaxSuccess = function (data) {
+            if (showLoading == 1) {
+                http.hideLoading();
+            }
+
+            if (data.c) {
+                http.hideLoading();
+
+                if (data.c == 110) {
+                    // token失效
+                    http.showModal('您尚未授权登录登录，请先授权登录!', function() {
+                        sessionStorage.clear();
+                        window.location.href = authUrl + "?url=" + window.location.href;
+                    }, { title: '操作失败' })
+                } else if (data.c == 400) {
+                    // 页面不存在
+                    window.location.href = errorUrl;
+                } else if (data.c == 10000) {
+                    // 登录超时，请重新登录
+                    http.showModal(data.m, function () {
+                        localStorage.clear();
+                        sessionStorage.clear();
+                        location.replace(baseUrl + 'index.html');
+                    })
+                } else {
+                    error && error(data) || ( data.m && http.showModal(data.m) || http.showModal('操作失败'));
+                }
+                return false;
+            } else {
+                callback(data);
+            }
+        };
+
+        var ajaxError = function (msg) {
+            http.hideLoading();
+            http.showModal('服务器开小差了~')
+
+            console.group('服务器返回错误');
+            console.log('└─状态码: ' + msg.status);
+                console.group('原因');
+                console.error(msg.responseText);
+            console.groupEnd();
+        };
+
+        var ajaxSetting = {
+            url : url,
             type : "post",
-            //async: false,
-            headers: {
-                token: sessionStorage.getItem('token') || '',
-                client: '2',
-            },
+            headers: header,
             data : params,
             dataType : "json",
-            beforeSend : function (){
-                if (showLoading == 1) {
-                    http.showLoading();
-                }
-            },
-            complete : function (){
+            beforeSend : ajaxBeforeSend,
+            success : ajaxSuccess,
+            error : ajaxError
+        };
 
-            },
-            success : function (data){
-                if (showLoading == 1) {
-                    http.hideLoading();
-                }
-
-                if (data.c && data.m == '请先登录') {
-                    http.showModal('账号已在其他设备登陆', () => {
-                        sessionStorage.clear()
-                        http.redirectTo(location.href);
-                    });
-                    return false;
-                };
-
-                if (data.c) {
-                    http.hideLoading();
-                    //未登录
-                    if (data.c == 110) {
-                        http.showModal('您尚未授权登录登录，请先授权登录!', function() {
-                            sessionStorage.clear();
-                            window.location.href = authUrl + "?url=" + window.location.href;
-                        }, { title: '操作失败' })
-                    } else if (data.c == 400) {
-                        window.location.href = errorUrl;
-                        // 登录超时，请重新登录
-                    } else if (data.c == 10000) {
-                        http.showModal(data.m, function () {
-                            localStorage.clear();
-                            sessionStorage.clear();
-                            location.replace(baseUrl + 'index.html');
-                        })
-                    } else {
-                        if (error) {
-                            if (error) error(data);
-                        } else {
-                            data.m ? http.showModal(data.m) : http.showModal('操作失败');
-                        }
-                    }
-                    return false;
-                } else {
-                    callback(data);
-                }
-            },
-            error : function (msg) {
-                http.hideLoading();
-                http.showModal('服务器开小差了~')
-
-                console.group('服务器返回错误');
-                    console.log('└─状态码: ' + msg.status);
-                        console.group('原因');
-                    console.error(msg.responseText);
-                console.groupEnd();
-            }
-        });
+        $.ajax(ajaxSetting);
     },
 
     // 关闭当前页面，返回上一页面或多个页面
     navigateBack(delta) {
-        // if (document.referrer) {
-        if (!delta) {
-            history.go(-1);
-        } else {
-            history.go('-' + delta);
-        }
-        // }
+        !delta && history.go(-1) || history.go('-' + delta);
     },
 
     // 保留当前页面，跳转到新页面
     navigateTo(url) {
         if (!url) return;
-        // if (url.indexOf('?') > -1) {
-        //     location.href = url + '&_' + new Date().getTime();
-        // } else {
-        //     location.href = url + '?_' + new Date().getTime();
-        // }
         location.href = url
-
     },
 
     // 关闭当前页面，打开新页面
     redirectTo(url) {
         if (!url) return;
-        // if (url.indexOf('?') > -1) {
-        //     location.replace(url + '&_' + new Date().getTime());
-        // } else {
-        //     location.replace(url + '?_' + new Date().getTime());
-        // }
         location.replace(url);
     },
 
     // 显示loading
     showLoading(content) {
         /*
-        * content 要显示的loading内容，支持换行\n
+        * content 要显示的loading内容，支持换行 \n
         * */
 
         if ($('.lead_loading_block').length) return false;
@@ -270,10 +252,6 @@ var http = {
         setTimeout(function () {
             $('.lead_loading').length && $('.lead_loading').addClass('showLeadLoading');
         }, 20)
-
-        // $('body, html').css({
-        //     overflow: 'hidden'
-        // })
 
         $('.lead_loading_block').length && $('.lead_loading_block').on('touchmove', function (event) {
             event.preventDefault();
@@ -612,18 +590,21 @@ var http = {
     {
 
         /*
-        * name 验证的种类
-        *      mobile 手机验证
-        *      email 邮箱验证
-        *      tram 删除多余空格
-        *      symbols 是否包含特殊字符
-        *      zh_ch 是否都是汉字或者英文
-        *      emoji 是否存在emoji字符
-        *
+        * 验证的种类
+        * name {
+        *   mobile 手机验证
+        *   email 邮箱验证
+        *   tram 删除多余空格
+        *   symbols 是否包含特殊字符
+        *   zh_ch 是否都是汉字或者英文
+        *   emoji 是否存在emoji字符
+        * }
         * content 验证的内容
-        * otherParams 其他参数
-        *            : tram 空格验证 默认删除所有空格
-        *                 参数 type : left 删除左边空格 right 删除右边空格 leftRight 删除两边空格
+        * otherParams {
+        *   tram { -> 空格验证 默认删除所有空格
+        *       type: left 删除左边空格 right 删除右边空格 leftRight 删除两边空格
+        *   }
+        * }
         *
         * */
 
@@ -729,7 +710,7 @@ var http = {
     // 解决ios下页面被第三方输入法顶上去的bug
     iosPhoneBug()
     {
-        if (client && Œclient.os == 'iPhone') {
+        if (client && client.os == 'iPhone') {
             window.scrollTo(window.scrollTo, document.body.scrollTop);
         }
     },
@@ -927,10 +908,6 @@ wrLoading.prototype = {
     }
 };
 
-var leadAPi = {
-
-};
-
 ;(function(){
     function Player(el,auto){
         this.el = el;
@@ -995,13 +972,6 @@ var leadAPi = {
             if (e.persisted || window.performance && window.performance.navigation.type == 2) {
                 main.getDetail();
             }
-        });
-    }
-
-    // 解决ios第三方输入法input失焦会把页面顶上去不下来问题
-    if ($('input').length) {
-        $('input').blur(function () {
-            http.iosPhoneBug();
         });
     }
 })()
