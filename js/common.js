@@ -146,7 +146,7 @@ var http = {
             //async: false,
             headers: {
                 token: sessionStorage.getItem('token') || '',
-                client: '1',
+                client: '2',
             },
             data : params,
             dataType : "json",
@@ -678,7 +678,21 @@ var http = {
                 }
                 break;
 
-            // 是否都是汉字或者英文
+            // 只能输入英文、中文、数字
+            case 'zh_ch_num':
+                var reg = /^[\u0391-\uFFE5A-Za-z0-9]+$/;
+                var regEn = /[`~!@#$%^&*()_+<>?:"{},.\/;œ∑´®†¥¨ˆøπåß∂ƒ©˙∆˚¬…æΩ≈ç√∫˜µ„‰ˇÁ∏’»ÍÎÏ˝ÓÔÒÚ¸˛◊ıÂ¯˘¿≤≥÷¡™£¢∞§¶•ªº–≠«'[\]]/im;
+                var regCn = /[·！#￥（——）：；“”‘、，|《。》？、【】[\]]/im;
+                if (reg.test(content) && !regEn.test(content) && !regCn.test(content)) {
+                    // 都是汉字或者英文
+                    return true;
+                } else {
+                    // 不是纯汉字或英文
+                    return false;
+                }
+                break;
+
+            // 只能输入英文、中文
             case 'zh_ch':
                 var reg = /^[\u0391-\uFFE5A-Za-z]+$/;
                 var regEn = /[`~!@#$%^&*()_+<>?:"{},.\/;œ∑´®†¥¨ˆøπåß∂ƒ©˙∆˚¬…æΩ≈ç√∫˜µ„‰ˇÁ∏’»ÍÎÏ˝ÓÔÒÚ¸˛◊ıÂ¯˘¿≤≥÷¡™£¢∞§¶•ªº–≠«'[\]]/im;
