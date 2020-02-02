@@ -146,7 +146,7 @@ var http = {
             client: '2',
         };
 
-        var url = baseUrl + url + '?_' + new Date().getTime();
+        var ajaxUrl = baseUrl + url + '?_' + new Date().getTime();
 
         var ajaxBeforeSend = function() {
             if (showLoading == 1) {
@@ -192,14 +192,15 @@ var http = {
             http.showModal('服务器开小差了~')
 
             console.group('服务器返回错误');
-            console.log('└─状态码: ' + msg.status);
-                console.group('原因');
-                console.error(msg.responseText);
+                console.log('└─状态码: ' + msg.status);
+                console.log('└─接口: ' + url);
+                    console.group('原因');
+                    console.error(msg.responseText);
             console.groupEnd();
         };
 
         var ajaxSetting = {
-            url : url,
+            url : ajaxUrl,
             type : "post",
             headers: header,
             data : params,

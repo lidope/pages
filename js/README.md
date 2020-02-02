@@ -1,4 +1,9 @@
 # commin.js
+### v1.0.5.2 更新 - 2020.02.02
+```angular2
+1. 显示ajaxPost服务器返回错误的接口
+```
+
 ### v1.0.5.1 更新 - 2020.01.20
 ```angular2
 1. ajaxPost方法header中增加client字段 区分不同端调取接口
