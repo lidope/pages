@@ -396,7 +396,9 @@ var http = {
 
         var input = document.createElement("input");
         input.value = content;
-        input.readOnly = true
+        input.readOnly = true;
+        input.style.opacity = 0;
+        input.style.fontSize = '0px';
         $('body').append(leadMessage);
         $('.lead_message_copy').append(input);
 
