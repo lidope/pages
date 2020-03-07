@@ -208,6 +208,22 @@ input,textarea{
     width: 100%;
 }
 
+.vh100 {
+    height: 100vh;
+}
+
+.vw100 {
+    height: 100vw;
+}
+
+.vh80 {
+    height: 80vh;
+}
+
+.vw80 {
+    height: 100vw;
+}
+
 .col {
     display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
     display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;

@@ -62,7 +62,7 @@ td {
     font-weight: inherit;
     font-style: inherit;
     font-family: inherit;
-    font-size: 100%;
+    font-size: .3rem;
     vertical-align: baseline;
 }
 body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, textarea, p, blockquote, th, td, hr, button, article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
@@ -206,6 +206,22 @@ input,textarea{
 
 .w100 {
     width: 100%;
+}
+
+.vh100 {
+    height: 100vh;
+}
+
+.vw100 {
+    height: 100vw;
+}
+
+.vh80 {
+    height: 80vh;
+}
+
+.vw80 {
+    height: 100vw;
 }
 
 .col {
