@@ -208,20 +208,24 @@ input,textarea{
     width: 100%;
 }
 
-.vh100 {
-    height: 100vh;
+.w80 {
+    width: 80%;
 }
 
-.vw100 {
-    height: 100vw;
+.vh100 {
+    height: 100vh;
 }
 
 .vh80 {
     height: 80vh;
 }
 
+.vw100 {
+    width: 100vw;
+}
+
 .vw80 {
-    height: 100vw;
+    width: 80vw;
 }
 
 .col {
