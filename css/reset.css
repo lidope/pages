@@ -709,7 +709,7 @@ span {
 .lead_message_copy .lead_copy .lead_copy_content {
     padding: 10px 30px 20px;
     width: 100%;
-    min-height: 70px;
+    min-height: 120px;
     max-height: 618px;
     overflow: auto;
 }
