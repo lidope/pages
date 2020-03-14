@@ -197,6 +197,8 @@ var http = {
                     console.group('原因');
                     console.error(msg.responseText);
             console.groupEnd();
+            console.groupEnd();
+            console.groupEnd();
         };
 
         var ajaxSetting = {
