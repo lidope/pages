@@ -189,7 +189,7 @@ var http = {
 
         var ajaxError = function (msg) {
             http.hideLoading();
-            http.showModal('服务器开小差了~')
+            http.showModal('服务器开小差了~\n' + url)
 
             console.group('服务器返回错误');
                 console.log('└─状态码: ' + msg.status);
