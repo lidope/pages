@@ -624,7 +624,7 @@ var http = {
         switch (name) {
             // 手机验证
             case 'mobile':
-                var mobileReg = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
+                var mobileReg = /^(((13[0-9]{1})|(15[0-9]{1})|(17[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
                 return mobileReg.test(content)? true: false;
                 break;
 
