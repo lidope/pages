@@ -597,8 +597,8 @@ span {
 
 .lead_loading_block .lead_loading .lead_icon_loading {
     margin:.3rem 0 0;
-    width: .1rem;
-    height: .1rem;
+    width: 1rem;
+    height: 1rem;
     vertical-align: baseline;
     font-size: .55rem;
     color: white;
