@@ -10,4 +10,5 @@
 8. hideOpacity 显示到隐藏
 9. ScrollRightIn 从右向左滚动
 10. scrollLeftIn 从左向右滚动
+11. rotate 无顺时针限循转
 ```
