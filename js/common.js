@@ -400,7 +400,10 @@ var http = {
         input.value = content;
         input.readOnly = true;
         input.style.opacity = 0;
-        input.style.fontSize = '0px';
+        input.style.fontSize = '20px';
+        input.style.position = 'fixed';
+        input.style.left = '-9999999px';
+        input.style.top = '-999999px';
         $('body').append(leadMessage);
         $('.lead_message_copy').append(input);
 
