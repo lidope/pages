@@ -729,7 +729,7 @@ span {
 .lead_message_copy .lead_copy .lead_copy_button {
     width: 100%;
     height: .9rem;
-    border-top: .01rem solid #f2f2f2;
+    border-top: 1px solid #f2f2f2;
 }
 
 .lead_message_block .lead_message .lead_message_button span,
@@ -750,7 +750,7 @@ span {
 .lead_message_block .lead_message .lead_message_button span:nth-child(2),
 .lead_message_copy .lead_copy .lead_copy_button span:nth-child(2){
     color: #3CC51F;
-    border-left: .01rem solid #f2f2f2;
+    border-left: 1px solid #f2f2f2;
 }
 
 /* 2秒后消失的浮层 */
