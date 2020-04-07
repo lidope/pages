@@ -715,6 +715,14 @@ var http = {
         }
     },
 
+    // 是否是iPhoneX以上机型
+    isIPhoneX() {
+        if (typeof window !== 'undefined' && window) {
+            return /iphone/gi.test(window.navigator.userAgent) && window.screen.height >= 812;
+        }
+        return false;
+    },
+
     // 解决ios下页面被第三方输入法顶上去的bug
     iosPhoneBug()
     {
