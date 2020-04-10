@@ -760,7 +760,7 @@ span {
 
 .lead_toast_block .lead_toast {
     min-width: 220px;
-    max-width: 300px;
+    max-width: 400px;
     min-height: 80px;
     margin: 0;
     background: rgba(17, 17, 17, 0.7);
