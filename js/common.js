@@ -715,6 +715,20 @@ var http = {
         }
     },
 
+    // 滑动到底部事件
+    onReachBottom(_el, callback) {
+        if (!_el) _el = $(window);
+        _el.scroll(function () {
+            let height = _el.height();
+            let scrollHeight = _el[0].scrollHeight;
+            let scrollTop = _el[0].scrollTop;
+
+            if (scrollTop + height >= scrollHeight) {
+                if (callback) callback();
+            }
+        })
+    },
+
     // 是否是iPhoneX以上机型
     isIPhoneX() {
         if (typeof window !== 'undefined' && window) {
