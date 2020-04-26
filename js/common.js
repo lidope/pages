@@ -1104,17 +1104,6 @@ wrLoading.prototype = {
 
                         setTimeout(function () {
                             _nextElement && _nextElement.removeAttr('style');
-
-                            if (element == '.page02' && window.zl_type) {
-                                scrollPage('.page03');
-                            }
-
-                            if (element == '.page03') {
-                                scrollPage('.page04');
-                            }
-
-                            // var prevTwo = _element.prev().prev();
-                            // prevTwo && prevTwo.remove();
                         }, 200)
                     }, 600)
                 }, 200)
