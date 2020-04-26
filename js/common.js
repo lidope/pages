@@ -1020,6 +1020,7 @@ wrLoading.prototype = {
         }
 
         var _pageShow = $(showElement);
+        _pageShow.css('transition', '.5s linear all')
         _pageShow.css('opacity', 0);
         _pageShow.removeClass('hide');
 
@@ -1042,6 +1043,7 @@ wrLoading.prototype = {
         var _pageHide = $(hideElement);
 
         if (hideElement) {
+            _pageHide.css('transition', '.45s linear all')
             _pageHide.css('opacity', 0);
             setTimeout(function () {
                 _pageHide.addClass('hide');
