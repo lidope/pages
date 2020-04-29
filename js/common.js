@@ -741,7 +741,8 @@ var http = {
     iosPhoneBug()
     {
         if (client && client.os == 'iPhone') {
-            window.scrollTo(window.scrollTo, document.body.scrollTop);
+            const scrollHeight = document.documentElement.scrollTop || document.body.scrollTop || 0;
+            window.scrollTo(0, Math.max(scrollHeight - 1, 0));
         }
     },
 };
