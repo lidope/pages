@@ -179,7 +179,7 @@ var http = {
                         location.replace(baseUrl + 'index.html');
                     })
                 } else {
-                    error && error(data) || ( data.m && http.showModal(data.m) || http.showModal('操作失败'));
+                    error && error(data) || ( data.m? http.showModal(data.m): http.showModal('操作失败'));
                 }
                 return false;
             } else {
