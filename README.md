@@ -1,6 +1,6 @@
 ## 目录结构
 ~~~
-└─pages 小程序存放根目录
+└─pages h5存放根目录
   ├─css 接口统一存放目录
   │ ├─animate.css 动画样式
   │ ├─reset.css 默认样式
