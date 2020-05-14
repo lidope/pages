@@ -140,6 +140,11 @@ var http = {
         showLoading = showLoading == 0 ? 0 : 1;
         params.v = new Date().getTime();
 
+        if (baseUrl.indexOf('file://') > -1) {
+            throw '致命错误: baseUrl不能是本地路径'
+            return false;
+        }
+
         var token = sessionStorage.getItem('token') || '';
         var header = {
             token: token,
