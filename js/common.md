@@ -1,10 +1,22 @@
 # common.js
+
+### v1.0.6.2 更新 - 2020.05.14
+```angular2
+1. 增加debug功能，一键开启console 使用方法:
+    a. 开启http.globalData.debug 默认为true
+    b. 页面所使用的 console.log 统一换成 _log
+    
+2. log 方法更换为 _log 方法
+3. c 方法更换为 _c 方法
+4. 优化同时加载多个showLoading方法
+```
+
 ### v1.0.6 更新 - 2020.04.10
 ~~~
 1. 增加滑动底部方法
 2. 优化showCopyText复制偶尔不成功问题
 3. 提升Toast的最大宽度
-4. 增加是否是iPhoneX机型以上验证
+4. 增加是否是iPhoneX机型以上验证 (isIPhoneX)
 5. 手机验证规则增加17字段
 6. 修改服务器错误的文字提示
 7. 增加错误接口地址返回
@@ -12,7 +24,6 @@
 9. 更新Modal默认高度
 ~~~
 
-# commin.js
 ### v1.0.5.3 更新 - 2020.02.20
 ~~~
 1. 修复showCopyText方法 input文字意外显示问题

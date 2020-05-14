@@ -1,12 +1,12 @@
 document.write("<script src='//res.wx.qq.com/open/js/jweixin-1.4.0.js'></script>");
 
-var wechat_api_url = "https://h5.fitsns.cn/work/WechatApi/";
+var wechat_api_url = baseUrl + "/work/WechatApi/";
 
 /**
  * Wechat JSSDK
  */
 var wxShare = {
-    init : function (options){
+    init: function (options) {
 
         var setting = {
             debug: true,
@@ -29,8 +29,8 @@ var wxShare = {
             ],
             statistics: false
         };
-        //window.location.href
-        $.post(wechat_api_url+"getJsSign", {url : window.location.href}, function(res){
+
+        $.post(wechat_api_url + 'getJsSign', { url: window.location.href }, function (res) {
             setting.appId = res.d.appId;
             setting.nonceStr = res.d.nonceStr;
             setting.timestamp = res.d.timestamp;
@@ -47,7 +47,7 @@ var wxShare = {
             });
 
             wx.ready(function () {
-                
+
                 wx.checkJsApi({
                     jsApiList: [
                         'onMenuShareTimeline',
@@ -65,20 +65,22 @@ var wxShare = {
 
 
                 var shareObj = {
-                    title : options.title,
-                    desc : options.desc,
-                    link : options.link,
-                    imgUrl : options.imgUrl,
-                    success: function (res) {}
+                    title: options.title,
+                    desc: options.desc,
+                    link: options.link,
+                    imgUrl: options.imgUrl,
+                    success: function (res) {
+                    }
                 };
 
                 var linetitle = options.linetitle ? options.linetitle : options.title;
 
                 var shareLine = {
-                    title : linetitle,
-                    link : options.link,
-                    imgUrl : options.imgUrl,
-                    success: function (res) {}
+                    title: linetitle,
+                    link: options.link,
+                    imgUrl: options.imgUrl,
+                    success: function (res) {
+                    }
                 };
 
                 //分享朋友
@@ -100,7 +102,7 @@ var wxShare = {
 
             });
 
-            wx.error(function(res){
+            wx.error(function (res) {
                 alert(JSON.stringify(res));
             });
         }, "json");

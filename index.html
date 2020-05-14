@@ -15,16 +15,15 @@
     <script>
         var phoneWidth = parseInt(window.screen.width);var phoneScale = phoneWidth / 750;var ua = navigator.userAgent;if (/Android (\d+\.\d+)/.test(ua)) {var version = parseFloat(RegExp.$1);if (version > 2.3) {document.write('<meta name="viewport" content="width=750, minimum-scale = ' + phoneScale + ', maximum-scale = ' + phoneScale + ', target-densitydpi=device-dpi">');} else {document.write('<meta name="viewport" content="width=750, target-densitydpi=device-dpi">');}} else {document.write('<meta name="viewport" content="width=750, user-scalable=no, target-densitydpi=device-dpi">');}
     </script>
-    <link href="" rel="shortcut icon">
     <link rel="stylesheet" href="./css/reset.css?v1.0">
     <!--<link rel="stylesheet" href="./css/index.css?v1.0">-->
 </head>
 <body>
-<div class="container" id="main" v-cloak>
+<div class="container hide" id="main" v-cloak>
 </div>
 
 </body>
-<script src="./js/main.js?v1.0"></script>
+<script src="./utils/main.js?v1.0"></script>
 <script src="./js/common.js?v1.0"></script>
 <!--<script type="text/javascript" src="//wxshare.leaddevelop.net/wxShare.js"></script>-->
 <script>
@@ -40,38 +39,45 @@
         // wxShare.init(options);
     })
 
-/*
     new wrLoading('#loading', [
 
     ], function () {
-        http.ajaxPost('swn/Api/getStatus', {}, res => {
-            if (res.d.type == 1 || res.d.type == 3) {
-                http.redirectTo('./status.html');
+        http.ajaxPost('', {}, res => {
+            if (res.d.type == 2) {
+                let token = sessionStorage.getItem('token');
+                if (!token) {
+                    if (getQueryString('token')) {
+                        sessionStorage.setItem('token', getQueryString('token'));
+                        showPage('.container');
+                        setTimeout(() => {
+                            main.getDetail();
+                        }, 500);
+                    } else {
+                        sessionStorage.clear();
+                        window.location.href = authUrl + "?redirect_url=" + encodeURIComponent(baseUrl);
+                    }
+                } else {
+                    showPage('.container');
+                    setTimeout(() => {
+                        main.getDetail();
+                    }, 500);
+                }
+
             } else {
-                // main.bind();
+                http.redirectTo('./status.html');
             }
-        }, res => {
-            http.showModal(res.m)
-        }, 0)
+        })
     }, false);
 
-    */
 
     var main = new Vue({
         el: '#main',
         data: {},
-        // 初始化注入 & 效验
-        created() {
 
-        },
-        // 创建vm.$el并用其替换el
         mounted() {
             this.getDetail();
         },
-        // 销毁后
-        destroyed() {
 
-        },
         methods: {
             getDetail() {
 

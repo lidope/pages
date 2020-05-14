@@ -1,5 +1,5 @@
 /*
- * common.js v1.0.6 *
+ * common.js v1.0.6.2 *
  */
 var baseUrl = window.location.protocol + "//" + window.location.host + "/";
 var authUrl = baseUrl + "work/WechatApi/getAuthUser";
@@ -134,7 +134,7 @@ function getQueryString(name)
 //ajax请求
 var http = {
     globalData: {
-
+        debug: true
     },
     ajaxPost:function(url, params, callback, error, showLoading) {
         showLoading = showLoading == 0 ? 0 : 1;
@@ -166,7 +166,7 @@ var http = {
                     // token失效
                     http.showModal('您尚未授权登录登录，请先授权登录!', function() {
                         sessionStorage.clear();
-                        window.location.href = authUrl + "?url=" + window.location.href;
+                        window.location.href = authUrl + "?redirect_url=" + baseUrl;
                     }, { title: '操作失败' })
                 } else if (data.c == 400) {
                     // 页面不存在
@@ -176,7 +176,7 @@ var http = {
                     http.showModal(data.m, function () {
                         localStorage.clear();
                         sessionStorage.clear();
-                        location.replace(baseUrl + 'index.html');
+                        location.replace(baseUrl);
                     })
                 } else {
                     error && error(data) || ( data.m? http.showModal(data.m): http.showModal('操作失败'));
@@ -238,7 +238,11 @@ var http = {
         * content 要显示的loading内容，支持换行 \n
         * */
 
-        if ($('.lead_loading_block').length) return false;
+        if ($('.lead_loading_block').length) {
+            $('.lead_loading_block .lead_loading span').html(http.getLineFeedHtml(content || '加载中'))
+            return false;
+        }
+
         if (content) content = http.getLineFeedHtml(content)
 
         var leadLoading = `
@@ -1001,7 +1005,7 @@ wrLoading.prototype = {
     if (client.os == 'iPhone' || client.os == 'iPad') {
         window.addEventListener('pageshow', function(e) {
             if (e.persisted || window.performance && window.performance.navigation.type == 2) {
-                main.getDetail();
+                main.getDetail && main.getDetail();
             }
         });
     }
@@ -1117,6 +1121,10 @@ wrLoading.prototype = {
     };
     window.scrollPage = scrollPage;
 
-    window.c = console;
-    window.log = console.log;
+    window._c = console;
+    if (http.globalData.debug) {
+        window._log = console.log;
+    } else {
+        window._log = () => { return '' };
+    }
 })();
