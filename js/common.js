@@ -1,5 +1,5 @@
 /*
- * common.js v1.0.6.2 *
+ * common.js v1.0.6.21 *
  */
 var baseUrl = window.location.protocol + "//" + window.location.host + "/";
 var authUrl = baseUrl + "work/WechatApi/getAuthUser";
