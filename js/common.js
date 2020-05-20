@@ -406,6 +406,9 @@ var http = {
         }
 
         var input = document.createElement("input");
+
+        content = content.replace(/<\/br>/g, ' ');
+
         input.value = content;
         input.readOnly = true;
         input.style.opacity = 0;
