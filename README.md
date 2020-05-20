@@ -16,9 +16,7 @@
   └─.gitignore git屏蔽文件配置
 ~~~
 
-[跳转](#demoHref)
-
-[common](#common)
+[common.js更新历史](#common.js更新历史)
 
 # animate
 
@@ -49,12 +47,9 @@
 4. 增加旋转隐藏动画 ( scaleOut )
 ```
 
-#common
+# common.js更新历史
 
 ### v1.0.6.21 更新 - 2020.05.20
 ```$xslt
 1. 优化showToast方法，复制内容成功后\n转换为空格
 ```
-
-
-# demoHref
