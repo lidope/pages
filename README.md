@@ -16,11 +16,9 @@
   └─.gitignore git屏蔽文件配置
 ~~~
 
-[common.js更新历史](#common更新记录)
+[common.js更新历史](##common更新记录)
 
-# animate
-
-#gulp
+[animate.js更新历史](##animate更新记录)
 
 
 ### 2020.05.20 - 增加gulp打包
@@ -37,7 +35,7 @@
     gulp clean
 ```
 
-## animate.css 更新记录
+## animate更新记录
 ### 2020.05.20 - 增加4个动画
 
 ```$xslt
@@ -47,7 +45,7 @@
 4. 增加旋转隐藏动画 ( scaleOut )
 ```
 
-# common更新记录
+## common更新记录
 
 ### v1.0.6.21 更新 - 2020.05.20
 ```$xslt
