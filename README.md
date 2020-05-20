@@ -20,6 +20,6 @@
 ```$xslt
 使用方法
 1. npm i | cnpm i
-2. 配置gulofile.js
+2. 配置gulpfile.js
 3. gulp 开始打包 gulp | clean 清理打包数据
 ```
