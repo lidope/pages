@@ -18,8 +18,14 @@
 
 ### 2020.05.20 - 增加gulp打包方法
 ```$xslt
-使用方法
-1. npm i | cnpm i
-2. 配置gulpfile.js
-3. gulp 开始打包 gulp | clean 清理打包数据
+> 安装依赖模块
+    npm i | cnpm i
+
+> 配置gulpfile.js
+
+> 开始打包
+    gulp
+    
+> 清除打包数据
+    gulp clean
 ```
