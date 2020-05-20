@@ -15,3 +15,11 @@
   │ └─main.js 包含jQuery v3.4.1、Vue.js v2.6.11、vConsole v3.2.0
   └─.gitignore git屏蔽文件配置
 ~~~
+
+### 2020.05.20 - 增加gulp打包方法
+```$xslt
+使用方法
+1. npm i | cnpm i
+2. 配置gulofile.js
+3. gulp 开始打包 gulp | clean 清理打包数据
+```
