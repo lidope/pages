@@ -16,7 +16,7 @@
   └─.gitignore git屏蔽文件配置
 ~~~
 
-[common.js更新历史](#common)
+[common.js更新历史](#common更新记录)
 
 # animate
 
@@ -47,7 +47,7 @@
 4. 增加旋转隐藏动画 ( scaleOut )
 ```
 
-# common
+# common更新记录
 
 ### v1.0.6.21 更新 - 2020.05.20
 ```$xslt
