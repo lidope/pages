@@ -16,9 +16,9 @@
   └─.gitignore git屏蔽文件配置
 ~~~
 
-[common.js更新历史](##common更新记录)
+[common.js更新历史](#common更新记录)
 
-[animate.js更新历史](##animate更新记录)
+[animate.js更新历史](#animate更新记录)
 
 
 ### 2020.05.20 - 增加gulp打包
