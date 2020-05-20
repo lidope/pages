@@ -16,7 +16,16 @@
   └─.gitignore git屏蔽文件配置
 ~~~
 
-### 2020.05.20 - 增加gulp打包方法
+[跳转](#demoHref)
+
+[common](#common)
+
+# animate
+
+#gulp
+
+
+### 2020.05.20 - 增加gulp打包
 ```$xslt
 > 安装依赖模块
     npm i | cnpm i
@@ -29,3 +38,23 @@
 > 清除打包数据
     gulp clean
 ```
+
+## animate.css 更新记录
+### 2020.05.20 - 增加4个动画
+
+```$xslt
+1. 增加虚化显示动画 ( puffIn)
+2. 增加虚化隐藏动画 ( puffOut )
+3. 增加旋转显示动画 ( scaleIn )
+4. 增加旋转隐藏动画 ( scaleOut )
+```
+
+#common
+
+### v1.0.6.21 更新 - 2020.05.20
+```$xslt
+1. 优化showToast方法，复制内容成功后\n转换为空格
+```
+
+
+#demoHref
