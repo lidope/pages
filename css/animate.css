@@ -424,6 +424,674 @@
     transform: rotate(360deg);
   }
 }
+.animate.animate_puffIn {
+  animation-name: puffIn;
+}
+@-moz-keyframes puffIn {
+  0% {
+    -webkit-opacity: 0;
+    -moz-opacity: 0;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    -webkit-transform-origin: 50% 50%;
+    -khtml-transform-origin: 50% 50%;
+    -moz-transform-origin: 50% 50%;
+    -o-transform-origin: 50% 50%;
+    -ms-transform-origin: 50% 50%;
+    transform-origin: 50% 50%;
+    -webkit-transform: scale(2, 2);
+    -khtml-transform: scale(2, 2);
+    -moz-transform: scale(2, 2);
+    -o-transform: scale(2, 2);
+    -ms-transform: scale(2, 2);
+    transform: scale(2, 2);
+    filter: blur(2px);
+  }
+  100% {
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+    opacity: 1;
+    -ms-filter: none;
+    filter: none;
+    -webkit-transform-origin: 50% 50%;
+    -khtml-transform-origin: 50% 50%;
+    -moz-transform-origin: 50% 50%;
+    -o-transform-origin: 50% 50%;
+    -ms-transform-origin: 50% 50%;
+    transform-origin: 50% 50%;
+    -webkit-transform: scale(1, 1);
+    -khtml-transform: scale(1, 1);
+    -moz-transform: scale(1, 1);
+    -o-transform: scale(1, 1);
+    -ms-transform: scale(1, 1);
+    transform: scale(1, 1);
+    filter: blur(0px);
+  }
+}
+@-webkit-keyframes puffIn {
+  0% {
+    -webkit-opacity: 0;
+    -moz-opacity: 0;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    -webkit-transform-origin: 50% 50%;
+    -khtml-transform-origin: 50% 50%;
+    -moz-transform-origin: 50% 50%;
+    -o-transform-origin: 50% 50%;
+    -ms-transform-origin: 50% 50%;
+    transform-origin: 50% 50%;
+    -webkit-transform: scale(2, 2);
+    -khtml-transform: scale(2, 2);
+    -moz-transform: scale(2, 2);
+    -o-transform: scale(2, 2);
+    -ms-transform: scale(2, 2);
+    transform: scale(2, 2);
+    filter: blur(2px);
+  }
+  100% {
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+    opacity: 1;
+    -ms-filter: none;
+    filter: none;
+    -webkit-transform-origin: 50% 50%;
+    -khtml-transform-origin: 50% 50%;
+    -moz-transform-origin: 50% 50%;
+    -o-transform-origin: 50% 50%;
+    -ms-transform-origin: 50% 50%;
+    transform-origin: 50% 50%;
+    -webkit-transform: scale(1, 1);
+    -khtml-transform: scale(1, 1);
+    -moz-transform: scale(1, 1);
+    -o-transform: scale(1, 1);
+    -ms-transform: scale(1, 1);
+    transform: scale(1, 1);
+    filter: blur(0px);
+  }
+}
+@-o-keyframes puffIn {
+  0% {
+    -webkit-opacity: 0;
+    -moz-opacity: 0;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    -webkit-transform-origin: 50% 50%;
+    -khtml-transform-origin: 50% 50%;
+    -moz-transform-origin: 50% 50%;
+    -o-transform-origin: 50% 50%;
+    -ms-transform-origin: 50% 50%;
+    transform-origin: 50% 50%;
+    -webkit-transform: scale(2, 2);
+    -khtml-transform: scale(2, 2);
+    -moz-transform: scale(2, 2);
+    -o-transform: scale(2, 2);
+    -ms-transform: scale(2, 2);
+    transform: scale(2, 2);
+    filter: blur(2px);
+  }
+  100% {
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+    opacity: 1;
+    -ms-filter: none;
+    filter: none;
+    -webkit-transform-origin: 50% 50%;
+    -khtml-transform-origin: 50% 50%;
+    -moz-transform-origin: 50% 50%;
+    -o-transform-origin: 50% 50%;
+    -ms-transform-origin: 50% 50%;
+    transform-origin: 50% 50%;
+    -webkit-transform: scale(1, 1);
+    -khtml-transform: scale(1, 1);
+    -moz-transform: scale(1, 1);
+    -o-transform: scale(1, 1);
+    -ms-transform: scale(1, 1);
+    transform: scale(1, 1);
+    filter: blur(0px);
+  }
+}
+@keyframes puffIn {
+  0% {
+    -webkit-opacity: 0;
+    -moz-opacity: 0;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    -webkit-transform-origin: 50% 50%;
+    -khtml-transform-origin: 50% 50%;
+    -moz-transform-origin: 50% 50%;
+    -o-transform-origin: 50% 50%;
+    -ms-transform-origin: 50% 50%;
+    transform-origin: 50% 50%;
+    -webkit-transform: scale(2, 2);
+    -khtml-transform: scale(2, 2);
+    -moz-transform: scale(2, 2);
+    -o-transform: scale(2, 2);
+    -ms-transform: scale(2, 2);
+    transform: scale(2, 2);
+    filter: blur(2px);
+  }
+  100% {
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+    opacity: 1;
+    -ms-filter: none;
+    filter: none;
+    -webkit-transform-origin: 50% 50%;
+    -khtml-transform-origin: 50% 50%;
+    -moz-transform-origin: 50% 50%;
+    -o-transform-origin: 50% 50%;
+    -ms-transform-origin: 50% 50%;
+    transform-origin: 50% 50%;
+    -webkit-transform: scale(1, 1);
+    -khtml-transform: scale(1, 1);
+    -moz-transform: scale(1, 1);
+    -o-transform: scale(1, 1);
+    -ms-transform: scale(1, 1);
+    transform: scale(1, 1);
+    filter: blur(0px);
+  }
+}
+.animate.animate_puffOut {
+  animation-name: puffOut;
+}
+@-moz-keyframes puffOut {
+  0% {
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+    opacity: 1;
+    -ms-filter: none;
+    filter: none;
+    -webkit-transform-origin: 50% 50%;
+    -khtml-transform-origin: 50% 50%;
+    -moz-transform-origin: 50% 50%;
+    -o-transform-origin: 50% 50%;
+    -ms-transform-origin: 50% 50%;
+    transform-origin: 50% 50%;
+    -webkit-transform: scale(1, 1);
+    -khtml-transform: scale(1, 1);
+    -moz-transform: scale(1, 1);
+    -o-transform: scale(1, 1);
+    -ms-transform: scale(1, 1);
+    transform: scale(1, 1);
+    filter: blur(0px);
+  }
+  100% {
+    -webkit-opacity: 0;
+    -moz-opacity: 0;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    -webkit-transform-origin: 50% 50%;
+    -khtml-transform-origin: 50% 50%;
+    -moz-transform-origin: 50% 50%;
+    -o-transform-origin: 50% 50%;
+    -ms-transform-origin: 50% 50%;
+    transform-origin: 50% 50%;
+    -webkit-transform: scale(2, 2);
+    -khtml-transform: scale(2, 2);
+    -moz-transform: scale(2, 2);
+    -o-transform: scale(2, 2);
+    -ms-transform: scale(2, 2);
+    transform: scale(2, 2);
+    filter: blur(2px);
+  }
+}
+@-webkit-keyframes puffOut {
+  0% {
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+    opacity: 1;
+    -ms-filter: none;
+    filter: none;
+    -webkit-transform-origin: 50% 50%;
+    -khtml-transform-origin: 50% 50%;
+    -moz-transform-origin: 50% 50%;
+    -o-transform-origin: 50% 50%;
+    -ms-transform-origin: 50% 50%;
+    transform-origin: 50% 50%;
+    -webkit-transform: scale(1, 1);
+    -khtml-transform: scale(1, 1);
+    -moz-transform: scale(1, 1);
+    -o-transform: scale(1, 1);
+    -ms-transform: scale(1, 1);
+    transform: scale(1, 1);
+    filter: blur(0px);
+  }
+  100% {
+    -webkit-opacity: 0;
+    -moz-opacity: 0;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    -webkit-transform-origin: 50% 50%;
+    -khtml-transform-origin: 50% 50%;
+    -moz-transform-origin: 50% 50%;
+    -o-transform-origin: 50% 50%;
+    -ms-transform-origin: 50% 50%;
+    transform-origin: 50% 50%;
+    -webkit-transform: scale(2, 2);
+    -khtml-transform: scale(2, 2);
+    -moz-transform: scale(2, 2);
+    -o-transform: scale(2, 2);
+    -ms-transform: scale(2, 2);
+    transform: scale(2, 2);
+    filter: blur(2px);
+  }
+}
+@-o-keyframes puffOut {
+  0% {
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+    opacity: 1;
+    -ms-filter: none;
+    filter: none;
+    -webkit-transform-origin: 50% 50%;
+    -khtml-transform-origin: 50% 50%;
+    -moz-transform-origin: 50% 50%;
+    -o-transform-origin: 50% 50%;
+    -ms-transform-origin: 50% 50%;
+    transform-origin: 50% 50%;
+    -webkit-transform: scale(1, 1);
+    -khtml-transform: scale(1, 1);
+    -moz-transform: scale(1, 1);
+    -o-transform: scale(1, 1);
+    -ms-transform: scale(1, 1);
+    transform: scale(1, 1);
+    filter: blur(0px);
+  }
+  100% {
+    -webkit-opacity: 0;
+    -moz-opacity: 0;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    -webkit-transform-origin: 50% 50%;
+    -khtml-transform-origin: 50% 50%;
+    -moz-transform-origin: 50% 50%;
+    -o-transform-origin: 50% 50%;
+    -ms-transform-origin: 50% 50%;
+    transform-origin: 50% 50%;
+    -webkit-transform: scale(2, 2);
+    -khtml-transform: scale(2, 2);
+    -moz-transform: scale(2, 2);
+    -o-transform: scale(2, 2);
+    -ms-transform: scale(2, 2);
+    transform: scale(2, 2);
+    filter: blur(2px);
+  }
+}
+@keyframes puffOut {
+  0% {
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+    opacity: 1;
+    -ms-filter: none;
+    filter: none;
+    -webkit-transform-origin: 50% 50%;
+    -khtml-transform-origin: 50% 50%;
+    -moz-transform-origin: 50% 50%;
+    -o-transform-origin: 50% 50%;
+    -ms-transform-origin: 50% 50%;
+    transform-origin: 50% 50%;
+    -webkit-transform: scale(1, 1);
+    -khtml-transform: scale(1, 1);
+    -moz-transform: scale(1, 1);
+    -o-transform: scale(1, 1);
+    -ms-transform: scale(1, 1);
+    transform: scale(1, 1);
+    filter: blur(0px);
+  }
+  100% {
+    -webkit-opacity: 0;
+    -moz-opacity: 0;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    -webkit-transform-origin: 50% 50%;
+    -khtml-transform-origin: 50% 50%;
+    -moz-transform-origin: 50% 50%;
+    -o-transform-origin: 50% 50%;
+    -ms-transform-origin: 50% 50%;
+    transform-origin: 50% 50%;
+    -webkit-transform: scale(2, 2);
+    -khtml-transform: scale(2, 2);
+    -moz-transform: scale(2, 2);
+    -o-transform: scale(2, 2);
+    -ms-transform: scale(2, 2);
+    transform: scale(2, 2);
+    filter: blur(2px);
+  }
+}
+.animate.animate_scaleIn {
+  animation-name: scaleIn;
+}
+@-moz-keyframes scaleIn {
+  0% {
+    -webkit-opacity: 0;
+    -moz-opacity: 0;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    -webkit-transform-origin: 50% 50%;
+    -khtml-transform-origin: 50% 50%;
+    -moz-transform-origin: 50% 50%;
+    -o-transform-origin: 50% 50%;
+    -ms-transform-origin: 50% 50%;
+    transform-origin: 50% 50%;
+    -webkit-transform: scale(0, 0) rotateY(180deg);
+    -khtml-transform: scale(0, 0) rotateY(180deg);
+    -moz-transform: scale(0, 0) rotateY(180deg);
+    -o-transform: scale(0, 0) rotateY(180deg);
+    -ms-transform: scale(0, 0) rotateY(180deg);
+    transform: scale(0, 0) rotateY(180deg);
+  }
+  100% {
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+    opacity: 1;
+    -ms-filter: none;
+    filter: none;
+    -webkit-transform-origin: 50% 50%;
+    -khtml-transform-origin: 50% 50%;
+    -moz-transform-origin: 50% 50%;
+    -o-transform-origin: 50% 50%;
+    -ms-transform-origin: 50% 50%;
+    transform-origin: 50% 50%;
+    -webkit-transform: scale(1, 1) rotateY(0deg);
+    -khtml-transform: scale(1, 1) rotateY(0deg);
+    -moz-transform: scale(1, 1) rotateY(0deg);
+    -o-transform: scale(1, 1) rotateY(0deg);
+    -ms-transform: scale(1, 1) rotateY(0deg);
+    transform: scale(1, 1) rotateY(0deg);
+  }
+}
+@-webkit-keyframes scaleIn {
+  0% {
+    -webkit-opacity: 0;
+    -moz-opacity: 0;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    -webkit-transform-origin: 50% 50%;
+    -khtml-transform-origin: 50% 50%;
+    -moz-transform-origin: 50% 50%;
+    -o-transform-origin: 50% 50%;
+    -ms-transform-origin: 50% 50%;
+    transform-origin: 50% 50%;
+    -webkit-transform: scale(0, 0) rotateY(180deg);
+    -khtml-transform: scale(0, 0) rotateY(180deg);
+    -moz-transform: scale(0, 0) rotateY(180deg);
+    -o-transform: scale(0, 0) rotateY(180deg);
+    -ms-transform: scale(0, 0) rotateY(180deg);
+    transform: scale(0, 0) rotateY(180deg);
+  }
+  100% {
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+    opacity: 1;
+    -ms-filter: none;
+    filter: none;
+    -webkit-transform-origin: 50% 50%;
+    -khtml-transform-origin: 50% 50%;
+    -moz-transform-origin: 50% 50%;
+    -o-transform-origin: 50% 50%;
+    -ms-transform-origin: 50% 50%;
+    transform-origin: 50% 50%;
+    -webkit-transform: scale(1, 1) rotateY(0deg);
+    -khtml-transform: scale(1, 1) rotateY(0deg);
+    -moz-transform: scale(1, 1) rotateY(0deg);
+    -o-transform: scale(1, 1) rotateY(0deg);
+    -ms-transform: scale(1, 1) rotateY(0deg);
+    transform: scale(1, 1) rotateY(0deg);
+  }
+}
+@-o-keyframes scaleIn {
+  0% {
+    -webkit-opacity: 0;
+    -moz-opacity: 0;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    -webkit-transform-origin: 50% 50%;
+    -khtml-transform-origin: 50% 50%;
+    -moz-transform-origin: 50% 50%;
+    -o-transform-origin: 50% 50%;
+    -ms-transform-origin: 50% 50%;
+    transform-origin: 50% 50%;
+    -webkit-transform: scale(0, 0) rotateY(180deg);
+    -khtml-transform: scale(0, 0) rotateY(180deg);
+    -moz-transform: scale(0, 0) rotateY(180deg);
+    -o-transform: scale(0, 0) rotateY(180deg);
+    -ms-transform: scale(0, 0) rotateY(180deg);
+    transform: scale(0, 0) rotateY(180deg);
+  }
+  100% {
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+    opacity: 1;
+    -ms-filter: none;
+    filter: none;
+    -webkit-transform-origin: 50% 50%;
+    -khtml-transform-origin: 50% 50%;
+    -moz-transform-origin: 50% 50%;
+    -o-transform-origin: 50% 50%;
+    -ms-transform-origin: 50% 50%;
+    transform-origin: 50% 50%;
+    -webkit-transform: scale(1, 1) rotateY(0deg);
+    -khtml-transform: scale(1, 1) rotateY(0deg);
+    -moz-transform: scale(1, 1) rotateY(0deg);
+    -o-transform: scale(1, 1) rotateY(0deg);
+    -ms-transform: scale(1, 1) rotateY(0deg);
+    transform: scale(1, 1) rotateY(0deg);
+  }
+}
+@keyframes scaleIn {
+  0% {
+    -webkit-opacity: 0;
+    -moz-opacity: 0;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    -webkit-transform-origin: 50% 50%;
+    -khtml-transform-origin: 50% 50%;
+    -moz-transform-origin: 50% 50%;
+    -o-transform-origin: 50% 50%;
+    -ms-transform-origin: 50% 50%;
+    transform-origin: 50% 50%;
+    -webkit-transform: scale(0, 0) rotateY(180deg);
+    -khtml-transform: scale(0, 0) rotateY(180deg);
+    -moz-transform: scale(0, 0) rotateY(180deg);
+    -o-transform: scale(0, 0) rotateY(180deg);
+    -ms-transform: scale(0, 0) rotateY(180deg);
+    transform: scale(0, 0) rotateY(180deg);
+  }
+  100% {
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+    opacity: 1;
+    -ms-filter: none;
+    filter: none;
+    -webkit-transform-origin: 50% 50%;
+    -khtml-transform-origin: 50% 50%;
+    -moz-transform-origin: 50% 50%;
+    -o-transform-origin: 50% 50%;
+    -ms-transform-origin: 50% 50%;
+    transform-origin: 50% 50%;
+    -webkit-transform: scale(1, 1) rotateY(0deg);
+    -khtml-transform: scale(1, 1) rotateY(0deg);
+    -moz-transform: scale(1, 1) rotateY(0deg);
+    -o-transform: scale(1, 1) rotateY(0deg);
+    -ms-transform: scale(1, 1) rotateY(0deg);
+    transform: scale(1, 1) rotateY(0deg);
+  }
+}
+.animate.animate_scaleOut {
+  animation-name: scaleOut;
+}
+@-moz-keyframes scaleOut {
+  0% {
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+    opacity: 1;
+    -ms-filter: none;
+    filter: none;
+    -webkit-transform-origin: 50% 50%;
+    -khtml-transform-origin: 50% 50%;
+    -moz-transform-origin: 50% 50%;
+    -o-transform-origin: 50% 50%;
+    -ms-transform-origin: 50% 50%;
+    transform-origin: 50% 50%;
+    -webkit-transform: scale(1, 1) rotateY(0deg);
+    -khtml-transform: scale(1, 1) rotateY(0deg);
+    -moz-transform: scale(1, 1) rotateY(0deg);
+    -o-transform: scale(1, 1) rotateY(0deg);
+    -ms-transform: scale(1, 1) rotateY(0deg);
+    transform: scale(1, 1) rotateY(0deg);
+  }
+  100% {
+    -webkit-opacity: 0;
+    -moz-opacity: 0;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    -webkit-transform-origin: 50% 50%;
+    -khtml-transform-origin: 50% 50%;
+    -moz-transform-origin: 50% 50%;
+    -o-transform-origin: 50% 50%;
+    -ms-transform-origin: 50% 50%;
+    transform-origin: 50% 50%;
+    -webkit-transform: scale(0, 0) rotateY(180deg);
+    -khtml-transform: scale(0, 0) rotateY(180deg);
+    -moz-transform: scale(0, 0) rotateY(180deg);
+    -o-transform: scale(0, 0) rotateY(180deg);
+    -ms-transform: scale(0, 0) rotateY(180deg);
+    transform: scale(0, 0) rotateY(180deg);
+  }
+}
+@-webkit-keyframes scaleOut {
+  0% {
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+    opacity: 1;
+    -ms-filter: none;
+    filter: none;
+    -webkit-transform-origin: 50% 50%;
+    -khtml-transform-origin: 50% 50%;
+    -moz-transform-origin: 50% 50%;
+    -o-transform-origin: 50% 50%;
+    -ms-transform-origin: 50% 50%;
+    transform-origin: 50% 50%;
+    -webkit-transform: scale(1, 1) rotateY(0deg);
+    -khtml-transform: scale(1, 1) rotateY(0deg);
+    -moz-transform: scale(1, 1) rotateY(0deg);
+    -o-transform: scale(1, 1) rotateY(0deg);
+    -ms-transform: scale(1, 1) rotateY(0deg);
+    transform: scale(1, 1) rotateY(0deg);
+  }
+  100% {
+    -webkit-opacity: 0;
+    -moz-opacity: 0;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    -webkit-transform-origin: 50% 50%;
+    -khtml-transform-origin: 50% 50%;
+    -moz-transform-origin: 50% 50%;
+    -o-transform-origin: 50% 50%;
+    -ms-transform-origin: 50% 50%;
+    transform-origin: 50% 50%;
+    -webkit-transform: scale(0, 0) rotateY(180deg);
+    -khtml-transform: scale(0, 0) rotateY(180deg);
+    -moz-transform: scale(0, 0) rotateY(180deg);
+    -o-transform: scale(0, 0) rotateY(180deg);
+    -ms-transform: scale(0, 0) rotateY(180deg);
+    transform: scale(0, 0) rotateY(180deg);
+  }
+}
+@-o-keyframes scaleOut {
+  0% {
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+    opacity: 1;
+    -ms-filter: none;
+    filter: none;
+    -webkit-transform-origin: 50% 50%;
+    -khtml-transform-origin: 50% 50%;
+    -moz-transform-origin: 50% 50%;
+    -o-transform-origin: 50% 50%;
+    -ms-transform-origin: 50% 50%;
+    transform-origin: 50% 50%;
+    -webkit-transform: scale(1, 1) rotateY(0deg);
+    -khtml-transform: scale(1, 1) rotateY(0deg);
+    -moz-transform: scale(1, 1) rotateY(0deg);
+    -o-transform: scale(1, 1) rotateY(0deg);
+    -ms-transform: scale(1, 1) rotateY(0deg);
+    transform: scale(1, 1) rotateY(0deg);
+  }
+  100% {
+    -webkit-opacity: 0;
+    -moz-opacity: 0;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    -webkit-transform-origin: 50% 50%;
+    -khtml-transform-origin: 50% 50%;
+    -moz-transform-origin: 50% 50%;
+    -o-transform-origin: 50% 50%;
+    -ms-transform-origin: 50% 50%;
+    transform-origin: 50% 50%;
+    -webkit-transform: scale(0, 0) rotateY(180deg);
+    -khtml-transform: scale(0, 0) rotateY(180deg);
+    -moz-transform: scale(0, 0) rotateY(180deg);
+    -o-transform: scale(0, 0) rotateY(180deg);
+    -ms-transform: scale(0, 0) rotateY(180deg);
+    transform: scale(0, 0) rotateY(180deg);
+  }
+}
+@keyframes scaleOut {
+  0% {
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+    opacity: 1;
+    -ms-filter: none;
+    filter: none;
+    -webkit-transform-origin: 50% 50%;
+    -khtml-transform-origin: 50% 50%;
+    -moz-transform-origin: 50% 50%;
+    -o-transform-origin: 50% 50%;
+    -ms-transform-origin: 50% 50%;
+    transform-origin: 50% 50%;
+    -webkit-transform: scale(1, 1) rotateY(0deg);
+    -khtml-transform: scale(1, 1) rotateY(0deg);
+    -moz-transform: scale(1, 1) rotateY(0deg);
+    -o-transform: scale(1, 1) rotateY(0deg);
+    -ms-transform: scale(1, 1) rotateY(0deg);
+    transform: scale(1, 1) rotateY(0deg);
+  }
+  100% {
+    -webkit-opacity: 0;
+    -moz-opacity: 0;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    -webkit-transform-origin: 50% 50%;
+    -khtml-transform-origin: 50% 50%;
+    -moz-transform-origin: 50% 50%;
+    -o-transform-origin: 50% 50%;
+    -ms-transform-origin: 50% 50%;
+    transform-origin: 50% 50%;
+    -webkit-transform: scale(0, 0) rotateY(180deg);
+    -khtml-transform: scale(0, 0) rotateY(180deg);
+    -moz-transform: scale(0, 0) rotateY(180deg);
+    -o-transform: scale(0, 0) rotateY(180deg);
+    -ms-transform: scale(0, 0) rotateY(180deg);
+    transform: scale(0, 0) rotateY(180deg);
+  }
+}
 @-moz-keyframes bigToSmall {
   0% {
     -webkit-opacity: 0;

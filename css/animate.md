@@ -10,5 +10,12 @@
 8. hideOpacity 显示到隐藏
 9. ScrollRightIn 从右向左滚动
 10. scrollLeftIn 从左向右滚动
-11. rotate 无顺时针限循转
+11. rotate 顺时针限循转
+
+-> 2020.05.20 新增
+
+12. puffIn 虚化显示
+13. puffOut 虚化隐藏
+14. scaleIn 旋转显示
+15. scaleOut 旋转隐藏
 ```
