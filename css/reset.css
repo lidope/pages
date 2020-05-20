@@ -533,6 +533,47 @@ span {
     line-height: 150%;
 }
 
+
+/* 2020.05.20
+* 1. 新增5中默认按钮（ warn、success、info、error、primary ）
+*/
+
+div[type=primary],
+div[type=error],
+div[type=info],
+div[type=warn],
+div[type=success] {
+    width: 300px;
+    height: 70px;
+    text-align: center;
+    border-radius: 10px;
+    font-size: 30px;
+    line-height: 70px;
+    color: #fff;
+}
+div[type=primary] {
+    background-color: #1aad19;
+}
+div[type=info] {
+    background-color: #2db7f5;
+}
+div[type=success] {
+    background-color: #33d685;
+}
+div[type=warn] {
+    background-color: #f90;
+}
+div[type=error] {
+    background-color: #f00;
+}
+div[type=primary]:active,
+div[type=error]:active,
+div[type=info]:active,
+div[type=success]:active,
+div[type=warn]:active {
+    transform: scale(0.95);
+}
+
 /* 透明全屏遮照 */
 .lead_transparent {
     position: fixed;
