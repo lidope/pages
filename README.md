@@ -39,6 +39,10 @@
     
 > 清除打包数据 (需要单独配置clean才可使用)
     gulp clean
+    
+> 当前gulp版本
+    CLI version: 2.2.0
+    Local version: 4.0.2
 ```
 <br>
 <br>
