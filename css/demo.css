@@ -1,0 +1,30 @@
+.lead_previewImage {
+  width: 100vw;
+  height: 100vh;
+  background-color: #000;
+  overflow: hidden;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 39999;
+}
+.lead_previewImage .lead_previewImage_page {
+  position: absolute;
+  width: 100%;
+  height: 100px;
+  left: 0;
+  top: 0;
+}
+.lead_previewImage .lead_previewImage_page span {
+  text-align: center;
+  color: #fff;
+  font-size: 34px;
+}
+.lead_previewImage .lead_previewImage_list {
+  max-width: 100vw;
+  max-height: 100vh;
+}
+.lead_previewImage .lead_previewImage_list img {
+  max-width: 100vw;
+  max-height: 100vh;
+}

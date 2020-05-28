@@ -1,9 +1,12 @@
 /*
- * common.js v1.0.6.21 *
+ * common.js v1.0.7 *
  */
 var baseUrl = window.location.protocol + "//" + window.location.host + "/";
 var authUrl = baseUrl + "work/WechatApi/getAuthUser";
 var errorUrl = baseUrl + "qiye/error.html";
+
+// 解决ios下伪类不起作用的bug
+document.body.addEventListener('touchstart', function () {});
 
 // 获取URL参数
 function getQueryString(name)
@@ -184,7 +187,11 @@ var http = {
                         location.replace(baseUrl);
                     })
                 } else {
-                    error && error(data) || ( data.m? http.showModal(data.m): http.showModal('操作失败'));
+                    if (error) {
+                        error(data)
+                    } else {
+                        data.m? http.showModal(data.m): http.showModal('操作失败')
+                    }
                 }
                 return false;
             } else {
@@ -756,6 +763,38 @@ var http = {
             const scrollHeight = document.documentElement.scrollTop || document.body.scrollTop || 0;
             window.scrollTo(0, Math.max(scrollHeight - 1, 0));
         }
+    },
+
+    // 预览图片
+    previewImage() {
+        let $touchName = '.lead_previewImage .lead_previewImage_list';
+        $('body').on('touchstart', $touchName, function(e) {
+            var touch = e.originalEvent,
+                startX = touch.changedTouches[0].pageX;
+            startY = touch.changedTouches[0].pageY;
+            $($touchName).on('touchmove', function(e) {
+                touch = e.originalEvent.touches[0] ||
+                    e.originalEvent.changedTouches[0];
+                // touch.pageX
+            });
+            return false;
+
+        }).on('touchend', function(e) {
+
+            touch = e.originalEvent.touches[0] ||
+                e.originalEvent.changedTouches[0];
+            if (touch.pageX - startX > 200) {
+
+            } else if (touch.pageX - startX < -200) {
+
+            };
+
+            $touchName.off('touchmove');
+        });
+
+        $('.lead_previewImage .lead_previewImage_list').on('touchstart', function (e) {
+            console.log(e)
+        })
     },
 };
 
