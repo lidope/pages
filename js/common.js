@@ -553,37 +553,42 @@ var http = {
     },
 
     // 2秒后消失的浮层
-    showToast(content) {
+    showToast(content, hasModal = false) {
         /*
-        * content 要显示的消息，支持换行\n
+        * content String 要显示的消息，支持换行\n
+        * hasModal Boolean 是否有遮罩层，默认false
         * */
         if (content) {
             content = content.constructor == Array || content.constructor == Object? JSON.stringify(content): this.getLineFeedHtml(content);
         }
 
-        var leadToast = `
-            <div class="lead_toast_block lead_transparent col items">
-                <div class="lead_toast">
-                    <span>${ content || '' }</span>
-                </div>
-            </div>
-        `;
+        let leadToastBlock = document.createElement('div');
+        leadToastBlock.className = 'lead_toast_block lead_transparent col items';
 
-        $('body').append(leadToast);
-        var $lead_toast_block = $('.lead_toast_block');
-        if ($lead_toast_block.length) {
-            var  $toast_last = $lead_toast_block.eq($lead_toast_block.length - 1)
-            setTimeout(function () {
-                $toast_last.find('.lead_toast').addClass('lead_toast_show');
-            }, 20)
+        let leadToastView = document.createElement('div');
+        leadToastView.className = 'lead_toast';
 
-            setTimeout(function () {
-                $toast_last.find('.lead_toast').removeClass('lead_toast_show').addClass('lead_toast_hide');
-                setTimeout(function () {
-                    $toast_last.remove();
-                }, 400)
-            }, 2000)
+        let leadToastSpan = document.createElement('span');
+        leadToastSpan.innerHTML = content || '';
+
+        leadToastView.appendChild(leadToastSpan);
+
+        setTimeout(function () {
+            leadToastView.className = 'lead_toast lead_toast_show';
+        }, 20)
+
+        leadToastBlock.appendChild(leadToastView);
+
+        if (!hasModal) {
+            leadToastBlock.className = 'lead_toast_block lead_transparent lead_toast_nopointer col items'
         }
+
+        $('body').append(leadToastBlock)
+
+        setTimeout(function() {
+            leadToastView.className = 'lead_toast lead_toast_hide'
+            leadToastBlock.remove();
+        }, 2000)
 
     },
 
@@ -625,6 +630,7 @@ var http = {
         *   symbols 是否包含特殊字符
         *   zh_ch 是否都是汉字或者英文
         *   emoji 是否存在emoji字符
+        *   input 去除input特殊字符以及首尾空格
         * }
         * content 验证的内容
         * otherParams {
@@ -642,6 +648,9 @@ var http = {
             http.showModal('content不能为空');
             return false;
         }
+
+        var regRuleEmoji = /\uD83C[\uDF00-\uDFFF]|\uD83D[\uDC00-\uDE4F]/g;
+        var regRule2Emoji = /[\uD83C|\uD83D|\uD83E][\uDC00-\uDFFF][\u200D|\uFE0F]|[\uD83C|\uD83D|\uD83E][\uDC00-\uDFFF]|[0-9|*|#]\uFE0F\u20E3|[0-9|#]\u20E3|[\u203C-\u3299]\uFE0F\u200D|[\u203C-\u3299]\uFE0F|[\u2122-\u2B55]|\u303D|[\A9|\AE]\u3030|\uA9|\uAE|\u3030/ig;
 
         switch (name) {
             // 手机验证
@@ -716,11 +725,7 @@ var http = {
 
             // 是否存在emoji字符
             case 'emoji':
-                var param = "";
-                var regRule = /\uD83C[\uDF00-\uDFFF]|\uD83D[\uDC00-\uDE4F]/g;
-                var regStr = /[\uD83C|\uD83D|\uD83E][\uDC00-\uDFFF][\u200D|\uFE0F]|[\uD83C|\uD83D|\uD83E][\uDC00-\uDFFF]|[0-9|*|#]\uFE0F\u20E3|[0-9|#]\u20E3|[\u203C-\u3299]\uFE0F\u200D|[\u203C-\u3299]\uFE0F|[\u2122-\u2B55]|\u303D|[\A9|\AE]\u3030|\uA9|\uAE|\u3030/ig;
-
-                if (content.match(regRule) || regStr.test(content)) {
+                if (content.match(regRuleEmoji) || regRule2Emoji.test(content)) {
                     // 有emojo字符
                     return true;
                 } else {
@@ -728,6 +733,22 @@ var http = {
                     return false;
                 }
                 break;
+
+            // 去除input特殊字符以及首尾空格
+            case 'input':
+                // 过滤特殊表情
+                content = content.replace(regRuleEmoji, '');
+                content = content.replace(regRule2Emoji, '');
+                content = content.replace(regRule3Emoji, '')
+                content = unescape(escape(content).replace(/\%uD.{3}/g, ''));
+
+                // 删除两边空格
+                content = val.trim();
+
+                return content;
+
+                break;
+
             default:
                 http.showModal('暂无此验证规则')
                 break;
@@ -763,38 +784,6 @@ var http = {
             const scrollHeight = document.documentElement.scrollTop || document.body.scrollTop || 0;
             window.scrollTo(0, Math.max(scrollHeight - 1, 0));
         }
-    },
-
-    // 预览图片
-    previewImage() {
-        let $touchName = '.lead_previewImage .lead_previewImage_list';
-        $('body').on('touchstart', $touchName, function(e) {
-            var touch = e.originalEvent,
-                startX = touch.changedTouches[0].pageX;
-            startY = touch.changedTouches[0].pageY;
-            $($touchName).on('touchmove', function(e) {
-                touch = e.originalEvent.touches[0] ||
-                    e.originalEvent.changedTouches[0];
-                // touch.pageX
-            });
-            return false;
-
-        }).on('touchend', function(e) {
-
-            touch = e.originalEvent.touches[0] ||
-                e.originalEvent.changedTouches[0];
-            if (touch.pageX - startX > 200) {
-
-            } else if (touch.pageX - startX < -200) {
-
-            };
-
-            $touchName.off('touchmove');
-        });
-
-        $('.lead_previewImage .lead_previewImage_list').on('touchstart', function (e) {
-            console.log(e)
-        })
     },
 };
 

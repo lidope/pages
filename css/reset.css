@@ -85,6 +85,20 @@ table {
     border-spacing: 0;
     vertical-align: middle;
 }
+div,
+i,
+span,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+li,
+ol {
+    word-break: break-all;
+}
 caption,
 th,
 td {
@@ -799,6 +813,10 @@ div[type=warn]:active {
     padding-top: 120px;
 }
 
+.lead_toast_block.lead_toast_nopointer {
+    pointer-events: none;
+}
+
 .lead_toast_block .lead_toast {
     min-width: 220px;
     max-width: 400px;
@@ -879,6 +897,11 @@ div[type=warn]:active {
         opacity: 0;
         transform: translateY(100px);
     }
+}
+
+/* vconsole */
+#__vconsole .vc-switch {
+    font-size: 2em;
 }
 
 

@@ -1,12 +1,16 @@
 # common.js
 
-### v1.0.6.21 更新 - 2020.05.20
+### v1.0.7 更新 - 2020.06.03
 ```$xslt
-1. 优化showToast方法，复制内容成功后\n转换为空格
+1. 优化showCopyText方法，复制内容成功后\n转换为空格
+2. 修复ajaxPost方法error参数问题
+3. 解决ios下伪类不起作用的bug
+4. validate验证增加input参数 -> 去除特殊字符以及首尾空格
+5. 新增showToast是否有透明层功能 默认没有 (以前是有)
 ```
 
 ### v1.0.6.2 更新 - 2020.05.14
-```angular2
+```
 1. 增加debug功能，一键开启console 使用方法:
     a. 开启http.globalData.debug 默认为true
     b. 页面所使用的 console.log 统一换成 _log
