@@ -26,57 +26,17 @@
 </body>
 <script src="./utils/main.js?v1.0"></script>
 <script src="./js/common.js?v1.0"></script>
-<!--<script type="text/javascript" src="//wxshare.leaddevelop.net/wxShare.js"></script>-->
+
 <script>
-
-    $(function () {
-        var options = {
-            title : '',
-            desc : '',
-            link : '',
-            imgUrl : ''
-        };
-
-        // wxShare.init(options);
-    })
-
-    new wrLoading('#loading', [
-
-    ], function () {
-        http.ajaxPost('', {}, res => {
-            if (res.d.type == 2) {
-                let token = sessionStorage.getItem('token');
-                if (!token) {
-                    if (getQueryString('token')) {
-                        sessionStorage.setItem('token', getQueryString('token'));
-                        showPage('.container');
-                        setTimeout(() => {
-                            main.getDetail();
-                        }, 500);
-                    } else {
-                        sessionStorage.clear();
-                        window.location.href = authUrl + "?redirect_url=" + encodeURIComponent(baseUrl);
-                    }
-                } else {
-                    showPage('.container');
-                    setTimeout(() => {
-                        main.getDetail();
-                    }, 500);
-                }
-
-            } else {
-                http.redirectTo('./status.html');
-            }
-        })
-    }, false);
-
 
     var main = new Vue({
         el: '#main',
-        data: {},
+        data: {
+
+        },
 
         mounted() {
-            this.getDetail();
+
         },
 
         methods: {

@@ -1,5 +1,19 @@
 # common.js
 
+### v1.0.8 更新 - 2020.06.18
+```
+1. 移除每个页面的授权、分享。common.js里自动授权分享
+2. 授权和分享需要单独开启，默认为关闭 开启方法如下
+
+    > http.globalData.openAuth  开启授权 默认false
+    > http.globalData.openShare 开启分享 默认false
+    > http.globalData.share 分享参数，开启分享需要配置分享参数
+
+    注意： 
+        如果某个页面需要单独配置分享, 请在页面引入common.js的上方增加 "sessionStorage.setItem('closeWechatShare', 1)" 
+3.
+```
+
 ### v1.0.7 更新 - 2020.06.03
 ```$xslt
 1. 优化showCopyText方法，复制内容成功后\n转换为空格

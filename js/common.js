@@ -1,9 +1,12 @@
 /*
- * common.js v1.0.7 *
+ * common.js v1.0.8 *
  */
+document.write("<script src='https://wxshare.leaddevelop.net/wxShare.js'></script>");
+
 var baseUrl = window.location.protocol + "//" + window.location.host + "/";
 var authUrl = baseUrl + "work/WechatApi/getAuthUser";
 var errorUrl = baseUrl + "qiye/error.html";
+var authLocationPath = authUrl + "?redirect_url=" + encodeURIComponent(window.location.href);
 
 // 解决ios下伪类不起作用的bug
 document.body.addEventListener('touchstart', function () {});
@@ -17,128 +20,30 @@ function getQueryString(name)
     return null;
 }
 
-;(function() {
-    var browser = {
-        ua  : navigator.userAgent,
-        init: function () {
-            this.OS = this.searchString(this.dataOS) || "an unknown OS";
-            this.BS = this.searchBrowser(this.dataBS);
-            if(this.OS == 'iPhone' || this.OS == 'iPad' || this.OS == 'Android' || this.OS == 'Winphone' ){
-                this.mobile = true;
-            }else{
-                this.mobile = false;
-            }
-        },
-        searchString: function (data) {
-            for (var i=0;i<data.length;i++)	{
-                var dataString = this.ua;
-                if (dataString) {
-                    if (dataString.indexOf(data[i].forSearch) != -1)
-                        return data[i].forShow;
-                }
-            }
-        },
-        searchBrowser: function(data){
-            var result = '';
-            for (var i=0;i<data.length;i++)	{
-                var dataString = this.ua;
-                if (dataString) {
-                    if (dataString.indexOf(data[i].forSearch) != -1){
-                        result += data[i].forShow + '|';
-                    }
-                }
-            }
-            return result;
-        },
-        dataOS : [
-            {
-                forSearch: "iPhone",
-                forShow: "iPhone"
-            },
-            {
-                forSearch: "iPad",
-                forShow: "iPad"
-            },
-            {
-                forSearch: "Android",
-                forShow: "Android"
-            },
-            {
-                forSearch: "Windows Phone",
-                forShow: "Winphone"
-            }
-        ],
-        dataBS: [
-            {
-                forSearch: "360browser",
-                forShow: "360"
-            },
-            {
-                forSearch: "Maxthon",
-                forShow: "Maxthon"
-            },
-            {
-                forSearch: "UCBrowser",
-                forShow: "uc"
-            },
-            {
-                forSearch: "Oupeng",
-                forShow: "opera"
-            },
-            {
-                forSearch: "Opera",
-                forShow: "opera"
-            },
-            {
-                forSearch: "Sogou",
-                forShow: "sogou"
-            },
-            {
-                forSearch: "baidu",
-                forShow: "baidu"
-            },
-            {
-                forSearch: "Safari",
-                forShow: "safari"
-            },
-            {
-                forSearch: "MicroMessenger",
-                forShow: "weixin"
-            },
-            {
-                forSearch: "QQ/",
-                forShow: "qq"
-            },
-            {
-                forSearch: "Weibo",
-                forShow: "weibo"
-            },
-            {
-                forSearch: "MQBrowser",
-                forShow: "360"
-            },
-            {
-                forSearch: "MQQBrowser",
-                forShow: "qqbrowser"
-            },
-            {
-                forSearch: "CriOS",
-                forShow: "Maxthon"
-            }
-        ]
-
-    };
-
-    browser.init();
-    window.client = { browser : browser.BS, os : browser.OS, ifmobile : browser.mobile};
-
-})();
-
 //ajax请求
 var http = {
     globalData: {
-        debug: true
+        debug: true,
+        openShare: false, // 是否开启分享
+        openAuth: false, // 是否开启授权
+        share: {
+            title: '', // 标题
+            desc: '', // 描述
+            link: baseUrl, // 链接
+            imgUrl: '' // 图片
+        },
     },
+
+    init() {
+        if (http.globalData.openAuth) {
+            http.getUserAuth();
+        }
+
+        if (http.globalData.openShare && !sessionStorage.getItem('closeWechatShare')) {
+            http.getWechatShare();
+        }
+    },
+
     ajaxPost:function(url, params, callback, error, showLoading) {
         showLoading = showLoading == 0 ? 0 : 1;
         params.v = new Date().getTime();
@@ -174,7 +79,7 @@ var http = {
                     // token失效
                     http.showModal('您尚未授权登录登录，请先授权登录!', function() {
                         sessionStorage.clear();
-                        window.location.href = authUrl + "?redirect_url=" + baseUrl;
+                        window.location.href = authLocationPath;
                     }, { title: '操作失败' })
                 } else if (data.c == 400) {
                     // 页面不存在
@@ -225,6 +130,37 @@ var http = {
         };
 
         $.ajax(ajaxSetting);
+    },
+
+    // 用户授权
+    getUserAuth() {
+        let token = sessionStorage.getItem('token');
+        if (!token) {
+            if (getQueryString('token')) {
+                sessionStorage.setItem('token', getQueryString('token'));
+                // showPage('.container');
+                // setTimeout(() => {
+                if (main) {
+                    main.getDetail && main.getDetail();
+                }
+                // }, 500);
+            } else {
+                sessionStorage.clear();
+                window.location.href = authLocationPath;
+            }
+        } else {
+            // showPage('.container');
+            // setTimeout(() => {
+                if (main) {
+                    main.getDetail && main.getDetail();
+                }
+            // }, 500);
+        }
+    },
+
+    // 微信分享
+    getWechatShare() {
+        wxShare.init(http.globalData.share);
     },
 
     // 关闭当前页面，返回上一页面或多个页面
@@ -780,10 +716,12 @@ var http = {
     // 解决ios下页面被第三方输入法顶上去的bug
     iosPhoneBug()
     {
-        if (client && client.os == 'iPhone') {
-            const scrollHeight = document.documentElement.scrollTop || document.body.scrollTop || 0;
-            window.scrollTo(0, Math.max(scrollHeight - 1, 0));
-        }
+        setTimeout(() => {
+            if (client && client.os == 'iPhone') {
+                const scrollHeight = document.documentElement.scrollTop || document.body.scrollTop || 0;
+                window.scrollTo(0, Math.max(scrollHeight - 1, 0));
+            }
+        }, 150)
     },
 };
 
@@ -844,6 +782,123 @@ var getScrollDirection = function (element, callUp, callDown) {
         }
     });
 }
+
+;(function() {
+    var browser = {
+        ua  : navigator.userAgent,
+        init: function () {
+            this.OS = this.searchString(this.dataOS) || "an unknown OS";
+            this.BS = this.searchBrowser(this.dataBS);
+            if(this.OS == 'iPhone' || this.OS == 'iPad' || this.OS == 'Android' || this.OS == 'Winphone' ){
+                this.mobile = true;
+            }else{
+                this.mobile = false;
+            }
+        },
+        searchString: function (data) {
+            for (var i=0;i<data.length;i++)	{
+                var dataString = this.ua;
+                if (dataString) {
+                    if (dataString.indexOf(data[i].forSearch) != -1)
+                        return data[i].forShow;
+                }
+            }
+        },
+        searchBrowser: function(data){
+            var result = '';
+            for (var i=0;i<data.length;i++)	{
+                var dataString = this.ua;
+                if (dataString) {
+                    if (dataString.indexOf(data[i].forSearch) != -1){
+                        result += data[i].forShow + '|';
+                    }
+                }
+            }
+            return result;
+        },
+        dataOS : [
+            {
+                forSearch: "iPhone",
+                forShow: "iPhone"
+            },
+            {
+                forSearch: "iPad",
+                forShow: "iPad"
+            },
+            {
+                forSearch: "Android",
+                forShow: "Android"
+            },
+            {
+                forSearch: "Windows Phone",
+                forShow: "Winphone"
+            }
+        ],
+        dataBS: [
+            {
+                forSearch: "360browser",
+                forShow: "360"
+            },
+            {
+                forSearch: "Maxthon",
+                forShow: "Maxthon"
+            },
+            {
+                forSearch: "UCBrowser",
+                forShow: "uc"
+            },
+            {
+                forSearch: "Oupeng",
+                forShow: "opera"
+            },
+            {
+                forSearch: "Opera",
+                forShow: "opera"
+            },
+            {
+                forSearch: "Sogou",
+                forShow: "sogou"
+            },
+            {
+                forSearch: "baidu",
+                forShow: "baidu"
+            },
+            {
+                forSearch: "Safari",
+                forShow: "safari"
+            },
+            {
+                forSearch: "MicroMessenger",
+                forShow: "weixin"
+            },
+            {
+                forSearch: "QQ/",
+                forShow: "qq"
+            },
+            {
+                forSearch: "Weibo",
+                forShow: "weibo"
+            },
+            {
+                forSearch: "MQBrowser",
+                forShow: "360"
+            },
+            {
+                forSearch: "MQQBrowser",
+                forShow: "qqbrowser"
+            },
+            {
+                forSearch: "CriOS",
+                forShow: "Maxthon"
+            }
+        ]
+
+    };
+
+    browser.init();
+    window.client = { browser : browser.BS, os : browser.OS, ifmobile : browser.mobile};
+
+})();
 
 //载入器
 function wrLoading(objname, filearray, callback, type) {
@@ -1041,7 +1096,9 @@ wrLoading.prototype = {
     if (client.os == 'iPhone' || client.os == 'iPad') {
         window.addEventListener('pageshow', function(e) {
             if (e.persisted || window.performance && window.performance.navigation.type == 2) {
-                main.getDetail && main.getDetail();
+                if (main) {
+                    main.getDetail && main.getDetail();
+                }
             }
         });
     }
