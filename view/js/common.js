@@ -725,6 +725,8 @@ var http = {
     },
 };
 
+http.init();
+
 // 滑动方向
 var hasScrollPageCommonJs = 1;
 var getScrollDirection = function (element, callUp, callDown) {
