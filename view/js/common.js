@@ -139,28 +139,52 @@ var http = {
             if (getQueryString('token')) {
                 sessionStorage.setItem('token', getQueryString('token'));
                 // showPage('.container');
-                // setTimeout(() => {
-                if (main) {
-                    main.getDetail && main.getDetail();
-                }
-                // }, 500);
+                setTimeout(() => {
+                    if (main) {
+                        if (main.getDetail) {
+                            main.getDetail()
+                        }
+                    } else {
+                        setTimeout(() => {
+                            if (main) {
+                                if (main.getDetail) {
+                                    main.getDetail()
+                                }
+                            }
+                        }, 200)
+                    }
+                }, 200);
             } else {
                 sessionStorage.clear();
                 window.location.href = authLocationPath;
             }
         } else {
             // showPage('.container');
-            // setTimeout(() => {
+            setTimeout(() => {
                 if (main) {
-                    main.getDetail && main.getDetail();
+                    if (main.getDetail) {
+                        main.getDetail()
+                    }
+                } else {
+                    setTimeout(() => {
+                        if (main) {
+                            if (main.getDetail) {
+                                main.getDetail()
+                            }
+                        }
+                    }, 200)
                 }
-            // }, 500);
+            }, 200);
         }
     },
 
     // 微信分享
     getWechatShare() {
-        wxShare.init(http.globalData.share);
+        setTimeout(() => {
+            if (wx && wxShare) {
+                wxShare.init(http.globalData.share);
+            }
+        }, 100)
     },
 
     // 关闭当前页面，返回上一页面或多个页面
