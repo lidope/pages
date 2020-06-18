@@ -17,7 +17,7 @@
 使用方法
 
 > 安装依赖
-    cnpm n 安装依赖 如果没有cnpm请先安装淘宝镜像 npm install -g cnpm --registry=https://registry.npm.taobao.org
+    cnpm i 注意： 如果没有cnpm请先安装淘宝镜像 npm install -g cnpm --registry=https://registry.npm.taobao.org
 
 > 配置gulpfile.js
 
