@@ -181,10 +181,20 @@ var http = {
     // 微信分享
     getWechatShare() {
         setTimeout(() => {
-            if (wx && wxShare) {
-                wxShare.init(http.globalData.share);
+            try {
+                if (wx && wxShare) {
+                    wxShare.init(http.globalData.share);
+                }
             }
-        }, 100)
+            catch (e) {
+               setTimeout(() => {
+                   if (wx && wxShare) {
+                       wxShare.init(http.globalData.share);
+                   }
+               }, 300)
+            }
+
+        }, 300)
     },
 
     // 关闭当前页面，返回上一页面或多个页面
