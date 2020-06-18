@@ -19,7 +19,7 @@
 > 安装依赖
     cnpm i 注意： 如果没有cnpm请先安装淘宝镜像 npm install -g cnpm --registry=https://registry.npm.taobao.org
 
-> 配置gulpfile.js
+> 配置gulpfile.js内的fileName 默认是view目录
 
 > 运行环境 ( 开启运行环境同时也会自动执行项目打包 )
     gulp dev
