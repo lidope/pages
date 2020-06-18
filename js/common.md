@@ -11,7 +11,21 @@
 
     注意： 
         如果某个页面需要单独配置分享, 请在页面引入common.js的上方增加 "sessionStorage.setItem('closeWechatShare', 1)" 
-3.
+
+3. gulp打包方式改版
+
+使用方法
+
+> 安装依赖
+    cnpm n 安装依赖 如果没有cnpm请先安装淘宝镜像 npm install -g cnpm --registry=https://registry.npm.taobao.org
+
+> 配置gulpfile.js
+
+> 运行环境 ( 开启运行环境同时也会自动执行项目打包 )
+    gulp dev
+
+> 项目打包
+    gulp
 ```
 
 ### v1.0.7 更新 - 2020.06.03

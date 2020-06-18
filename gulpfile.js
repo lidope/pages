@@ -1,51 +1,116 @@
-const gulp = require('gulp');
-const uglify = require('gulp-uglify');
-const babel = require('gulp-babel');
-const minfy = require('gulp-minify-css');
-const htmlmin = require('gulp-htmlmin');
-const clean = require('gulp-clean'); // 清空文件夹
+/*
+* ⬇⬇⬇⬇ ******** 开发者须知 ******** ⬇⬇⬇⬇
+*
+* 1. 需要配置 "fileName" 当前文件路径 默认是view目录
+* 2. 如果有不需要处理的文件 需去底部的 "other" 和 "watch" 单独配置 例: fonts文件夹 images文件夹 utils文件夹 ( 默认不打包 utils文件夹和images文件夹 )
+*
+*  ⬆⬆⬆⬆ ******** ⬆⬆⬆⬆ ******** ⬆⬆⬆⬆/
+*/
+
+
+/*
+* 打包配置
+* */
+const fileName = 'view'; // 当前的文件路径
+const distFileName = 'dist'; // 打包的文件路径
+
+const cssList = [ fileName + '/css/**/*.css' ]; // css文件打包路径
+const jsList = [ fileName + '/js/**/*.js' ]; // js文件打包路径
+const htmlList = [ distFileName + '/rev/**/*.json', fileName + '/*.html', fileName + '/**/*.html' ]; // html文件打包路径
+
+const gulp = require('gulp'),
+    babel = require('gulp-babel'),
+    autoprefixer = require('gulp-autoprefixer'),
+    cleanCss = require('gulp-clean-css'),
+    uglify = require('gulp-uglify'),
+    rev = require('gulp-rev'),
+    revCollector = require('gulp-rev-collector'),
+    connect = require("gulp-connect"),
+    del = require('del');
 
 /*
 * 清空文件夹
-* @clean params
-* @force 注意：慎用此参数，配置不对可能会误删文件
 * */
-
-gulp.task('clean', async function(callback) {
-    return false;
-    // 需要清理时打开此方法
-    // return gulp.src('../dist', { read: false}).pipe(clean({force: true}));
+gulp.task('clear', () => {
+    return del([ distFileName ]);
 });
 
-gulp.task('default', async function() {
-    gulp.src([
-        'css/reset.css',
-        'css/animate.css'
-    ]).pipe(minfy()).pipe(gulp.dest('../dist/css'));
-
-    gulp.src([
-        'js/common.js',
-        'js/wxshare.js',
-        'js/docElRem.js'
-    ]).pipe(babel({ presets: ['@babel/env'] })).pipe(uglify()).pipe(gulp.dest('../dist/js'));
-
-    gulp.src(['./utils/*.js']).pipe(gulp.dest('../dist/utils'));
-
-    var htmlOptions = {
-        removeComments: true,// 清除HTML注释
-        collapseWhitespace: true,// 压缩HTML
-        collapseBooleanAttributes: false,// 省略布尔属性的值 <input checked="true"/> ==> <input />
-        removeEmptyAttributes: false,// 删除所有空格作属性值 <input id="" /> ==> <input />
-        removeScriptTypeAttributes: true,// 删除<script>的type="text/javascript"
-        removeStyleLinkTypeAttributes: true,// 删除<style>和<link>的type="text/css"
-        minifyJS: true,// 压缩页面JS
-        minifyCSS: true// 压缩页面CSS
-    };
-
-    gulp.src(['./*.html']).pipe(htmlmin(htmlOptions)).pipe(gulp.dest('../dist/'));
-
-    gulp.src("images/**/*").pipe(gulp.dest('../dist/images'))
-    gulp.src("images/").pipe(gulp.dest('../dist/images'))
-
-    gulp.src("fonts/").pipe(gulp.dest('../dist/fonts'))
+gulp.task('css', () => {
+    return gulp.src(cssList)
+        .pipe(autoprefixer({ // 自动加兼容前缀
+            overrideBrowserslist: [ '> 5%' ], // 兼容使用率超过5%的浏览器
+            cascade: false // 前缀美化
+        }))
+        .pipe(cleanCss({ // 压缩CSS
+            advanced: false, // 是否开启高级优化（合并选择器等）
+            compatibility: 'ie8', // 保留ie8以下兼容写法
+            keepBreaks: false, // 是否保留换行
+            keepSpecialComments: '*' // 保留所有特殊前缀 当你用autoprefixer生成的浏览器前缀，如果不加这个参数，有可能将会删除你的部分前缀
+        }))
+        .pipe(rev())
+        .pipe(gulp.dest(distFileName + '/css'))
+        .pipe(rev.manifest()) // 文件名加Hash值，配合上上行使用
+        .pipe(gulp.dest(distFileName + '/rev/css'))
 });
+
+gulp.task('js', () => {
+    return gulp.src(jsList)
+        .pipe(babel())
+        .pipe(uglify({
+            mangle: true // 是否混淆变量
+        }))
+        .pipe(rev())
+        .pipe(gulp.dest(distFileName + '/js'))
+        .pipe(rev.manifest())
+        .pipe(gulp.dest(distFileName + '/rev/js'))
+});
+
+gulp.task('html', () => {
+    return gulp.src(htmlList)
+        .pipe(revCollector({
+            replaceReved: true, // 替换为追加Hash值后的文件名
+        }))
+        .pipe(gulp.dest(distFileName))
+});
+
+/*
+* 单独配置不处理的文件
+* */
+gulp.task('other', async () => {
+    gulp.src([ fileName + '/utils/**/*' ]).pipe(rev()).pipe(gulp.dest(distFileName + '/utils')).pipe(rev.manifest()).pipe(gulp.dest(distFileName + '/rev/utils'))
+
+    gulp.src([ fileName + '/images/**/*' ]).pipe(gulp.dest(distFileName + '/images'));
+});
+
+gulp.task('watch', async () => {
+    gulp.watch(htmlList, gulp.series('html'));
+    gulp.watch(cssList, gulp.series('css'));
+    gulp.watch(jsList, gulp.series('js'));
+
+    // 单独配置不处理的文件
+    gulp.watch([ fileName + '/utils/**/*', fileName + '/images/**/*' ], gulp.series('other'));
+
+    // 更新页面
+    gulp.watch(distFileName + '/**/*', gulp.series('reload'));
+
+});
+
+gulp.task('reload', () => {
+    return gulp.src(htmlList).pipe(connect.reload()); // 页面重新加载
+})
+
+
+gulp.task('server', () => {
+    connect.server({ // 启用本地服务器
+        root: distFileName, // 根目录
+        port: 3008, // 端口
+        host: '::',
+        livereload: true // 热更新
+    });
+});
+
+gulp.task('init', gulp.series('clear', gulp.parallel('css', 'js', 'other'), 'html'));
+
+gulp.task('default', gulp.series('init'));
+
+gulp.task('dev', gulp.series('init', gulp.parallel('server', 'watch')));
