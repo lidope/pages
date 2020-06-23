@@ -7,12 +7,14 @@
   │ │ ├─reset.css 默认样式
   │ │ └─resetREM.css rem的默认样式
   │ ├─fonts 字体目录
-  │ ├─images 图片目录
+  │ ├─images 图片目录 注意：此目录内的图片都会被打包
   │ ├─js js存放目录
   │ │ ├─common.js 公共文件
   │ │ ├─docElRem.js rem配置文件
   │ │ └─wxshare.js 分享文件
-  │ ├─utils 框架、插件存放目录 ( 用于存放xx.min.js 已经压缩过的文件 )
+  │ ├─noPacking 不需要打包的文件夹
+  │ │ ├─utils 框架、插件存放目录 ( 用于存放xx.min.js 已经压缩过的文件 )
+  │ │ ├─images 不需要打包的图片存放目录 比如Vue动态渲染的图片 -> 'noPacking/images/demo{{ index }}.jpg'
   │ └─└─main.js 包含jQuery v3.4.1、Vue.js v2.6.11、vConsole v3.2.0
   │─.babelrc gulp 打包文件配置
   │─.gitignore git屏蔽文件配置
