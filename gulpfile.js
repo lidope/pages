@@ -2,7 +2,8 @@
 * ⬇⬇⬇⬇ ******** 开发者须知 ******** ⬇⬇⬇⬇
 *
 * 1. 需要配置 "fileName" 当前文件路径 默认是view目录
-* 2. 如果有不需要处理的文件 需去底部的 "other" 和 "watch" 单独配置 例: fonts文件夹 images文件夹 utils文件夹 ( 默认不打包 utils文件夹和images文件夹 )
+* 2. utils文件夹存储已经压缩过的js 例: swiper.min.js, upload.min.js
+* 2. 如果有不需要处理的文件 需去底部的 "other" 和 "watch" 单独配置 例: fonts文件夹 ( 默认不打包 utils文件夹 )
 *
 *  ⬆⬆⬆⬆ ******** ⬆⬆⬆⬆ ******** ⬆⬆⬆⬆/
 */
@@ -17,11 +18,13 @@ const distFileName = 'dist'; // 打包的文件路径
 const cssList = [ fileName + '/css/**/*.css' ]; // css文件打包路径
 const jsList = [ fileName + '/js/**/*.js' ]; // js文件打包路径
 const htmlList = [ distFileName + '/rev/**/*.json', fileName + '/*.html', fileName + '/**/*.html' ]; // html文件打包路径
+const imagesList = [fileName + '/images/**/*']; // img文件打包路径
 
 const gulp = require('gulp'),
     babel = require('gulp-babel'),
     autoprefixer = require('gulp-autoprefixer'),
     cleanCss = require('gulp-clean-css'),
+    imagemin = require('gulp-imagemin'),
     uglify = require('gulp-uglify'),
     rev = require('gulp-rev'),
     revCollector = require('gulp-rev-collector'),
@@ -73,22 +76,38 @@ gulp.task('html', () => {
         .pipe(gulp.dest(distFileName))
 });
 
+/**
+ * image压缩
+ */
+gulp.task('images', function() {
+    return gulp.src( imagesList )
+    .pipe(imagemin({
+        distgressive: true,
+        progressive: true, // 无损压缩jpg图片
+        interlaced: true, // 隔行扫描gif进行渲染
+        svgoPlugins: [{ removeViewBox: false }] // 不要移除svg的viewbox属性
+    }))
+    .pipe(rev())
+    .pipe(gulp.dest(distFileName + '/images'))
+    .pipe(rev.manifest())
+    .pipe(gulp.dest(distFileName + '/rev/images'));
+});
+
 /*
 * 单独配置不处理的文件
 * */
 gulp.task('other', async () => {
     gulp.src([ fileName + '/utils/**/*' ]).pipe(rev()).pipe(gulp.dest(distFileName + '/utils')).pipe(rev.manifest()).pipe(gulp.dest(distFileName + '/rev/utils'))
-
-    gulp.src([ fileName + '/images/**/*' ]).pipe(gulp.dest(distFileName + '/images'));
 });
 
 gulp.task('watch', async () => {
     gulp.watch(htmlList, gulp.series('html'));
     gulp.watch(cssList, gulp.series('css'));
     gulp.watch(jsList, gulp.series('js'));
+    gulp.watch(imagesList, gulp.series('imagesList'));
 
     // 单独配置不处理的文件
-    gulp.watch([ fileName + '/utils/**/*', fileName + '/images/**/*' ], gulp.series('other'));
+    gulp.watch([ fileName + '/utils/**/*' ], gulp.series('other'));
 
     // 更新页面
     gulp.watch(distFileName + '/**/*', gulp.series('reload'));
@@ -109,7 +128,7 @@ gulp.task('server', () => {
     });
 });
 
-gulp.task('init', gulp.series('clear', gulp.parallel('css', 'js', 'other'), 'html'));
+gulp.task('init', gulp.series('clear', gulp.parallel('css', 'js', 'other', 'images'), 'html'));
 
 gulp.task('default', gulp.series('init'));
 
