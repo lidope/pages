@@ -104,7 +104,7 @@ gulp.task('watch', async () => {
     gulp.watch(htmlList, gulp.series('html'));
     gulp.watch(cssList, gulp.series('css'));
     gulp.watch(jsList, gulp.series('js'));
-    gulp.watch(imagesList, gulp.series('imagesList'));
+    gulp.watch(imagesList, gulp.series('images'));
 
     // 单独配置不处理的文件
     gulp.watch([ fileName + '/utils/**/*' ], gulp.series('other'));
@@ -119,7 +119,7 @@ gulp.task('reload', () => {
 })
 
 
-gulp.task('server', () => {
+gulp.task('server', async () => {
     connect.server({ // 启用本地服务器
         root: distFileName, // 根目录
         port: 3008, // 端口
