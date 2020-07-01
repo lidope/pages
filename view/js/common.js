@@ -35,7 +35,7 @@ var http = {
     },
 
     init() {
-        if (http.globalData.openAuth) {
+        if (http.globalData.openAuth && !sessionStorage.getItem('closeWechatAuth')) {
             http.getUserAuth();
         }
 
@@ -138,43 +138,13 @@ var http = {
         if (!token) {
             if (getQueryString('token')) {
                 sessionStorage.setItem('token', getQueryString('token'));
-                // showPage('.container');
-                setTimeout(() => {
-                    if (main) {
-                        if (main.getDetail) {
-                            main.getDetail()
-                        }
-                    } else {
-                        setTimeout(() => {
-                            if (main) {
-                                if (main.getDetail) {
-                                    main.getDetail()
-                                }
-                            }
-                        }, 200)
-                    }
-                }, 200);
+                http.getFunDetail()
             } else {
                 sessionStorage.clear();
-                window.location.href = authLocationPath;
+                http.navigateTo(authLocationPath)
             }
         } else {
-            // showPage('.container');
-            setTimeout(() => {
-                if (main) {
-                    if (main.getDetail) {
-                        main.getDetail()
-                    }
-                } else {
-                    setTimeout(() => {
-                        if (main) {
-                            if (main.getDetail) {
-                                main.getDetail()
-                            }
-                        }
-                    }, 200)
-                }
-            }, 200);
+            http.getFunDetail()
         }
     },
 
@@ -187,14 +157,23 @@ var http = {
                 }
             }
             catch (e) {
-               setTimeout(() => {
-                   if (wx && wxShare) {
-                       wxShare.init(http.globalData.share);
-                   }
-               }, 300)
+                http.getWechatShare();
             }
-
         }, 300)
+    },
+
+    getFunDetail() {
+        setTimeout(() => {
+            try {
+                if (main) {
+                    if (main.getDetail) {
+                        main.getDetail();
+                    }
+                }
+            } catch (e) {
+                http.getFunDetail();
+            }
+        }, 200);
     },
 
     // 关闭当前页面，返回上一页面或多个页面
