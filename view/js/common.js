@@ -167,7 +167,9 @@ var http = {
             try {
                 if (main) {
                     if (main.getDetail) {
-                        main.getDetail();
+                        Vue.nextTick(() => {
+                            main.getDetail();
+                        })
                     }
                 }
             } catch (e) {
