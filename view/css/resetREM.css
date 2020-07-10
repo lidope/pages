@@ -857,3 +857,8 @@ span {
     }
 }
 
+/* vconsole */
+#__vconsole .vc-switch {
+    font-size: 2em !important;
+}
+
