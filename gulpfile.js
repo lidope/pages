@@ -14,7 +14,7 @@
 * */
 const fileName = 'view'; // 要打包的文件夹名称
 const distFileName = 'dist'; // 打包后的文件文件夹名称
-const noPackingName = 'noPacking'; // 不打包的文件夹名称
+const noPackingName = 'utils'; // 不打包的文件夹名称
 
 const cssList = [ fileName + '/css/**/*.css' ]; // css文件打包路径
 const jsList = [ fileName + '/js/**/*.js' ]; // js文件打包路径
