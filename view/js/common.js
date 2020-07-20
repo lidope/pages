@@ -42,6 +42,10 @@ var http = {
         if (http.globalData.openShare && !sessionStorage.getItem('closeWechatShare')) {
             http.getWechatShare();
         }
+
+        if (getQueryString('dev_mode') === 'debug') {
+            new VConsole();
+        }
     },
 
     ajaxPost:function(url, params, callback, error, showLoading) {

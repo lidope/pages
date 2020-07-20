@@ -1,5 +1,11 @@
 # common.js
 
+### v1.0.9 更新 - 2020.07.20
+```
+1. 增加编辑url即可开启VConsole功能 
+    方法 https://xxx.com?dev_mode=debug
+```
+
 ### v1.0.8 更新 - 2020.06.18
 ```
 1. 移除每个页面的授权、分享。common.js里自动授权分享
