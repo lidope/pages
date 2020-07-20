@@ -1,5 +1,5 @@
 /*
- * common.js v1.0.8 *
+ * common.js v1.0.9 *
  */
 document.write("<script src='https://wxshare.leaddevelop.net/wxShare.js'></script>");
 
