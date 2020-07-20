@@ -2,8 +2,8 @@
 
 ### v1.0.9 更新 - 2020.07.20
 ```
-1. 增加编辑url即可开启VConsole功能 
-    方法 https://xxx.com?dev_mode=debug
+1. 增加编辑url即可开启VConsole功能 url后跟 ?dev_mode=debug
+    用法 https://xxx.com?dev_mode=debug
 ```
 
 ### v1.0.8 更新 - 2020.06.18
