@@ -45,6 +45,7 @@ var http = {
 
         if (getQueryString('dev_mode') === 'debug') {
             new VConsole();
+            http.globalData.debug = true;
         }
     },
 
@@ -1244,5 +1245,14 @@ wrLoading.prototype = {
         window._log = console.log;
     } else {
         window._log = () => { return '' };
+        try {
+            window.console = {
+                log: () => {},
+                warn: () => {},
+                error: () => {},
+                info: () => {},
+                debug: () => {},
+            }
+        } catch (e) {}
     }
 })();
