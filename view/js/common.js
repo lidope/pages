@@ -110,7 +110,11 @@ var http = {
 
         var ajaxError = function (msg) {
             http.hideLoading();
-            http.showModal('当前网络不稳定，请稍后再试~\n' + url)
+            if (http.globalData.debug || getQueryString('dev_mode') === 'debug') {
+                http.showModal('当前网络不稳定，请稍后再试~\n' + url)
+            } else {
+                http.showModal('当前网络不稳定，请稍后再试~')
+            }
 
             console.group('服务器返回错误');
                 console.log('└─状态码: ' + msg.status);
