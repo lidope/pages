@@ -634,7 +634,7 @@ var http = {
 
             // 邮箱验证
             case 'email':
-                var regEmail = /^([a-zA-Z]|[0-9]|[._-])(\w|\-|.)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
+                var regEmail = /^([a-zA-Z]|[0-9]|[._-])(\w|\-|.)+@[a-zA-Z0-9]+\.([a-z.A-Z]{2,99})$/;
                 return regEmail.test(content)? true: false;
                 break;
 
