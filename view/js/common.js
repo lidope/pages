@@ -23,7 +23,7 @@ function getQueryString(name)
 //ajax请求
 var http = {
     globalData: {
-        debug: true,
+        debug: true, // false 则关闭所有console及ajaxPost网络不稳定的接口路径展示
         openShare: false, // 是否开启分享
         openAuth: false, // 是否开启授权
         share: {
