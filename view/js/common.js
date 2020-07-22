@@ -210,39 +210,39 @@ var http = {
         * content 要显示的loading内容，支持换行 \n
         * */
 
-        if ($('.lead_loading_block').length) {
-            $('.lead_loading_block .lead_loading span').html(http.getLineFeedHtml(content || '加载中'))
+        if ($('.__lead_loading_block').length) {
+            $('.__lead_loading_block .__lead_loading span').html(http.getLineFeedHtml(content || '加载中'))
             return false;
         }
 
         if (content) content = http.getLineFeedHtml(content)
 
-        var leadLoading = `
-            <div class="lead_loading_block lead_transparent col items center">
-                <div class="lead_loading lead_smallBig_animate col items">
-                    <div class="lead_icon_loading"></div>
+        var __leadLoading = `
+            <div class="__lead_loading_block __lead_transparent col items center">
+                <div class="__lead_loading __lead_smallBig_animate col items">
+                    <div class="__lead_icon_loading"></div>
                     <span>${ content || '加载中' }</span>
                 </div>
             </div>
         `;
 
-        $('body').append(leadLoading);
+        $('body').append(__leadLoading);
 
         setTimeout(function () {
-            $('.lead_loading').length && $('.lead_loading').addClass('showLeadLoading');
+            $('.__lead_loading').length && $('.__lead_loading').addClass('showLeadLoading');
         }, 20)
 
-        $('.lead_loading_block').length && $('.lead_loading_block').on('touchmove', function (event) {
+        $('.__lead_loading_block').length && $('.__lead_loading_block').on('touchmove', function (event) {
             event.preventDefault();
         })
     },
 
     // 隐藏loading
     hideLoading() {
-        if ($('.lead_loading_block').length) {
-            $('.lead_loading').removeClass('showLeadLoading');
+        if ($('.__lead_loading_block').length) {
+            $('.__lead_loading').removeClass('showLeadLoading');
             setTimeout(function () {
-                $('.lead_loading_block').remove();
+                $('.__lead_loading_block').remove();
             }, 250)
         }
     },
@@ -266,16 +266,16 @@ var http = {
             content = content.constructor == Array || content.constructor == Object? JSON.stringify(content): this.getLineFeedHtml(content);
         }
 
-        var leadMessage = `
-            <div class="lead lead_message_block col items center">
-                <div class="lead_message lead_smallBig_animate col items">
-                    <div class="lead_message_title col items center">
+        var __leadMessage = `
+            <div class="__lead __lead_message_block col items center">
+                <div class="__lead_message __lead_smallBig_animate col items">
+                    <div class="__lead_message_title col items center">
                         <span class="nowrap">${ otherParams && otherParams.title || '提示' }</span>
                     </div>
-                    <div class="lead_message_content col items center">
+                    <div class="__lead_message_content col items center">
                         <span>${ content || '' }</span>
                     </div>
-                    <div class="lead_message_button row items center">
+                    <div class="__lead_message_button row items center">
                         <span class="flex_group_1 col items center" style="color: ${ otherParams && otherParams.cancelColor || '#999' }">${ otherParams && otherParams.cancelText || '取消' }</span>
                         <span class="flex_group_1 col items center" style="color: ${ otherParams && otherParams.confirmColor || '#5f646e' }">${ otherParams && otherParams.confirmText || '确定' }</span>
                     </div>
@@ -283,45 +283,45 @@ var http = {
             </div>
         `;
 
-        if (!$('.lead_mask').length) {
-            $('body').append(`<div class="lead_mask"></div>`)
+        if (!$('.__lead_mask').length) {
+            $('body').append(`<div class="__lead_mask"></div>`)
         }
 
-        $('body').append(leadMessage);
+        $('body').append(__leadMessage);
 
         setTimeout(function () {
-            if ($('.lead_message').length > 1) {
-                var leadMessage = $('.lead_message');
-                for (var i = 0; i < leadMessage.length; i++) {
-                    if (!leadMessage.eq(i).hasClass('.showLeadMessage')) {
-                        leadMessage.eq(i).addClass('showLeadMessage');
+            if ($('.__lead_message').length > 1) {
+                var __leadMessage = $('.__lead_message');
+                for (var i = 0; i < __leadMessage.length; i++) {
+                    if (!__leadMessage.eq(i).hasClass('.showLeadMessage')) {
+                        __leadMessage.eq(i).addClass('showLeadMessage');
                     }
                 }
             } else {
-                $('.lead_message').length && $('.lead_message').addClass('showLeadMessage');
+                $('.__lead_message').length && $('.__lead_message').addClass('showLeadMessage');
             }
         }, 20)
 
-        $('.lead_message_block').length && $('.lead_message_block').on('touchmove', function (event) {
+        $('.__lead_message_block').length && $('.__lead_message_block').on('touchmove', function (event) {
             event.preventDefault();
         })
 
         var is_click = true;
 
-        var $lead_message_block = $('.lead_message_block');
-        var lead_message_button = $lead_message_block.eq($lead_message_block.length - 1).find('.lead_message_button span');
+        var $__lead_message_block = $('.__lead_message_block');
+        var __lead_message_button = $__lead_message_block.eq($__lead_message_block.length - 1).find('.__lead_message_button span');
 
-        lead_message_button.off('click');
-        lead_message_button.on('click', function () {
+        __lead_message_button.off('click');
+        __lead_message_button.on('click', function () {
             if (is_click) {
                 is_click = false;
                 var _this = $(this);
-                _this.closest('.lead_message').removeClass('showLeadMessage');
+                _this.closest('.__lead_message').removeClass('showLeadMessage');
                 setTimeout(function () {
                     var _index = _this.index();
-                    _this.closest('.lead_message_block').remove();
-                    if (!$('.lead').length) {
-                        $('.lead_mask').remove();
+                    _this.closest('.__lead_message_block').remove();
+                    if (!$('.__lead').length) {
+                        $('.__lead_mask').remove();
                     }
                     is_click = true;
                     _index == 1 && confirm && confirm('confirm');
@@ -351,16 +351,16 @@ var http = {
             content = content.constructor == Array || content.constructor == Object? JSON.stringify(content): this.getLineFeedHtml(content);
         }
 
-        var leadMessage = `
-            <div class="lead lead_message_copy col items center">
-                <div class="lead_copy lead_smallBig_animate col items">
-                    <div class="lead_copy_title col items center">
+        var __leadMessage = `
+            <div class="__lead __lead_message_copy col items center">
+                <div class="__lead_copy __lead_smallBig_animate col items">
+                    <div class="__lead_copy_title col items center">
                         <span class="nowrap">${ otherParams && otherParams.title || '提示' }</span>
                     </div>
-                    <div class="lead_copy_content col items center">
+                    <div class="__lead_copy_content col items center">
                         <span>${ content || '' }</span>
                     </div>
-                    <div class="lead_copy_button row items center">
+                    <div class="__lead_copy_button row items center">
                         <span class="flex_group_1 col items center" style="color: ${ otherParams && otherParams.cancelColor || '#999' }">${ otherParams && otherParams.cancelText || '取消' }</span>
                         <span class="flex_group_1 col items center" style="color: ${ otherParams && otherParams.confirmColor || '#5f646e' }">${ otherParams && otherParams.confirmText || '复制' }</span>
                     </div>
@@ -368,8 +368,8 @@ var http = {
             </div>
         `;
 
-        if (!$('.lead_mask').length) {
-            $('body').append(`<div class="lead_mask"></div>`)
+        if (!$('.__lead_mask').length) {
+            $('body').append(`<div class="__lead_mask"></div>`)
         }
 
         var input = document.createElement("input");
@@ -383,34 +383,34 @@ var http = {
         input.style.position = 'fixed';
         input.style.left = '-9999999px';
         input.style.top = '-999999px';
-        $('body').append(leadMessage);
-        $('.lead_message_copy').append(input);
+        $('body').append(__leadMessage);
+        $('.__lead_message_copy').append(input);
 
         setTimeout(function () {
-            if ($('.lead_copy').length > 1) {
-                var leadCopy = $('.lead_copy');
-                for (var i = 0; i < leadCopy.length; i++) {
-                    if (!leadCopy.eq(i).hasClass('.showLeadCopy')) {
-                        leadCopy.eq(i).addClass('showLeadCopy');
+            if ($('.__lead_copy').length > 1) {
+                var __leadCopy = $('.__lead_copy');
+                for (var i = 0; i < __leadCopy.length; i++) {
+                    if (!__leadCopy.eq(i).hasClass('.showLeadCopy')) {
+                        __leadCopy.eq(i).addClass('showLeadCopy');
                     }
                 }
             } else {
-                $('.lead_copy').length && $('.lead_copy').addClass('showLeadCopy');
+                $('.__lead_copy').length && $('.__lead_copy').addClass('showLeadCopy');
             }
         }, 20)
 
-        $('.lead_message_copy').length && $('.lead_message_copy').on('touchmove', function (event) {
+        $('.__lead_message_copy').length && $('.__lead_message_copy').on('touchmove', function (event) {
             event.preventDefault();
         })
 
         var is_click = true;
 
-        $('.lead_copy_button span').click(function () {
+        $('.__lead_copy_button span').click(function () {
             if (is_click) {
                 is_click = false;
                 var _this = $(this);
                 var _index = _this.index();
-                _this.closest('.lead_copy').removeClass('showLeadCopy');
+                _this.closest('.__lead_copy').removeClass('showLeadCopy');
 
                 if (_index == 1) {
                     input.select();
@@ -420,9 +420,9 @@ var http = {
                 }
 
                 setTimeout(function () {
-                    _this.closest('.lead_message_copy').remove();
-                    if (!$('.lead').length) {
-                        $('.lead_mask').remove();
+                    _this.closest('.__lead_message_copy').remove();
+                    if (!$('.__lead').length) {
+                        $('.__lead_mask').remove();
                     }
                     is_click = true;
                     _index == 1 && confirm && confirm('confirm');
@@ -449,61 +449,61 @@ var http = {
             content = content.constructor == Array || content.constructor == Object? JSON.stringify(content): this.getLineFeedHtml(content);
         }
 
-        var leadModal = `
-            <div class="lead lead_modal_block col items center">
-                <div class="lead_modal lead_smallBig_animate col items">
-                    <div class="lead_modal_title col items center">
+        var __leadModal = `
+            <div class="__lead __lead_modal_block col items center">
+                <div class="__lead_modal __lead_smallBig_animate col items">
+                    <div class="__lead_modal_title col items center">
                         <span class="nowrap">${ otherParams && otherParams.title || '提示' }</span>
                     </div>
-                    <div class="lead_modal_content col items center">
+                    <div class="__lead_modal_content col items center">
                         <span>${ content || '' }</span>
                     </div>
-                    <div class="lead_modal_button row items center">
+                    <div class="__lead_modal_button row items center">
                         <span class="flex_group_1 col items center" style="color: ${ otherParams && otherParams.confirmColor || '#5f646e' }">${ otherParams && otherParams.confirmText || '确定' }</span>
                     </div>
                 </div>
             </div>
         `;
 
-        if (!$('.lead_mask').length) {
-            $('body').append(`<div class="lead_mask"></div>`)
+        if (!$('.__lead_mask').length) {
+            $('body').append(`<div class="__lead_mask"></div>`)
         }
 
-        $('body').append(leadModal);
+        $('body').append(__leadModal);
 
         setTimeout(function () {
-            if ($('.lead_modal').length > 1) {
-                var leadMessage = $('.lead_modal');
-                for (var i = 0; i < leadMessage.length; i++) {
-                    if (!leadMessage.eq(i).hasClass('.showLeadModal')) {
-                        leadMessage.eq(i).addClass('showLeadModal');
+            if ($('.__lead_modal').length > 1) {
+                var __leadMessage = $('.__lead_modal');
+                for (var i = 0; i < __leadMessage.length; i++) {
+                    if (!__leadMessage.eq(i).hasClass('.showLeadModal')) {
+                        __leadMessage.eq(i).addClass('showLeadModal');
                     }
                 }
             } else {
-                $('.lead_modal').length && $('.lead_modal').addClass('showLeadModal');
+                $('.__lead_modal').length && $('.__lead_modal').addClass('showLeadModal');
             }
         }, 20)
 
-        $('.lead_modal_block').length && $('.lead_modal_block').on('touchmove', function (event) {
+        $('.__lead_modal_block').length && $('.__lead_modal_block').on('touchmove', function (event) {
             event.preventDefault();
         })
 
         var is_click = true;
 
-        var $lead_modal_block = $('.lead_modal_block');
-        var lead_modal_button = $lead_modal_block.eq($lead_modal_block.length - 1).find('.lead_modal_button span');
+        var $__lead_modal_block = $('.__lead_modal_block');
+        var __lead_modal_button = $__lead_modal_block.eq($__lead_modal_block.length - 1).find('.__lead_modal_button span');
 
-        lead_modal_button.off('click');
-        lead_modal_button.on('click', function () {
+        __lead_modal_button.off('click');
+        __lead_modal_button.on('click', function () {
             if (is_click) {
                 is_click = false;
                 var _this = $(this);
-                _this.closest('.lead_modal').removeClass('showLeadModal');
+                _this.closest('.__lead_modal').removeClass('showLeadModal');
                 var _index = _this.index();
                 setTimeout(function () {
-                    _this.closest('.lead_modal_block').remove();
-                    if (!$('.lead').length) {
-                        $('.lead_mask').remove();
+                    _this.closest('.__lead_modal_block').remove();
+                    if (!$('.__lead').length) {
+                        $('.__lead_mask').remove();
                     }
                     is_click = true;
                     confirm && confirm('confirm');
@@ -513,41 +513,50 @@ var http = {
     },
 
     // 2秒后消失的浮层
-    showToast(content, hasModal = false) {
+    showToast(content, direction, hasModal = false) {
         /*
         * content String 要显示的消息，支持换行\n
+        * direction 出现的方向 top 页面上方 默认值 middle 页面中间 bottom 页面底部
         * hasModal Boolean 是否有遮罩层，默认false
         * */
         if (content) {
             content = content.constructor == Array || content.constructor == Object? JSON.stringify(content): this.getLineFeedHtml(content);
         }
 
-        let leadToastBlock = document.createElement('div');
-        leadToastBlock.className = 'lead_toast_block lead_transparent col items';
+        let __leadToastBlock = document.createElement('div');
+        __leadToastBlock.className = '__lead_toast_block __lead_transparent col items';
 
-        let leadToastView = document.createElement('div');
-        leadToastView.className = 'lead_toast';
+        let __leadToastView = document.createElement('div');
+        __leadToastView.className = '__lead_toast';
 
-        let leadToastSpan = document.createElement('span');
-        leadToastSpan.innerHTML = content || '';
+        let __leadToastSpan = document.createElement('span');
+        __leadToastSpan.innerHTML = content || '';
 
-        leadToastView.appendChild(leadToastSpan);
+        __leadToastView.appendChild(__leadToastSpan);
 
         setTimeout(function () {
-            leadToastView.className = 'lead_toast lead_toast_show';
+            __leadToastView.className = '__lead_toast __lead_toast_show';
         }, 20)
 
-        leadToastBlock.appendChild(leadToastView);
+        __leadToastBlock.appendChild(__leadToastView);
 
         if (!hasModal) {
-            leadToastBlock.className = 'lead_toast_block lead_transparent lead_toast_nopointer col items'
+            __leadToastBlock.className = '__lead_toast_block __lead_transparent __lead_toast_nopointer col items'
         }
 
-        $('body').append(leadToastBlock)
+        if (direction) {
+            if (direction == 'middle') {
+                __leadToastBlock.className += ' center'
+            } else if (direction == 'bottom') {
+                __leadToastBlock.className += ' end'
+            }
+        }
+
+        $('body').append(__leadToastBlock)
 
         setTimeout(function() {
-            leadToastView.className = 'lead_toast lead_toast_hide'
-            leadToastBlock.remove();
+            __leadToastView.className = '__lead_toast __lead_toast_hide'
+            __leadToastBlock.remove();
         }, 2000)
 
     },
