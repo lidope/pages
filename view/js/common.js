@@ -559,7 +559,11 @@ var http = {
 
     // 读取缓存
     getStorageSync(name) {
-        return JSON.parse(localStorage.getItem(name))
+        try {
+            return JSON.parse(localStorage.getItem(name))
+        } catch (e) {
+            return ''
+        }
     },
 
     // 设置缓存
