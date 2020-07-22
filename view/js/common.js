@@ -5,7 +5,7 @@ document.write("<script src='https://wxshare.leaddevelop.net/wxShare.js'></scrip
 
 var baseUrl = window.location.protocol + "//" + window.location.host + "/";
 var authUrl = baseUrl + "work/WechatApi/getAuthUser";
-var errorUrl = baseUrl + "qiye/error.html";
+var errorUrl = baseUrl;
 var authLocationPath = authUrl + "?redirect_url=" + encodeURIComponent(window.location.href);
 
 // 解决ios下伪类不起作用的bug
