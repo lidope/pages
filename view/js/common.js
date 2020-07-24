@@ -35,6 +35,14 @@ var http = {
     },
 
     init() {
+        if (window.location.host.indexOf('leaddevelop.net') > -1) {
+            http.globalData.debug = false;
+        }
+
+        if (window.location.host.indexOf('fitsns.cn') > -1) {
+            http.globalData.debug = true;
+        }
+
         if (http.globalData.openAuth && !sessionStorage.getItem('closeWechatAuth')) {
             http.getUserAuth();
         }
