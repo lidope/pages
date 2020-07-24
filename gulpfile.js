@@ -102,9 +102,9 @@ gulp.task('images', function() {
         interlaced: true, // 隔行扫描gif进行渲染
         svgoPlugins: [{ removeViewBox: false }] // 不要移除svg的viewbox属性
     }))
-    .pipe(rev())
+    // .pipe(rev())
     .pipe(gulp.dest(distFileName + '/images'))
-    .pipe(rev.manifest())
+    // .pipe(rev.manifest())
     .pipe(gulp.dest(distFileName + '/rev/images'));
 });
 

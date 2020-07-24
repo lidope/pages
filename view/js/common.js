@@ -23,7 +23,7 @@ function getQueryString(name)
 //ajax请求
 var http = {
     globalData: {
-        debug: true, // false 则关闭所有console及ajaxPost网络不稳定的接口路径展示
+        debug: false, // false 则关闭所有console及ajaxPost网络不稳定的接口路径展示
         openShare: false, // 是否开启分享
         openAuth: false, // 是否开启授权
         share: {
@@ -35,11 +35,17 @@ var http = {
     },
 
     init() {
-        if (window.location.host.indexOf('leaddevelop.net') > -1) {
+        let _host = ['192.168', 'file://', 'localhost', '127.0.0.1']
+        if (baseUrl.indexOf('leaddevelop.net') > -1) {
             http.globalData.debug = false;
         } else {
             if (!http.globalData.debug) {
-                http.globalData.debug = true;
+                for (let i = 0; i < _host.length; i++) {
+                    if (baseUrl.indexOf(_host[i]) > -1) {
+                        http.globalData.debug = true;
+                        break;
+                    }
+                }
             }
         }
 
