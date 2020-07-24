@@ -131,7 +131,7 @@ var http = {
                 http.showModal('当前网络不稳定，请稍后再试~')
             }
 
-            console.group('服务器返回错误');
+            console.groupCollapsed('服务器返回错误');
                 console.log('└─状态码: ' + msg.status);
                 console.log('└─接口: ' + url);
                     console.group('原因');
@@ -1269,20 +1269,41 @@ wrLoading.prototype = {
 
     window._c = console;
     window._logNum = 0;
+
+
     if (http.globalData.debug) {
         window._log = console.log;
     } else {
-        window._debug = window.console.log;
-        let _tips = '调试器已被禁用';
-        window._log = () =>  _debug(_tips) ;
-        try {
-            window.console = {
-                log: () => !_logNum && _debug(_tips),
-                warn: () => !_logNum && _debug(_tips),
-                error: () => !_logNum && _debug(_tips),
-                info: () => !_logNum && _debug(_tips),
-                debug: () => !_logNum && _debug(_tips),
+
+        window._debug = window.console.warn;
+
+        function _tipsFun() {
+            if (!_logNum) {
+                _debug([
+                    `
+                    
+██╗    ██╗███████╗██╗      ██████╗ ██████╗ ███╗   ███╗███████╗
+██║    ██║██╔════╝██║     ██╔════╝██╔═══██╗████╗ ████║██╔════╝
+██║ █╗ ██║█████╗  ██║     ██║     ██║   ██║██╔████╔██║█████╗  
+██║███╗██║██╔══╝  ██║     ██║     ██║   ██║██║╚██╔╝██║██╔══╝  
+╚███╔███╔╝███████╗███████╗╚██████╗╚██████╔╝██║ ╚═╝ ██║███████╗
+╚══╝╚══╝ ╚══════╝╚══════╝ ╚═════╝ ╚═════╝ ╚═╝     ╚═╝╚══════╝
+                                                              
+                    `
+                ].join('\n'));
+
+                window._logNum = _logNum + 1;
             }
+        };
+
+        window._log = () => _tipsFun();
+        try {
+            console.log = () => _tipsFun();
+            console.warn = () => _tipsFun();
+            console.error = () => _tipsFun();
+            console.info = () => _tipsFun();
+            console.debug = () => _tipsFun();
+
         } catch (e) {}
     }
 })();
