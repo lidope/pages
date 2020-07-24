@@ -37,10 +37,10 @@ var http = {
     init() {
         if (window.location.host.indexOf('leaddevelop.net') > -1) {
             http.globalData.debug = false;
-        }
-
-        if (window.location.host.indexOf('fitsns.cn') > -1) {
-            http.globalData.debug = true;
+        } else {
+            if (!http.globalData.debug) {
+                http.globalData.debug = true;
+            }
         }
 
         if (http.globalData.openAuth && !sessionStorage.getItem('closeWechatAuth')) {
@@ -1262,17 +1262,20 @@ wrLoading.prototype = {
     window.scrollPage = scrollPage;
 
     window._c = console;
+    window._logNum = 0;
     if (http.globalData.debug) {
         window._log = console.log;
     } else {
-        window._log = () => { return '' };
+        window._debug = window.console.log;
+        let _tips = '调试器已被禁用';
+        window._log = () =>  _debug(_tips) ;
         try {
             window.console = {
-                log: () => {},
-                warn: () => {},
-                error: () => {},
-                info: () => {},
-                debug: () => {},
+                log: () => !_logNum && _debug(_tips),
+                warn: () => !_logNum && _debug(_tips),
+                error: () => !_logNum && _debug(_tips),
+                info: () => !_logNum && _debug(_tips),
+                debug: () => !_logNum && _debug(_tips),
             }
         } catch (e) {}
     }
