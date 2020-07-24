@@ -437,6 +437,7 @@ input,textarea{
     opacity: 0.7;
     filter: alpha(opacity=70);
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
+    -webkit-tap-highlight-color: transparent;
 }
 
 .button-hover50:active, .button-active50:active {
@@ -449,6 +450,7 @@ input,textarea{
     -webkit-border-radius: 50%;
     -moz-border-radius: 50%;
     border-radius: 50%;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .button-scale:active {
@@ -457,6 +459,7 @@ input,textarea{
     -ms-transform: scale(.93);
     -o-transform: scale(.93);
     transform: scale(.93);
+    -webkit-tap-highlight-color: transparent;
 }
 
 mask, div.mask {
