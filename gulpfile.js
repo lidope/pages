@@ -14,13 +14,18 @@
 * */
 const fileName = 'view'; // 要打包的文件夹名称
 const distFileName = 'dist'; // 打包后的文件文件夹名称
-const noPackingName = 'utils'; // 不打包的文件夹名称
+const noPackingName = ['utils', 'audio', 'fonts']; // 不打包的文件夹名称
 
 const cssList = [ fileName + '/css/**/*.css' ]; // css文件打包路径
 const jsList = [ fileName + '/js/**/*.js' ]; // js文件打包路径
 const htmlList = [ distFileName + '/rev/**/*.json', fileName + '/*.html', fileName + '/**/*.html' ]; // html文件打包路径
 const imagesList = [fileName + '/images/**/*']; // img文件打包路径
-const noPackingList = [fileName + '/'+ noPackingName +'/**/*']; // 不打包的目录
+let noPackingList = [];
+
+// 不打包的目录
+for (let i = 0; i < noPackingName.length; i++) {
+    noPackingList.push(fileName + '/'+ noPackingName[i] +'/**/*')
+}
 
 const gulp = require('gulp'),
     babel = require('gulp-babel'),
@@ -113,7 +118,9 @@ gulp.task('images', function() {
 * */
 gulp.task('other', async () => {
     // gulp.src([ fileName + '/utils/**/*' ]).pipe(rev()).pipe(gulp.dest(distFileName + '/utils')).pipe(rev.manifest()).pipe(gulp.dest(distFileName + '/rev/utils'))
-    gulp.src(noPackingList).pipe(gulp.dest(distFileName + '/' + noPackingName))
+    for (let i = 0; i < noPackingName.length; i++) {
+        gulp.src(noPackingList[i]).pipe(gulp.dest(distFileName + '/' + noPackingName[i]))
+    }
 });
 
 gulp.task('watch', async () => {
