@@ -59,9 +59,8 @@ td {
     padding: 0;
     border: 0;
     outline: 0;
-    font-weight: inherit;
-    font-style: inherit;
-    font-family: inherit;
+    font-weight: normal;
+    font-style: normal;
     font-size: .3rem;
     vertical-align: baseline;
 }
@@ -75,6 +74,7 @@ body {
     line-height: 1;
     color: #000;
     background: #fff;
+    font-family: PingFang SC, Microsoft YaHei, Arial, Helvetica, sans-serif;
 }
 ol,
 ul {
@@ -128,7 +128,7 @@ input,textarea{
     -moz-user-select: text;
     -ms-user-select: text;
     user-select:text;
-    font-family: "微软雅黑","黑体";
+    font-family: PingFang SC, Microsoft YaHei, Arial, Helvetica, sans-serif;
     border: none;
     background: none;
     outline: none;

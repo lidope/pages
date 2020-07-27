@@ -59,11 +59,10 @@ td {
     padding: 0;
     border: 0;
     outline: 0;
-    font-weight: inherit;
-    font-style: inherit;
-    font-family: inherit;
+    font-weight: normal;
+    font-style: normal;
     font-size: 30px;
-    vertical-align: baseline;
+    vertical-align: top;
 }
 body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, textarea, p, blockquote, th, td, hr, button, article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
     -webkit-user-select: none;
@@ -75,6 +74,7 @@ body {
     line-height: 1;
     color: #000;
     background: #fff;
+    font-family: PingFang SC, Microsoft YaHei, Arial, Helvetica, sans-serif;
 }
 ol,
 ul {
@@ -128,7 +128,7 @@ input,textarea{
     -moz-user-select: text;
     -ms-user-select: text;
     user-select:text;
-    font-family: "微软雅黑","黑体";
+    font-family: PingFang SC, Microsoft YaHei, Arial, Helvetica, sans-serif;
     border: none;
     background: none;
     outline: none;
