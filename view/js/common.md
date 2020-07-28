@@ -1,5 +1,14 @@
 # common.js
 
+### v1.1.0 更新 - 2020.07.28
+```
+1. 增加获取手机方向方法 getPhoneDirection
+2. 增加获取机型范围方法 getPhoneList 目前已知 
+    [iPhone XR, iPhone XS, iPhone XS Max, iPhone 11]
+    [iPhone X, iPhone 6/7/8 Plus, iPhone 5/6/7/8]
+3. 去除ajaxPost方法url后跟的时间戳
+```
+
 ### v1.0.9 更新 - 2020.07.20
 ```
 1. 增加编辑url即可开启VConsole功能 url后跟 ?dev_mode=debug
@@ -149,4 +158,6 @@
 24. client 获取当前机型或浏览器类型
 25. isIPhoneX 是否是iPhoneX以上机型
 26. onReachBottom 滑动底部事件
+27. getPhoneList 获取机型范围
+28. getPhoneDirection 获取手机方向
 ```

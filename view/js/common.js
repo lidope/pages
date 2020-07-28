@@ -1,5 +1,5 @@
 /*
- * common.js v1.0.9 *
+ * common.js v1.1.0 *
  */
 document.write("<script src='https://wxshare.leaddevelop.net/wxShare.js'></script>");
 
@@ -78,7 +78,7 @@ var http = {
             client: '2',
         };
 
-        var ajaxUrl = baseUrl + url + '?_' + new Date().getTime();
+        var ajaxUrl = baseUrl + url;
 
         var ajaxBeforeSend = function() {
             if (showLoading == 1) {
@@ -759,9 +759,107 @@ var http = {
     // 是否是iPhoneX以上机型
     isIPhoneX() {
         if (typeof window !== 'undefined' && window) {
-            return /iphone/gi.test(window.navigator.userAgent) && window.screen.height >= 812;
+            return /iphone/gi.test(window.navigator.userAgent) && window.screen.height >= 724;
         }
         return false;
+    },
+    /*
+    * 获取机型范围
+    * 已知
+    * iPhone XR/XS Max/11 [414, 808]
+    * iPhone X [375, 724]
+    * iPhone 6/6s/7/8 [375, 603]
+    * iPhone 6/7/8 Plus [414, 672]
+    * iPhone 5 [320, 504]
+    *
+    * */
+    getPhoneList() {
+        if (innerWidth == 414 && innerHeight == 808) {
+            return {
+                scene: ['iPhone XR', 'iPhone XS', 'iPhone XS Max', 'iPhone 11'],
+                width: 414,
+                height: 808
+            }
+        } else if (innerWidth == 375 && innerHeight == 724) {
+            return {
+                scene: ['iPhone X'],
+                width: 414,
+                height: 724
+            }
+        } else if (innerWidth == 375 && innerHeight == 603) {
+            return {
+                scene: ['iPhone 6 Plus', 'iPhone 7 Plus', 'iPhone 8 Plus'],
+                width: 414,
+                height: 672
+            }
+        } else if (innerWidth == 375 && innerHeight == 603) {
+            return {
+                scene: ['iPhone 6', 'iPhone 6s', 'iPhone 7', 'iPhone 8'],
+                width: 414,
+                height: 603
+            }
+        } else if (innerWidth == 375 && innerHeight == 603) {
+            return {
+                scene: ['iPhone 5'],
+                width: 414,
+                height: 504
+            }
+        } else {
+            return {
+                scene: [],
+                width: innerWidth,
+                height: innerHeight
+            }
+        }
+    },
+
+    /*
+    * 获取手机方向
+    * vCallback Function 竖屏 180 || 0
+    * hCallback Function 横屏 90  || -90
+    * errorCallback Function 错误回调
+    * */
+    getPhoneDirection(vCallback, hCallback, errorCallback) {
+        let directionWin = window.orientation;
+
+        // 不是手机或者没有这个属性
+        if (!window.orientation) {
+            errorCallback && errorCallback();
+        }
+
+        // 竖屏
+        if ( directionWin == 180 || directionWin == 0 ) {
+            vCallback && vCallback({
+                name: '竖屏',
+                angle: directionWin
+            })
+        }
+
+        // 横屏
+        if ( directionWin == 90 || directionWin == -90 ) {
+            hCallback && hCallback({
+                name: '横屏',
+                angle: directionWin
+            })
+        }
+
+        window.addEventListener('orientationchange', function(event) {
+            // 竖屏
+            if ( directionWin == 180 || directionWin == 0 ) {
+                vCallback && vCallback({
+                    name: '竖屏',
+                    angle: directionWin
+                })
+            }
+
+            // 横屏
+            if ( directionWin == 90 || directionWin == -90 ) {
+                hCallback && hCallback({
+                    name: '横屏',
+                    angle: directionWin
+                })
+            }
+        });
     },
 
     // 解决ios下页面被第三方输入法顶上去的bug
