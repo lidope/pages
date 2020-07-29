@@ -820,7 +820,7 @@ var http = {
     * errorCallback Function 错误回调
     * */
     getPhoneDirection(vCallback, hCallback, errorCallback) {
-        let directionWin = window.orientation;
+        var directionWin = window.orientation;
 
         // 不是手机或者没有这个属性
         if (!window.orientation) {
@@ -844,6 +844,8 @@ var http = {
         }
 
         window.addEventListener('orientationchange', function(event) {
+            var directionWin = window.orientation;
+
             // 竖屏
             if ( directionWin == 180 || directionWin == 0 ) {
                 vCallback && vCallback({
