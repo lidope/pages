@@ -93,6 +93,8 @@ div,
 i,
 span,
 p,
+b,
+strong,
 h1,
 h2,
 h3,
@@ -101,7 +103,7 @@ h5,
 h6,
 li,
 ol {
-    word-break: break-all;
+    word-break: break-word;
 }
 caption,
 th,
