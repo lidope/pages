@@ -628,12 +628,8 @@ var http = {
         *
         * */
 
-        if (!name) {
-            http.showModal('name值不能为空');
-            return false;
-        } else if (!content) {
-            http.showModal('content不能为空');
-            return false;
+        if (!name || !content) {
+            return '';
         }
 
         var regRuleEmoji = /\uD83C[\uDF00-\uDFFF]|\uD83D[\uDC00-\uDE4F]/g;
