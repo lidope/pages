@@ -654,18 +654,20 @@ var http = {
 
             // 删除空格
             case 'tram':
-                if (otherParams.type == 'left') {
-                    // 删除左边空格
-                    return content.replace(/(^\s*)/g, "");
-                } else if (otherParams.type == 'right') {
-                    // 删除右边空格
-                    return content.replace(/(\s*$)/g, "");
-                } else if (otherParams.type == 'leftRight') {
-                    // 删除两边空格
-                    return content.replace(/(^\s*)|(\s*$)/g, "");
-                } else {
+                if (!otherParams) {
                     // 删除所有空格
                     return content.replace(/\s/g, "");
+                } else {
+                    if (otherParams.type == 'left') {
+                        // 删除左边空格
+                        return content.replace(/(^\s*)/g, "");
+                    } else if (otherParams.type == 'right') {
+                        // 删除右边空格
+                        return content.replace(/(\s*$)/g, "");
+                    } else if (otherParams.type == 'leftRight') {
+                        // 删除两边空格
+                        return content.replace(/(^\s*)|(\s*$)/g, "");
+                    }
                 }
                 break;
 

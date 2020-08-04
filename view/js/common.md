@@ -7,6 +7,7 @@
     [iPhone XR, iPhone XS, iPhone XS Max, iPhone 11]
     [iPhone X, iPhone 6/7/8 Plus, iPhone 5/6/7/8]
 3. 去除ajaxPost方法url后跟的时间戳
+4. 修复validate方法的tram不传otherParmas导致的报错
 ```
 
 ### v1.0.9 更新 - 2020.07.20
