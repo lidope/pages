@@ -110,7 +110,7 @@ gulp.task('images', function() {
     // .pipe(rev())
     .pipe(gulp.dest(distFileName + '/images'))
     // .pipe(rev.manifest())
-    .pipe(gulp.dest(distFileName + '/rev/images'));
+    // .pipe(gulp.dest(distFileName + '/rev/images'));
 });
 
 /*
