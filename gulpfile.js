@@ -247,11 +247,12 @@ gulp.task('pull', async () => {
 * git push
 * */
 gulp.task('push', async () => {
-    exec('git push', async function (err, stdout, stderr) {
-        console.info(stdout);
-        console.info(stderr);
-        if (err) {
-            console.log(`
+    setTimeout(() => {
+        exec('git push', async function (err, stdout, stderr) {
+            console.info(stdout);
+            console.info(stderr);
+            if (err) {
+                console.log(`
             ----------------------------------------------------
             |                                                   
             |      git push遇到错误：      
@@ -259,19 +260,19 @@ gulp.task('push', async () => {
             ----------------------------------------------------
            
             `)
-            console.log(err);
-        }
+                console.log(err);
+            }
 
-        let date = new Date();
+            let date = new Date();
 
-        let dayList = ['日', '一', '二', '三', '四', '五', '六'];
+            let dayList = ['日', '一', '二', '三', '四', '五', '六'];
 
-        let cont = date.toLocaleDateString() + ' ' + date.toLocaleTimeString() + ' ( 星期' + dayList[date.getDay()] + ' )';
+            let cont = date.toLocaleDateString() + ' ' + date.toLocaleTimeString() + ' ( 星期' + dayList[date.getDay()] + ' )';
 
 
-        if (stderr.indexOf('Everything') > -1) {
-            if (!err) {
-                console.log(`
+            if (stderr.indexOf('Everything') > -1) {
+                if (!err) {
+                    console.log(`
                 ----------------------------------------------------
                 |                                                   |
                 |      未提交任何内容到git                             |                
@@ -280,10 +281,10 @@ gulp.task('push', async () => {
                 ----------------------------------------------------
                
                 `)
-            }
-        } else {
-            if (!err) {
-                console.log(`
+                }
+            } else {
+                if (!err) {
+                    console.log(`
                 ----------------------------------------------------
                 |                                                   |
                 |      提交时间：${ cont }      |
@@ -291,9 +292,10 @@ gulp.task('push', async () => {
                 ----------------------------------------------------
                
                 `)
+                }
             }
-        }
-    });
+        });
+    }, 1000)
 });
 
 /*
@@ -316,6 +318,6 @@ gulp.task('default', gulp.series('init'));
 
 gulp.task('dev', gulp.series('init', gulp.parallel('server', 'watch')));
 
-gulp.task('push', gulp.series('init', 'status', 'add', gulp.parallel('commit'), gulp.parallel('pull'), gulp.parallel('push')));
+gulp.task('push', gulp.series('init', gulp.parallel('status', 'add'), 'commit', 'pull', 'push'));
 
-gulp.task('push prod', gulp.series('init', 'status', 'add', gulp.parallel('commit'), gulp.parallel('pull'), gulp.parallel('prod')));
+gulp.task('push prod', gulp.series('init', gulp.parallel('status', 'add'), 'commit', 'pull', 'prod'));
