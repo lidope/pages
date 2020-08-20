@@ -1,5 +1,10 @@
 # common.js
 
+### v1.1.1 更新 - 2020.08.20
+```
+1. 增加 $h 方法 去除小数运算浮点问题
+```
+
 ### v1.1.0 更新 - 2020.07.28
 ```
 1. 增加获取手机方向方法 getPhoneDirection
@@ -163,4 +168,5 @@
 26. onReachBottom 滑动底部事件
 27. getPhoneList 获取机型范围
 28. getPhoneDirection 获取手机方向
+29. $h 去除小数运算浮点问题
 ```
