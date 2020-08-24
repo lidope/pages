@@ -198,7 +198,7 @@ gulp.task('status', async function () {
 * git add --all
 * */
 gulp.task('add', async function (cb) {
-    exec('git add -A', function (err, stdout, stderr) {
+    exec('git add --all', function (err, stdout, stderr) {
         console.info(stdout);
         console.info(stderr);
     });
@@ -214,10 +214,11 @@ gulp.task('commit', async () => {
 
     let cont = date.toLocaleDateString() + ' ' + date.toLocaleTimeString() + ' 星期' + dayList[date.getDay()];
 
-    exec('git commit -m "' + cont + '"', async function (err, stdout, stderr) {
-        if (err) {
-            if (stdout.indexOf('nothing to commit') == -1) {
-                console.log(`
+    setTimeout(() => {
+        exec('git commit -m "' + cont + '"', async function (err, stdout, stderr) {
+            if (err) {
+                if (stdout.indexOf('nothing to commit') == -1) {
+                    console.log(`
                 ----------------------------------------------------
                ｜                                                  ｜
                ｜    "git commit" 遇到错误 错误原因  ⬇️  ⬇️  ⬇️       ｜
@@ -225,12 +226,13 @@ gulp.task('commit', async () => {
                 ----------------------------------------------------
                
                 `)
-                console.log(err);
+                    console.log(err);
+                }
+            } else {
+                console.info(stdout);
             }
-        } else {
-            console.info(stdout);
-        }
-    });
+        });
+    }, 500)
 });
 
 /*
@@ -287,7 +289,7 @@ gulp.task('push', async () => {
                     console.log(`
                 ----------------------------------------------------
                 |                                                   |
-                |      提交时间：${ cont }      |
+                |      提交时间：${ cont }    |
                 |                                                   |
                 ----------------------------------------------------
                
@@ -295,7 +297,7 @@ gulp.task('push', async () => {
                 }
             }
         });
-    }, 1000)
+    }, 500)
 });
 
 /*
