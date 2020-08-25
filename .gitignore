@@ -1,3 +1,9 @@
+.htaccess
+admin/
+index.php
+robots.txt
+router.php
+
 # Windows
 [Dd]esktop.ini
 Thumbs.db
@@ -12,6 +18,7 @@ $RECYCLE.BIN/
 
 # Node.js
 node_modules/
+view/node_modules/
 
 # webstorm phpstorm
 .project
