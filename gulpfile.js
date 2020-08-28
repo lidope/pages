@@ -21,7 +21,7 @@
 * 打包配置
 * */
 const fileName = 'view'; // 要打包的文件夹名称
-const distFileName = 'dist'; // 打包后的文件文件夹名称
+const distFileName = 'dist'; // 打包后的文件文件夹名称 如果是 "." 则打包到当前根目录
 const noPackingName = ['utils', 'audio', 'fonts', 'video']; // 不打包的文件夹名称
 
 const cssList = [ fileName + '/css/**/*.css' ]; // css文件打包路径
@@ -50,9 +50,21 @@ const gulp = require('gulp'),
 
 /*
 * 清空文件夹
+*  如果distFileName值 为 "." 的话，则删除到当前gulp根目录的文件夹
 * */
-gulp.task('clear', () => {
-    return del([ distFileName ]);
+gulp.task('clear', async () => {
+    let delList = [];
+
+    if (distFileName === '.') {
+        delList = ['css/', 'js/', 'images/', 'rev/', '*.html'];
+        noPackingName.forEach(ele => {
+            delList.push(ele)
+        })
+    } else {
+        delList = [ distFileName ];
+    }
+
+    return del(delList);
 });
 
 /*
