@@ -251,7 +251,7 @@ gulp.task('commit', async () => {
 * git pull
 * */
 gulp.task('pull', async () => {
-    exec('git pull', async function (err, stdout, stderr) {
+    exec('git pull --rebase', async function (err, stdout, stderr) {
         console.info(stdout);
         console.info(stderr);
     });
