@@ -48,6 +48,28 @@ const gulp = require('gulp'),
     del = require('del'),
     exec = require('child_process').exec;
 
+
+/*
+* 时间
+* */
+const date = new Date();
+
+const dayList = ['日', '一', '二', '三', '四', '五', '六'];
+let Year = date.getFullYear(),  // 获取完整的年份(4位, 1970-????)
+    Month = date.getMonth() + 1,  // 获取当前月份(0-11, 0代表1月)
+    D = date.getDate(),        // 获取当前日(1-31)
+    Hours = date.getHours(),      // 获取当前小时数(0-23)
+    Min = date.getMinutes(),      // 获取当前分钟数(0-59)
+    Sec = date.getSeconds(),      // 获取当前秒数(0-59)
+    Day = date.getDay();          // 获取当前星期X(0-6, 0代表星期天)
+
+let Format = n => n < 10? '0' + n: n;
+
+let time = Year + '.' + Format(Month) + '.' + Format(D) + ' '  // 年月日
+    + Format(Hours) + ':' + Format(Min) + ':' + Format(Sec)    // 时分秒
+    + ' ' + '( 星期' + dayList[Day] + ' )';                     // 星期
+
+
 /*
 * 清空文件夹
 *  如果distFileName值 为 "." 的话，则删除到当前gulp根目录的文件夹
@@ -220,14 +242,8 @@ gulp.task('add', async function (cb) {
 * git commit -m
 * */
 gulp.task('commit', async () => {
-    let date = new Date();
-
-    let dayList = ['日', '一', '二', '三', '四', '五', '六'];
-
-    let cont = date.toLocaleDateString() + ' ' + date.toLocaleTimeString() + ' 星期' + dayList[date.getDay()];
-
     setTimeout(() => {
-        exec('git commit -m "' + cont + '"', async function (err, stdout, stderr) {
+        exec('git commit -m "' + time + '"', async function (err, stdout, stderr) {
             if (err) {
                 if (stdout.indexOf('nothing to commit') == -1) {
                     console.log(`
@@ -277,20 +293,13 @@ gulp.task('push', async () => {
                 console.log(err);
             }
 
-            let date = new Date();
-
-            let dayList = ['日', '一', '二', '三', '四', '五', '六'];
-
-            let cont = date.toLocaleDateString() + ' ' + date.toLocaleTimeString() + ' ( 星期' + dayList[date.getDay()] + ' )';
-
-
             if (stderr.indexOf('Everything') > -1) {
                 if (!err) {
                     console.log(`
                 ----------------------------------------------------
                 |                                                   |
                 |      未提交任何内容到git                             |                
-                |      提交时间：${ cont }        |
+                |      提交时间：${ time }        |
                 |                                                   |                    
                 ----------------------------------------------------
                
@@ -301,7 +310,7 @@ gulp.task('push', async () => {
                     console.log(`
                 ----------------------------------------------------
                 |                                                   |
-                |      提交时间：${ cont }      |
+                |      提交时间：${ time }      |
                 |                                                   |
                 ----------------------------------------------------
                
