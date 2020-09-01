@@ -67,7 +67,66 @@ var http = {
         showLoading = showLoading == 0 ? 0 : 1;
         params.v = new Date().getTime();
 
-        if (baseUrl.indexOf('file://') > -1) {
+        let showPrompt = (value) => {
+            let promptValue = prompt('请输入baseUrl，直到页面关闭前生效\n注意: baseUrl要以 "/" 结尾', value || '');
+            if (promptValue == null) {
+                http.showToast('手动取消baseUrl设置')
+            } else if (promptValue == '') {
+                http.showModal('内容不能为空', () => {
+                    showPrompt();
+                });
+            } else {
+                if (promptValue.indexOf('https') > -1) {
+                    if (promptValue.substring(promptValue.length - 1) === '/') {
+                        sessionStorage.setItem('___baseUrl', promptValue);
+                        http.showModal('生效时间: 直到页面关闭前生效\nTips: 请重新调取接口', () => {}, {
+                            title: '设置成功'
+                        })
+                    } else {
+                        http.showMessage(`baseUrl要以 "<b>/</b>" 结尾`, () => {
+                            showPrompt(promptValue);
+                        }, () => {
+
+                        }, {
+                            title: '设置失败',
+                            confirmText: '重新设置',
+                            cancelText: '取消设置'
+                        })
+                    }
+                } else {
+                    http.showMessage(`baseUrl请以 "<b>https</b> 或 <b>http</b>" 开头`, () => {
+                        showPrompt(promptValue)
+                    }, () => {
+
+                    }, {
+                        title: '设置失败',
+                        confirmText: '重新设置',
+                        cancelText: '取消设置'
+                    })
+                }
+            }
+        }
+
+        let ___baseUrl = sessionStorage.getItem('___baseUrl');
+        if (___baseUrl) baseUrl = ___baseUrl;
+
+        if (baseUrl.indexOf('http') == -1) {
+            http.showMessage(`<b style="color: firebrick;">失败原因:\nbaseUrl不能是本地路径</b>\n<i style="font-size: 20px; letter-spacing: 1.5px; ">Tips: 点击设置baseUrl直到页面关闭前生效</i>`, () => {
+                showPrompt();
+            }, () => {
+
+            }, {
+                title: 'ajaxPost调取失败',
+                confirmColor: 'red',
+                confirmText: '设置baseUrl'
+            })
+            /*
+            *   title: 标题 默认为提示
+            *   confirmColor: 确认颜色 默认为 #5f646e
+            *   cancelColor: 取消颜色 默认为 #999
+            *   confirmText: 确认文字
+            *   cancelText: 取消文字
+            * */
             throw '致命错误: baseUrl不能是本地路径'
             return false;
         }
