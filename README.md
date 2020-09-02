@@ -1,3 +1,33 @@
+
+<br/>
+<hr>
+<hr>
+
+## gulp打包
+```
+
+使用方法
+
+> 安装依赖
+    cnpm i 
+        注意： 如果没有cnpm请先安装淘宝镜像 npm install -g cnpm --registry=https://registry.npm.taobao.org
+
+> 开启本地运行环境
+    gulp dev
+
+    本地运行环境地址 
+        localhost:3008    
+
+    注意：开启后手机上也可以同步查看，查看方法 电脑和手机连同一个局域网
+         输入电脑本机ip 192.168.xxx.xxx:3008 则可访问
+         查看电脑主机ip方法⬇
+            Windows 打开cmd 输入ipconfig
+            Mac 打开终端 输入ifconfig
+
+```
+
+<br>
+
 ## 目录结构
 ~~~
 └─pages h5存放根目录
