@@ -21,7 +21,7 @@
 * 打包配置
 * */
 const fileName = 'view'; // 要打包的文件夹名称
-const distFileName = 'dist'; // 打包后的文件文件夹名称 如果是 "." 则打包到当前根目录
+const distFileName = ''; // 打包后的文件文件夹名称 如果是 "." 则打包到当前根目录
 const noPackingName = ['utils', 'audio', 'fonts', 'video']; // 不打包的文件夹名称
 
 const cssList = [ fileName + '/css/**/*.css' ]; // css文件打包路径
