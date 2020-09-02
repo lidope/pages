@@ -202,7 +202,7 @@ var http = {
 
         var ajaxSetting = {
             url : ajaxUrl,
-            type : "post",
+            type : params.ajaxPostType || 'post',
             headers: header,
             data : params,
             dataType : "json",
@@ -247,13 +247,13 @@ var http = {
     getFunDetail() {
         setTimeout(() => {
             try {
-                if (main) {
+                Vue.nextTick(() => {
                     if (main.getDetail) {
                         Vue.nextTick(() => {
                             main.getDetail();
                         })
                     }
-                }
+                })
             } catch (e) {
                 http.getFunDetail();
             }
@@ -1516,6 +1516,19 @@ wrLoading.prototype = {
     window._c = console;
     window._logNum = 0;
 
+    window.onload = function () {
+        var loadTime = window.performance.timing.domContentLoadedEventEnd-window.performance.timing.navigationStart;
+        console.log(
+            '%c load... '+ loadTime / 100 +'s',
+            `color: white; 
+             letter-spacing: 4px; 
+             margin: 5px; 
+             background: black; 
+             padding: 5px 10px; 
+             border-radius: 20px;
+            `
+        );
+    }
 
     if (http.globalData.debug) {
         window._log = console.log;
@@ -1525,19 +1538,6 @@ wrLoading.prototype = {
 
         function _tipsFun() {
             if (!_logNum) {
-                _debug([
-                    `
-                    
-██╗    ██╗███████╗██╗      ██████╗ ██████╗ ███╗   ███╗███████╗
-██║    ██║██╔════╝██║     ██╔════╝██╔═══██╗████╗ ████║██╔════╝
-██║ █╗ ██║█████╗  ██║     ██║     ██║   ██║██╔████╔██║█████╗  
-██║███╗██║██╔══╝  ██║     ██║     ██║   ██║██║╚██╔╝██║██╔══╝  
-╚███╔███╔╝███████╗███████╗╚██████╗╚██████╔╝██║ ╚═╝ ██║███████╗
-╚══╝╚══╝ ╚══════╝╚══════╝ ╚═════╝ ╚═════╝ ╚═╝     ╚═╝╚══════╝
-                                                              
-                    `
-                ].join('\n'));
-
                 window._logNum = _logNum + 1;
             }
         };
@@ -1549,7 +1549,6 @@ wrLoading.prototype = {
             console.error = () => _tipsFun();
             console.info = () => _tipsFun();
             console.debug = () => _tipsFun();
-
         } catch (e) {}
     }
 })();

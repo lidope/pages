@@ -4,6 +4,11 @@
 ```
 1. 增加 $h 方法 去除小数运算浮点问题
 2. 新增ajaxPost为本地路径时的设置，使本地开放更方便
+3. 新增gulp push打包命令，打包成功后自动上传至git
+4. http.globalData.debug修改默认值为false (以前是true)，本地开发的话 会自动为true
+5. ajaxPost方法 在debug为true时会显示报错的接口路径，为false则不显示
+6. ajaxPost方法params参数新增ajaxPostType字段(ajax的请求方式)，如果有该字段，则ajax的请求方式会用该字段值，默认是post
+7. 控制台增加页面相应时间，去掉无用信息
 ```
 
 ### v1.1.0 更新 - 2020.07.28
