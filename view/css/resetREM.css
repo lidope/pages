@@ -79,6 +79,8 @@ body {
     color: #000;
     background: #fff;
     font-family: PingFang SC, Microsoft YaHei, Arial, Helvetica, sans-serif;
+    max-width: 7.5rem;
+    margin: 0 auto;
 }
 ol,
 ul {
