@@ -1532,7 +1532,7 @@ wrLoading.prototype = {
         console.log(
             '%c PageLoadTime_' + loadTime / 100 + 's',
             `color: white; 
-             letter-spacing: 4px; 
+             letter-spacing: -1px; 
              margin: 5px; 
              background: black; 
              padding: 5px 10px; 
