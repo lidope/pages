@@ -1526,9 +1526,11 @@ wrLoading.prototype = {
     window._logNum = 0;
 
     window.onload = function () {
-        var loadTime = window.performance.timing.domContentLoadedEventEnd-window.performance.timing.navigationStart;
+        const { domContentLoadedEventEnd, navigationStart } = window.performance.timing || {};
+        const loadTime = domContentLoadedEventEnd - navigationStart;
+
         console.log(
-            '%c load... '+ loadTime / 100 +'s',
+            '%c PageLoadTime_' + loadTime / 100 + 's',
             `color: white; 
              letter-spacing: 4px; 
              margin: 5px; 
