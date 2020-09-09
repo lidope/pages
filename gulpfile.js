@@ -117,7 +117,9 @@ gulp.task('js', () => {
     return gulp.src(jsList)
     .pipe(babel())
     .pipe(uglify({
-        mangle: true // 是否混淆变量
+        mangle: true, // 是否混淆变量
+        compress: true,
+        toplevel: true,
     }))
     .pipe(rev())
     .pipe(gulp.dest(distFileName + '/js'))
@@ -214,126 +216,92 @@ gulp.task('server', async () => {
 });
 
 /*
-* git status
-* */
-gulp.task('status', async function () {
-    exec('git status', function (err, stdout, stderr) {
-        if (err) {
-            console.log('遇到错误');
-            console.log(err);
-        } else {
-            console.info(stdout);
-            console.info(stderr);
-        }
-    });
-});
-
-/*
-* git add --all
-* */
-gulp.task('add', async function (cb) {
-    exec('git add --all', function (err, stdout, stderr) {
-        console.info(stdout);
-        console.info(stderr);
-    });
-})
-
-/*
 * git commit -m
 * */
 gulp.task('commit', async () => {
-    setTimeout(() => {
-        exec('git commit -m "' + time + '"', async function (err, stdout, stderr) {
-            if (err) {
-                if (stdout.indexOf('nothing to commit') == -1) {
-                    console.log(`
+    exec('git commit -m "' + time + '"', async function (err, stdout, stderr) {
+        if (err) {
+            if (stdout.indexOf('nothing to commit') == -1) {
+                console.log(`
                 ----------------------------------------------------
                ｜                                                  ｜
                ｜    "git commit" 遇到错误 错误原因  ⬇️  ⬇️  ⬇️       ｜
                ｜                                                  ｜
                 ----------------------------------------------------
-               
-                `)
-                    console.log(err);
-                }
-            } else {
-                console.info(stdout);
-            }
-        });
-    }, 500)
-});
-
-/*
-* git pull
-* */
-gulp.task('pull', async () => {
-    exec('git pull --rebase', async function (err, stdout, stderr) {
-        console.info(stdout);
-        console.info(stderr);
-    });
-});
-
-/*
-* git push
-* */
-gulp.task('push', async () => {
-    setTimeout(() => {
-        exec('git push', async function (err, stdout, stderr) {
-            console.info(stdout);
-            console.info(stderr);
-            if (err) {
-                console.log(`
-            ----------------------------------------------------
-            |                                                   
-            |      git push遇到错误：      
-            |                                                   
-            ----------------------------------------------------
            
             `)
                 console.log(err);
             }
-
-            if (stderr.indexOf('Everything') > -1) {
-                if (!err) {
-                    console.log(`
-                ----------------------------------------------------
-                |                                                   |
-                |      未提交任何内容到git                             |                
-                |      提交时间：${ time }        |
-                |                                                   |                    
-                ----------------------------------------------------
-               
-                `)
-                }
-            } else {
-                if (!err) {
-                    console.log(`
-                ----------------------------------------------------
-                |                                                   |
-                |      提交时间：${ time }      |
-                |                                                   |
-                ----------------------------------------------------
-               
-                `)
-                }
-            }
-        });
-    }, 500)
-});
-
-/*
-* git push origin prod
-* */
-gulp.task('prod', async () => {
-    exec('git push origin prod', async function (err, stdout, stderr) {
-        console.info(stdout);
-        console.info(stderr);
-        if (err) {
-            console.log('遇到错误');
-            console.log(err);
+        } else {
+            console.info(stdout);
         }
     });
 });
+
+gulp.task('gitPush', async function (cb) {
+    exec('git add --all', function (err, stdout, stderr) {
+        exec('git commit -m "' + time + '"', async function (err, stdout, stderr) {
+            if (err) {
+                if (stdout.indexOf('nothing to commit') == -1) {
+                    console.log(`
+                    ----------------------------------------------------
+                   ｜                                                  ｜
+                   ｜    "git commit" 遇到错误 错误原因  ⬇️  ⬇️  ⬇️       ｜
+                   ｜                                                  ｜
+                    ----------------------------------------------------
+                    `)
+                        console.log(err);
+                    }
+            } else {
+                console.info(stdout);
+            }
+
+            exec('git pull --rebase', async function (err, stdout, stderr) {
+                exec('git push', async function (err, stdout, stderr) {
+                    console.info(stdout);
+                    console.info(stderr);
+                    if (err) {
+                        console.log(`
+                        ----------------------------------------------------
+                        |                                                   
+                        |      git push遇到错误：      
+                        |                                                   
+                        ----------------------------------------------------
+                       
+                        `)
+                        console.log(err);
+                    }
+
+                    if (stderr.indexOf('Everything') > -1) {
+                        if (!err) {
+                            console.log(`
+                            ----------------------------------------------------
+                            |                                                   |
+                            |      未提交任何内容到git                             |                
+                            |      提交时间：${ time }        |
+                            |                                                   |                    
+                            ----------------------------------------------------
+                           
+                            `)
+                        }
+                    } else {
+                        if (!err) {
+                            console.log(`
+                            ----------------------------------------------------
+                            |                                                   |
+                            |      提交时间：${ time }      |
+                            |                                                   |
+                            ----------------------------------------------------
+                           
+                            `)
+                        }
+                    }
+                });
+            });
+        });
+    });
+})
+
 
 gulp.task('init', gulp.series('clear', gulp.parallel('css', 'js', 'other', 'images'), 'html'));
 
@@ -341,6 +309,4 @@ gulp.task('default', gulp.series('init'));
 
 gulp.task('dev', gulp.series('init', gulp.parallel('server', 'watch')));
 
-gulp.task('push', gulp.series('init', gulp.parallel('status', 'add'), 'commit', 'pull', 'push'));
-
-gulp.task('push prod', gulp.series('init', gulp.parallel('status', 'add'), 'commit', 'pull', 'prod'));
+gulp.task('push', gulp.series('init', 'gitPush');
