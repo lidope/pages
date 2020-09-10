@@ -1,1 +1,0 @@
-new Vue({el:"#main",data:{},mounted:function(){var e=this;wxAuth.addEventListener("auth",function(t){_log(t),e.getDetail()})},methods:{getDetail:function(){}}});

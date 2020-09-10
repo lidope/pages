@@ -1,1 +1,0 @@
-document.write("<script src='//res.wx.qq.com/open/js/jweixin-1.4.0.js'><\/script>");baseUrl;

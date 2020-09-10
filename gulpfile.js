@@ -319,6 +319,35 @@ gulp.task('gitPush', async function (cb) {
     });
 })
 
+/*
+* 颜色测试 colors
+* */
+gulp.task('colors', async () => {
+    const colorList = [ 'black', 'magenta', 'white', 'grey', 'gray', 'rainbow', 'green', 'cyan', 'yellow', 'blue' ];
+    const stylesList = [
+        'underline', 'inverse', 'rainbow', 'zebra', 'america', 'random',
+
+        'brightRed', 'brightGreen', 'brightYellow', 'brightMagenta', 'brightBlue',
+        'brightCyan', 'brightWhite',
+    ];
+    const bgColorList = [
+        'bgBrightRed', 'bgBrightGreen', 'bgBrightYellow', 'bgBrightBlue',
+        'bgBrightMagenta', 'bgBrightCyan', 'bgBrightWhite',
+
+        'bgBlack', 'bgRed', 'bgGreen', 'bgYellow', 'bgBlue', 'bgMagenta',
+        'bgCyan', 'bgWhite', 'bgGray', 'bgGrey',
+    ];
+
+    let l = console.log;
+
+    l('')
+
+    bgColorList.forEach(ele => l(ele + ': ' + colors[ele]('颜色测试'))); l('');
+
+    colorList.forEach(ele => l(ele + ': ' + colors[ele]('颜色测试'))); l('');
+
+    stylesList.forEach(ele => l(ele + ': ' + colors[ele]('颜色测试'))); l('')
+})
 
 gulp.task('init', gulp.series('clear', gulp.parallel('css', 'js', 'other', 'images'), 'html'));
 
