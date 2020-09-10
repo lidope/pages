@@ -224,7 +224,7 @@ gulp.task('server', async () => {
                        手  机: ${ colors.underline.bold.green('http://自己本地的ip:' + hostNumber) }️   
                 |                                                 |
                 ---------------------------------------------------
-    `.bold, ), 200)
+    `, ), 200)
 
 });
 
@@ -243,10 +243,10 @@ gulp.task('commit', async () => {
                         ----------------------------------------------------
            
             `)
-                console.log(err.red);
+                console.log(err);
             }
         } else {
-            console.log(stdout.green);
+            console.log(stdout);
         }
     });
 });
@@ -264,15 +264,15 @@ gulp.task('gitPush', async function (cb) {
                            ｜                                                  ｜
                             ----------------------------------------------------
                     `)
-                        console.log(err.red);
+                        console.log(err);
                     }
                 } else {
-                    console.log(stdout.green);
+                    console.log(stdout);
 
                     exec('git pull --rebase', async function (err, stdout, stderr) {
                         exec('git push', async function (err, stdout, stderr) {
-                            console.info(stdout.green);
-                            console.info(stderr.green);
+                            console.info(stdout);
+                            console.info(stderr);
                             if (err) {
                                 console.log(`
                                 ----------------------------------------------------
@@ -282,7 +282,7 @@ gulp.task('gitPush', async function (cb) {
                                 ----------------------------------------------------
                        
                         `)
-                                console.log(err.err);
+                                console.log(err);
                             }
 
                             if (stderr.indexOf('Everything') > -1) {
@@ -300,13 +300,13 @@ gulp.task('gitPush', async function (cb) {
                             } else {
                                 if (!err) {
                                     console.log(`
-                                    ----------------------------------------------------
-                                    |                                                   |
-                                    |      提交时间：${ time }      |
-                                    |                                                   |
-                                    ----------------------------------------------------
+                                        ----------------------------------------------------
+                                        |                                                   |
+                                        |      ${ colors.cyan('提交时间: ' + time) }      |
+                                        |                                                   |
+                                        ----------------------------------------------------
                            
-                            `)
+                                    `)
                                 }
                             }
                         });
