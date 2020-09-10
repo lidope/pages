@@ -269,7 +269,7 @@ gulp.task('gitPush', async function (cb) {
                 } else {
                     console.log(stdout);
 
-                    exec('git pull --rebase', async function (err, stdout, stderr) {
+                    // exec('git pull --rebase', async function (err, stdout, stderr) {
                         exec('git push', async function (err, stdout, stderr) {
                             console.info(stdout);
                             console.info(stderr);
@@ -310,7 +310,7 @@ gulp.task('gitPush', async function (cb) {
                                 }
                             }
                         });
-                    });
+                    // });
                 }
             });
         } else {
