@@ -3,10 +3,10 @@
  */
 document.write("<script src='https://wxshare.leaddevelop.net/wxShare.js'></script>");
 
-var baseUrl = window.location.protocol + "//" + window.location.host + "/";
-var authUrl = baseUrl + "work/WechatApi/getAuthUser";
-var errorUrl = baseUrl;
+var baseUrl = window.location.protocol + "//" + window.location.host + "/"; // 域名
+var authUrl = baseUrl + "work/WechatApi/getAuthUser"; // 授权地址
 var authLocationPath = authUrl + "?redirect_url=" + encodeURIComponent(window.location.href);
+var wxAuth; // 监听微信授权
 
 // 解决ios下伪类不起作用的bug
 document.body.addEventListener('touchstart', function () {});
@@ -49,18 +49,42 @@ var http = {
             }
         }
 
+        // 开启授权
         if (http.globalData.openAuth && !sessionStorage.getItem('closeWechatAuth')) {
             http.getUserAuth();
         }
 
+        // 开启分享
         if (http.globalData.openShare && !sessionStorage.getItem('closeWechatShare')) {
             http.getWechatShare();
         }
 
+        // 开启调试
         if (getQueryString('dev_mode') === 'debug') {
             new VConsole();
             http.globalData.debug = true;
         }
+
+        // 创建微信授权监听对象
+        function EventDispatcherWechatAuth() {
+            this.events = {};
+        }
+
+        // 添加微信授权监听函数至原型
+        EventDispatcherWechatAuth.prototype.addEventListener = function(type, handler) {
+            if (typeof handler != 'function') return;
+            this.events[type] = handler;
+        };
+
+        // 设置微信授权监听触发器
+        EventDispatcherWechatAuth.prototype.dispatchEvent = function(type, body) {
+            var e = {};
+            e = body;
+            this.events[type](e);
+        };
+
+        // 创建微信授权监听对象
+        wxAuth = new EventDispatcherWechatAuth();
     },
 
     ajaxPost:function(url, params, callback, error, showLoading) {
@@ -140,7 +164,7 @@ var http = {
             return false;
         }
 
-        var token = sessionStorage.getItem('token') || '';
+        var token = http.getSessionStorageToken();
         var header = {
             token: token,
             client: '2',
@@ -170,7 +194,7 @@ var http = {
                     }, { title: '操作失败' })
                 } else if (data.c == 400) {
                     // 页面不存在
-                    window.location.href = errorUrl;
+                    window.location.href = baseUrl;
                 } else if (data.c == 10000) {
                     // 登录超时，请重新登录
                     http.showModal(data.m, function () {
@@ -225,10 +249,11 @@ var http = {
 
     // 用户授权
     getUserAuth() {
-        let token = sessionStorage.getItem('token');
+
+        let token = http.getSessionStorageToken();
         if (!token) {
             if (getQueryString('token')) {
-                sessionStorage.setItem('token', getQueryString('token'));
+                http.setSessionStorageToken(getQueryString('token'))
                 http.getFunDetail()
             } else {
                 sessionStorage.clear();
@@ -254,19 +279,25 @@ var http = {
     },
 
     getFunDetail() {
-        setTimeout(() => {
-            try {
-                Vue.nextTick(() => {
-                    if (main.getDetail) {
-                        Vue.nextTick(() => {
-                            main.getDetail();
-                        })
-                    }
-                })
-            } catch (e) {
-                http.getFunDetail();
-            }
-        }, 200);
+        try {
+            window.onload = () => wxAuth.dispatchEvent('auth', {
+                status: 1,
+                msg: 'success',
+                data: {
+                    token: http.getSessionStorageToken()
+                }
+            });
+        } catch (e) {}
+    },
+
+    // 设置token
+    setSessionStorageToken(token) {
+        token && sessionStorage.setItem('token', token || '');
+    },
+
+    // 获取token
+    getSessionStorageToken() {
+        return sessionStorage.getItem('token') || '';
     },
 
     // 关闭当前页面，返回上一页面或多个页面

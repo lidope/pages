@@ -9,6 +9,7 @@
 5. ajaxPost方法 在debug为true时会显示报错的接口路径，为false则不显示
 6. ajaxPost方法params参数新增ajaxPostType字段(ajax的请求方式)，如果有该字段，则ajax的请求方式会用该字段值，默认是post
 7. 控制台增加页面响应时间(PageLoadTIme)，去掉无用信息
+8. 修复gulp push 打包后上传至git有时失效问题
 ```
 
 ### v1.1.0 更新 - 2020.07.28

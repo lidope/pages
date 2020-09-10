@@ -5,7 +5,11 @@ var main = new Vue({
     },
 
     mounted() {
-
+        // 监听微信授权成功
+        wxAuth.addEventListener('auth', e => {
+            _log(e)
+            this.getDetail();
+        })
     },
 
     methods: {
