@@ -267,12 +267,11 @@ gulp.task('gitPush', async function (cb) {
                         console.log(err);
                     }
                 } else {
-                    console.log(stdout);
-
+                    console.info(colors.green(JSON.stringify(stdout)));
                     exec('git pull --rebase', async function (err, stdout, stderr) {
                         exec('git push', async function (err, stdout, stderr) {
-                            console.info(colors.green(JSON.stringify(stdout)));
-                            console.info(colors.green(JSON.stringify(stderr)));
+                            console.info(stdout);
+                            console.info(stderr);
                             if (err) {
                                 console.log(`
                                 ----------------------------------------------------
