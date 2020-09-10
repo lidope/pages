@@ -10,6 +10,8 @@
 6. ajaxPost方法params参数新增ajaxPostType字段(ajax的请求方式)，如果有该字段，则ajax的请求方式会用该字段值，默认是post
 7. 控制台增加页面响应时间(PageLoadTIme)，去掉无用信息
 8. 修复gulp push 打包后上传至git有时失效问题
+9. 微信授权更新，之前是开启授权后自动触发事件，现在是手动监听授权状态，如下
+    wxAuth.addEventListener('auth', e => {})
 ```
 
 ### v1.1.0 更新 - 2020.07.28
