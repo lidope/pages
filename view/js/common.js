@@ -165,7 +165,8 @@ var http = {
             client: '2',
         };
 
-        var ajaxUrl = baseUrl + url;
+        var ajaxPostUrl = params.ajaxUrl || (baseUrl + url);
+        var ajaxPostType = params.ajaxPostType || 'POST';
 
         var ajaxBeforeSend = function() {
             if (showLoading == 1) {
@@ -185,11 +186,11 @@ var http = {
                     // token失效
                     http.showModal('您尚未授权登录登录，请先授权登录!', function() {
                         sessionStorage.clear();
-                        window.location.href = authLocationPath;
+                        location.replace(authLocationPath);
                     }, { title: '操作失败' })
                 } else if (data.c == 400) {
                     // 页面不存在
-                    window.location.href = baseUrl;
+                    location.replace(baseUrl);
                 } else if (data.c == 10000) {
                     // 登录超时，请重新登录
                     http.showModal(data.m, function () {
@@ -229,8 +230,8 @@ var http = {
         };
 
         var ajaxSetting = {
-            url : ajaxUrl,
-            type : params.ajaxPostType || 'post',
+            url : ajaxPostUrl,
+            type : ajaxPostType,
             headers: header,
             data : params,
             dataType : "json",
