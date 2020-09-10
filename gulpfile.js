@@ -277,7 +277,7 @@ gulp.task('gitPush', async function (cb) {
                                 console.log(`
                                 ----------------------------------------------------
                                 |                                                   
-                                |      ${ colors.red('git push遇到错误：') }      
+                                      ${ colors.red('git push遇到错误：') }      
                                 |                                                   
                                 ----------------------------------------------------
                        
@@ -290,8 +290,8 @@ gulp.task('gitPush', async function (cb) {
                                     console.log(`
                                     ----------------------------------------------------
                                     |                                                   |
-                                    |      ${ colors.red('未提交任何内容到git') }                             |                
-                                    |      提交时间：${ colors.red(time) }        |
+                                          ${ colors.red('未提交任何内容到git') }                             |               
+                                          提交时间：${ colors.red(time) }        
                                     |                                                   |                    
                                     ----------------------------------------------------
                            
@@ -302,7 +302,7 @@ gulp.task('gitPush', async function (cb) {
                                     console.log(`
                                         ----------------------------------------------------
                                         |                                                   |
-                                        |      ${ colors.cyan('提交时间: ' + time) }      |
+                                              ${ colors.underline.bold.yellow('提交时间: ' + time) }      
                                         |                                                   |
                                         ----------------------------------------------------
                            
