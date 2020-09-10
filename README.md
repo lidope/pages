@@ -28,6 +28,15 @@
             Windows 打开cmd 输入ipconfig
             Mac 打开终端 输入ifconfig
 
+> 项目打包
+    gulp
+
+> 项目打包的同时传到git
+    gulp push
+
+    注意：如果遇到多人开发情况下 gulp push 打包会提示git pull
+         需先git pull后在手动 git push
+
 ```
 
 <br>

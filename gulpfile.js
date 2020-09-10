@@ -21,7 +21,7 @@
 * 打包配置
 * */
 const fileName = 'view'; // 要打包的文件夹名称
-const distFileName = ''; // 打包后的文件文件夹名称 如果是 "." 则打包到当前根目录
+const distFileName = 'dist'; // 打包后的文件文件夹名称 如果是 "." 则打包到当前根目录
 const noPackingName = ['utils', 'audio', 'fonts', 'video']; // 不打包的文件夹名称
 
 const cssList = [ fileName + '/css/**/*.css' ]; // css文件打包路径
@@ -46,7 +46,8 @@ const gulp = require('gulp'),
     revCollector = require('gulp-rev-collector'),
     connect = require("gulp-connect"),
     del = require('del'),
-    exec = require('child_process').exec;
+    exec = require('child_process').exec,
+    colors = require('colors');
 
 
 /*
@@ -182,6 +183,7 @@ gulp.task('other', async () => {
 * 监听文件变动，使浏览器自动刷新
 * */
 gulp.task('watch', async () => {
+/*
     gulp.watch(htmlList, gulp.series('html'));
     gulp.watch(cssList, gulp.series('css'));
     gulp.watch(jsList, gulp.series('js'));
@@ -189,10 +191,9 @@ gulp.task('watch', async () => {
 
     // 单独配置不处理的文件
     gulp.watch(noPackingList, gulp.series('other'));
-
+*/
     // 更新页面
-    gulp.watch(distFileName + '/**/*', gulp.series('reload'));
-
+    gulp.watch(fileName + '/**/*', gulp.series('reload'));
 });
 
 /*
@@ -207,12 +208,24 @@ gulp.task('reload', () => {
 * 启用本地服务器
 * */
 gulp.task('server', async () => {
+    const hostNumber = 3008;
     connect.server({
-        root: distFileName, // 根目录
-        port: 3008, // 端口
+        root: fileName, // 根目录
+        port: hostNumber, // 端口
         host: '::',
         livereload: true // 热更新
     });
+
+    setTimeout(() => console.log(`
+                ---------------------------------------------------
+                |                                                 |
+                       浏览器: http://localhost:${ hostNumber }  
+                |                                                 |
+                       手  机: ${ colors.underline.bold.green('http://自己本地的ip:' + hostNumber) }️   
+                |                                                 |
+                ---------------------------------------------------
+    `.bold, ), 200)
+
 });
 
 /*
@@ -223,17 +236,17 @@ gulp.task('commit', async () => {
         if (err) {
             if (stdout.indexOf('nothing to commit') == -1) {
                 console.log(`
-                ----------------------------------------------------
-               ｜                                                  ｜
-               ｜    "git commit" 遇到错误 错误原因  ⬇️  ⬇️  ⬇️       ｜
-               ｜                                                  ｜
-                ----------------------------------------------------
+                        ----------------------------------------------------
+                       ｜                                                  ｜
+                       ｜    "git commit" 遇到错误 错误原因  ⬇️  ⬇️  ⬇️       ｜
+                       ｜                                                  ｜
+                        ----------------------------------------------------
            
             `)
-                console.log(err);
+                console.log(err.red);
             }
         } else {
-            console.info(stdout);
+            console.log(stdout.green);
         }
     });
 });
@@ -245,53 +258,53 @@ gulp.task('gitPush', async function (cb) {
                 if (err) {
                     if (stdout.indexOf('nothing to commit') == -1) {
                         console.log(`
-                    ----------------------------------------------------
-                   ｜                                                  ｜
-                   ｜    "git commit" 遇到错误 错误原因  ⬇️  ⬇️  ⬇️       ｜
-                   ｜                                                  ｜
-                    ----------------------------------------------------
+                            ----------------------------------------------------
+                           ｜                                                  ｜
+                           ｜    "git commit" 遇到错误 错误原因  ⬇️  ⬇️  ⬇️       ｜
+                           ｜                                                  ｜
+                            ----------------------------------------------------
                     `)
-                        console.log(err);
+                        console.log(err.red);
                     }
                 } else {
-                    console.info(stdout);
+                    console.log(stdout.green);
 
                     exec('git pull --rebase', async function (err, stdout, stderr) {
                         exec('git push', async function (err, stdout, stderr) {
-                            console.info(stdout);
-                            console.info(stderr);
+                            console.info(stdout.green);
+                            console.info(stderr.green);
                             if (err) {
                                 console.log(`
-                        ----------------------------------------------------
-                        |                                                   
-                        |      git push遇到错误：      
-                        |                                                   
-                        ----------------------------------------------------
+                                ----------------------------------------------------
+                                |                                                   
+                                |      ${ colors.red('git push遇到错误：') }      
+                                |                                                   
+                                ----------------------------------------------------
                        
                         `)
-                                console.log(err);
+                                console.log(err.err);
                             }
 
                             if (stderr.indexOf('Everything') > -1) {
                                 if (!err) {
                                     console.log(`
-                            ----------------------------------------------------
-                            |                                                   |
-                            |      未提交任何内容到git                             |                
-                            |      提交时间：${ time }        |
-                            |                                                   |                    
-                            ----------------------------------------------------
+                                    ----------------------------------------------------
+                                    |                                                   |
+                                    |      ${ colors.red('未提交任何内容到git') }                             |                
+                                    |      提交时间：${ colors.red(time) }        |
+                                    |                                                   |                    
+                                    ----------------------------------------------------
                            
                             `)
                                 }
                             } else {
                                 if (!err) {
                                     console.log(`
-                            ----------------------------------------------------
-                            |                                                   |
-                            |      提交时间：${ time }      |
-                            |                                                   |
-                            ----------------------------------------------------
+                                    ----------------------------------------------------
+                                    |                                                   |
+                                    |      提交时间：${ time }      |
+                                    |                                                   |
+                                    ----------------------------------------------------
                            
                             `)
                                 }
@@ -312,6 +325,6 @@ gulp.task('init', gulp.series('clear', gulp.parallel('css', 'js', 'other', 'imag
 
 gulp.task('default', gulp.series('init'));
 
-gulp.task('dev', gulp.series('init', gulp.parallel('server', 'watch')));
+gulp.task('dev', gulp.series('server', 'watch'));
 
-gulp.task('push', gulp.series('init', 'gitPush');
+gulp.task('push', gulp.series('init', 'gitPush'));

@@ -1,12 +1,16 @@
 /*
  * common.js v1.1.1 *
  */
-document.write("<script src='https://wxshare.leaddevelop.net/wxShare.js'></script>");
-
 var baseUrl = window.location.protocol + "//" + window.location.host + "/"; // 域名
 var authUrl = baseUrl + "work/WechatApi/getAuthUser"; // 授权地址
 var authLocationPath = authUrl + "?redirect_url=" + encodeURIComponent(window.location.href);
 var wxAuth; // 监听微信授权
+
+var _hostList = ['192.168', 'file://', 'localhost', '127.0.0.1'], _isHostLen = 0;
+
+for (let i = 0; i < _hostList.length; i++) baseUrl.indexOf(_hostList[i]) > -1 && _isHostLen++;
+
+!_isHostLen && document.write("<script src='https://wxshare.leaddevelop.net/wxShare.js'></script>");
 
 // 解决ios下伪类不起作用的bug
 document.body.addEventListener('touchstart', function () {});
@@ -133,15 +137,6 @@ var http = {
 
         let ___baseUrl = sessionStorage.getItem('___baseUrl');
         if (___baseUrl) baseUrl = ___baseUrl;
-
-        let _hostList = ['192.168', 'file://', 'localhost', '127.0.0.1'];
-        let _isHostLen = 0;
-        for (let i = 0; i < _hostList.length; i++) {
-            if (baseUrl.indexOf(_hostList[i]) > -1) {
-                _isHostLen++;
-                break;
-            }
-        }
 
         if (baseUrl.indexOf('http') == -1 || _isHostLen) {
             http.showMessage(`<b style="color: firebrick;">失败原因:\nbaseUrl不能是本地路径</b>\n<i style="font-size: 20px; letter-spacing: 1.5px; ">Tips: 点击设置baseUrl直到页面关闭前生效</i>`, () => {
