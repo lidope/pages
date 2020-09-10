@@ -240,10 +240,11 @@ gulp.task('commit', async () => {
 
 gulp.task('gitPush', async function (cb) {
     exec('git add --all', function (err, stdout, stderr) {
-        exec('git commit -m "' + time + '"', async function (err, stdout, stderr) {
-            if (err) {
-                if (stdout.indexOf('nothing to commit') == -1) {
-                    console.log(`
+        if (!err) {
+            exec('git commit -m "' + time + '"', async function (err, stdout, stderr) {
+                if (err) {
+                    if (stdout.indexOf('nothing to commit') == -1) {
+                        console.log(`
                     ----------------------------------------------------
                    ｜                                                  ｜
                    ｜    "git commit" 遇到错误 错误原因  ⬇️  ⬇️  ⬇️       ｜
@@ -252,16 +253,15 @@ gulp.task('gitPush', async function (cb) {
                     `)
                         console.log(err);
                     }
-            } else {
-                console.info(stdout);
-            }
-
-            exec('git pull --rebase', async function (err, stdout, stderr) {
-                exec('git push', async function (err, stdout, stderr) {
+                } else {
                     console.info(stdout);
-                    console.info(stderr);
-                    if (err) {
-                        console.log(`
+
+                    exec('git pull --rebase', async function (err, stdout, stderr) {
+                        exec('git push', async function (err, stdout, stderr) {
+                            console.info(stdout);
+                            console.info(stderr);
+                            if (err) {
+                                console.log(`
                         ----------------------------------------------------
                         |                                                   
                         |      git push遇到错误：      
@@ -269,12 +269,12 @@ gulp.task('gitPush', async function (cb) {
                         ----------------------------------------------------
                        
                         `)
-                        console.log(err);
-                    }
+                                console.log(err);
+                            }
 
-                    if (stderr.indexOf('Everything') > -1) {
-                        if (!err) {
-                            console.log(`
+                            if (stderr.indexOf('Everything') > -1) {
+                                if (!err) {
+                                    console.log(`
                             ----------------------------------------------------
                             |                                                   |
                             |      未提交任何内容到git                             |                
@@ -283,10 +283,10 @@ gulp.task('gitPush', async function (cb) {
                             ----------------------------------------------------
                            
                             `)
-                        }
-                    } else {
-                        if (!err) {
-                            console.log(`
+                                }
+                            } else {
+                                if (!err) {
+                                    console.log(`
                             ----------------------------------------------------
                             |                                                   |
                             |      提交时间：${ time }      |
@@ -294,11 +294,16 @@ gulp.task('gitPush', async function (cb) {
                             ----------------------------------------------------
                            
                             `)
-                        }
-                    }
-                });
+                                }
+                            }
+                        });
+                    });
+                }
             });
-        });
+        } else {
+            console.log('git add 遇到以下问题')
+            console.log(err);
+        }
     });
 })
 
