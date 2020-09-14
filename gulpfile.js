@@ -242,7 +242,7 @@ gulp.task('commit', async () => {
                        ｜                                                  ｜
                         ----------------------------------------------------
            
-            `)
+                `)
                 console.log(err);
             }
         } else {
@@ -263,7 +263,7 @@ gulp.task('gitPush', async function (cb) {
                            ｜    "git commit" 遇到错误 错误原因  ⬇️  ⬇️  ⬇️       ｜
                            ｜                                                  ｜
                             ----------------------------------------------------
-                    `)
+                        `)
                         console.log(err);
                     }
                 } else {
@@ -280,7 +280,7 @@ gulp.task('gitPush', async function (cb) {
                                 |                                                   
                                 ----------------------------------------------------
                        
-                        `)
+                                `)
                                 console.log(err);
                             }
 
@@ -294,7 +294,7 @@ gulp.task('gitPush', async function (cb) {
                                     |                                                   |                    
                                     ----------------------------------------------------
                            
-                            `)
+                                    `)
                                 }
                             } else {
                                 if (!err) {
