@@ -82,6 +82,9 @@ body {
     max-width: 750px;
     margin: 0 auto;
 }
+html, body {
+    min-height: 100vh;
+}
 ol,
 ul {
     list-style: none;
