@@ -11,6 +11,7 @@ $RECYCLE.BIN/
 
 # macOS
 .DS_Store
+**/*.DS_Store
 .fseventsd
 .Spotlight-V100
 .TemporaryItems
@@ -18,10 +19,11 @@ $RECYCLE.BIN/
 
 # Node.js
 node_modules/
-view/node_modules/
+**/node_modules/
 
 # webstorm phpstorm
 .project
+**/*.project
 
 # local env files
 .env.local
@@ -33,7 +35,9 @@ yarn-debug.log*
 yarn-error.log*
 
 # Editor directories and files
+**/*.idea
 .idea
+**/*.vscode
 .vscode
 *.suo
 *.ntvs*
@@ -44,3 +48,4 @@ build.sh
 
 # dd
 .tea
+**/*.tea
