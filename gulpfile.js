@@ -83,7 +83,8 @@ const gulp = require('gulp'),
     connect = require("gulp-connect"),
     del = require('del'),
     exec = require('child_process').exec,
-    colors = require('colors');
+    colors = require('colors'),
+    hash = require('gulp-rev-append');
 
 /*
 * 获取当前时间
@@ -183,7 +184,8 @@ gulp.task('html', () => {
     .pipe(revCollector({
         replaceReved: true, // 替换为追加Hash值后的文件名
     }))
-    .pipe(htmlmin(htmlOptions))
+    // .pipe(htmlmin(htmlOptions))
+    .pipe(hash())
     .pipe(gulp.dest(distFileName))
 });
 
@@ -250,7 +252,7 @@ gulp.task('server', async () => {
     });
 
     const browser = 'http://localhost:' + hostNumber;
-    const mobile = colors.underline.bold.green('http://自己本地的ip:' + hostNumber);
+    const mobile = colors.underline.bold.green('http://本地的ip:' + hostNumber);
 
     setTimeout(() => console.log(`
                  ╭────────────────────────────────────────────╮
@@ -258,7 +260,7 @@ gulp.task('server', async () => {
                  │                                            │
                  │      浏览器: ${ browser }         │
                  |                                            |
-                 │      手  机: ${ mobile }      │
+                 │      手  机: ${ mobile }          │
                  │                                            │
                  ╰────────────────────────────────────────────╯
     `, ), 200)
@@ -272,15 +274,16 @@ gulp.task('commit', async () => {
     exec('git commit -m "' + time + '"', async function (err, stdout, stderr) {
         if (err) {
             if (stdout.indexOf('nothing to commit') == -1) {
+                let commitError = colors.yellow('"git commit" 失败');
+
+                console.log(colors.red(err));
                 console.log(`
-                        ----------------------------------------------------
-                       ｜                                                  ｜
-                       ｜    "git commit" 遇到错误 错误原因  ⬇️  ⬇️  ⬇️       ｜
-                       ｜                                                  ｜
-                        ----------------------------------------------------
-           
+                    ╭─────────────────────────╮
+                    │                         │
+                    │    ${ commitError }    │
+                    │                         │
+                    ╰─────────────────────────╯
                 `)
-                console.log(err);
             }
         } else {
             console.log(stdout);
@@ -301,14 +304,16 @@ gulp.task('gitPush', async function (cb) {
             exec('git commit -m "' + time + '"', async function (err, stdout, stderr) {
                 if (err) {
                     if (stdout.indexOf('nothing to commit') == -1) {
+                        let commitError = colors.yellow('"git commit" 失败');
+
+                        console.log(colors.red(err));
                         console.log(`
-                            ----------------------------------------------------
-                           ｜                                                  ｜
-                           ｜    "git commit" 遇到错误 错误原因  ⬇️  ⬇️  ⬇️       ｜
-                           ｜                                                  ｜
-                            ----------------------------------------------------
+                            ╭─────────────────────────╮
+                            │                         │
+                            │    ${ commitError }    │
+                            │                         │
+                            ╰─────────────────────────╯
                         `)
-                        console.log(err);
                     }
                 } else {
                     console.info(colors.green(stdout));
@@ -317,38 +322,40 @@ gulp.task('gitPush', async function (cb) {
                             console.info(stdout);
                             console.info(stderr);
                             if (err) {
+                                let errorPushDebug = colors.red('git push遇到错误');
+
+                                console.log(colors.red(err));
                                 console.log(`
-                                ----------------------------------------------------
-                                |                                                   
-                                      ${ colors.red('git push遇到错误：') }      
-                                |                                                   
-                                ----------------------------------------------------
-                       
+                                    ╭────────────────────────╮
+                                    │                        |
+                                    |    ${ errorPushDebug }    |    
+                                    |                        |       
+                                    ╰────────────────────────╯
                                 `)
-                                console.log(err);
                             }
 
                             if (stderr.indexOf('Everything') > -1) {
                                 if (!err) {
+                                    let errorPushDebug = colors.red('未提交任何内容到git');
                                     console.log(`
-                                    ----------------------------------------------------
-                                    |                                                   |
-                                          ${ colors.red('未提交任何内容到git') }                             |               
-                                          提交时间：${ colors.red(time) }        
-                                    |                                                   |                    
-                                    ----------------------------------------------------
-                           
+                                     ╭──────────────────────────────────────────╮
+                                     │                                          │
+                                     │     ${ errorPushDebug }                  |
+                                     │     ${ colors.red(time) }       │
+                                     │                                          │
+                                     ╰──────────────────────────────────────────╯
                                     `)
                                 }
                             } else {
                                 if (!err) {
+                                    let sucPushDebug = colors.bold.yellow('提交时间: ' + time);
+
                                     console.log(`
-                                    -----------------------------------------------------
-                                    |                                                   |
-                                          ${ colors.bold.yellow('提交时间: ' + time) }      
-                                    |                                                   |
-                                    -----------------------------------------------------
-                           
+                                    ╭────────────────────────────────────────────────────╮
+                                    │                                                    │
+                                    │      ${ sucPushDebug }      │   
+                                    │                                                    |
+                                    ╰────────────────────────────────────────────────────╯
                                     `)
                                 }
                             }
@@ -357,8 +364,8 @@ gulp.task('gitPush', async function (cb) {
                 }
             });
         } else {
+            console.log(colors.red(err));
             console.log('git add 遇到以下问题')
-            console.log(err);
         }
     });
 })
