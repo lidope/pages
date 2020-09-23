@@ -131,6 +131,7 @@ gulp.task('clear', async () => {
 * */
 gulp.task('css', () => {
     return gulp.src(cssList)
+    .pipe(hash())
     .pipe(autoprefixer({ // 自动加兼容前缀
         overrideBrowserslist: [ '> 5%' ], // 兼容使用率超过5%的浏览器
         cascade: false // 前缀美化
@@ -184,7 +185,7 @@ gulp.task('html', () => {
     .pipe(revCollector({
         replaceReved: true, // 替换为追加Hash值后的文件名
     }))
-    // .pipe(htmlmin(htmlOptions))
+    .pipe(htmlmin(htmlOptions))
     .pipe(hash())
     .pipe(gulp.dest(distFileName))
 });
