@@ -258,7 +258,6 @@ gulp.task('server', async () => {
     setTimeout(() => console.log(`
                  ╭────────────────────────────────────────────╮
                  │                                            │
-                 │                                            │
                  │      浏览器: ${ browser }         │
                  |                                            |
                  │      手  机: ${ mobile }          │
