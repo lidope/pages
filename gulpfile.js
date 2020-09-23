@@ -1,9 +1,13 @@
 /*
 * ⬇⬇⬇⬇ ******** 开发者须知 ******** ⬇⬇⬇⬇
 *
-* 1. 需要配置 "fileName" 当前文件路径 默认是view目录
+* 1. 配置 "fileName" 项目目录名称 默认是view目录
+* 2. 配置 "distFileName"
 * 2. utils文件夹存储已经压缩过的js 例: swiper.min.js, upload.min.js
-* 2. 如果有不需要处理的文件夹 把对应的文件夹名添加至 noPackingName数组内 ( 默认不打包 utils、audio、fonts、video文件夹 )
+* 3. 如果有不需要处理的文件夹 把对应的文件夹名添加至 noPackingName数组内 ( 默认不打包 utils、audio、fonts、video文件夹 )
+*
+* 注意事项
+* 1. javascript尽量写在js文件内，写在html内如果包含es6、es5、则无法被解析，整一块js都不会被混淆加密
 *
 *  ⬆⬆⬆⬆ ******** ⬆⬆⬆⬆ ******** ⬆⬆⬆⬆/
 */
@@ -20,21 +24,53 @@
 /*
 * 打包配置
 * */
-const fileName = 'view'; // 要打包的文件夹名称
-const distFileName = 'dist'; // 打包后的文件文件夹名称 如果是 "." 则打包到当前根目录
-const noPackingName = ['utils', 'audio', 'fonts', 'video']; // 不打包的文件夹名称
 
-const cssList = [ fileName + '/css/**/*.css' ]; // css文件打包路径
-const jsList = [ fileName + '/js/**/*.js' ]; // js文件打包路径
-const htmlList = [ distFileName + '/rev/**/*.json', fileName + '/*.html', fileName + '/**/*.html' ]; // html文件打包路径
-const imagesList = [fileName + '/images/**/*']; // img文件打包路径
+/*
+* 打包的目录名
+* */
+const fileName = 'view';
+
+/*
+* 打包后代码存放目录 如果是 "." 则打包到当前根目录
+* */
+const distFileName = '.';
+
+/*
+* 不打包目录名
+* */
+const noPackingName = ['utils', 'audio', 'fonts', 'video'];
+
+/*
+* .css文件打包路径 (默认打包所有css)
+* */
+const cssList = [ fileName + '/css/**/*.css' ];
+
+/*
+* .js文件打包路径 (默认打包所有js)
+* */
+const jsList = [ fileName + '/js/**/*.js' ];
+
+/*
+* .html文件打包路径 (默认打包所有html)
+* */
+const htmlList = [ distFileName + '/rev/**/*.json', fileName + '/*.html', fileName + '/**/*.html' ];
+
+/*
+* 图片打包路径 (默认打包所有图片)
+* */
+const imagesList = [fileName + '/images/**/*'];
+
+/*
+* 不打包的目录
+* */
 let noPackingList = [];
-
-// 不打包的目录
 for (let i = 0; i < noPackingName.length; i++) {
     noPackingList.push(fileName + '/'+ noPackingName[i] +'/**/*')
 }
 
+/*
+* 依赖模块
+* */
 const gulp = require('gulp'),
     babel = require('gulp-babel'),
     autoprefixer = require('gulp-autoprefixer'),
@@ -49,16 +85,15 @@ const gulp = require('gulp'),
     exec = require('child_process').exec,
     colors = require('colors');
 
-
 /*
-* 时间
+* 获取当前时间
 * */
 const date = new Date();
 
 const dayList = ['日', '一', '二', '三', '四', '五', '六'];
-let Year = date.getFullYear(),  // 获取完整的年份(4位, 1970-????)
+let Year = date.getFullYear(),    // 获取完整的年份(4位, 1970-当前年份)
     Month = date.getMonth() + 1,  // 获取当前月份(0-11, 0代表1月)
-    D = date.getDate(),        // 获取当前日(1-31)
+    D = date.getDate(),           // 获取当前日(1-31)
     Hours = date.getHours(),      // 获取当前小时数(0-23)
     Min = date.getMinutes(),      // 获取当前分钟数(0-59)
     Sec = date.getSeconds(),      // 获取当前秒数(0-59)
@@ -108,7 +143,7 @@ gulp.task('css', () => {
     .pipe(rev())
     .pipe(gulp.dest(distFileName + '/css'))
     .pipe(rev.manifest()) // 文件名加Hash值，配合上上行使用
-        .pipe(gulp.dest(distFileName + '/rev/css'))
+    .pipe(gulp.dest(distFileName + '/rev/css'))
 });
 
 /*
@@ -163,8 +198,8 @@ gulp.task('images', function() {
         interlaced: true, // 隔行扫描gif进行渲染
         svgoPlugins: [{ removeViewBox: false }] // 不要移除svg的viewbox属性
     }))
-        // .pipe(rev())
-        .pipe(gulp.dest(distFileName + '/images'))
+    // .pipe(rev())
+    .pipe(gulp.dest(distFileName + '/images'))
     // .pipe(rev.manifest())
     // .pipe(gulp.dest(distFileName + '/rev/images'));
 });
@@ -173,7 +208,6 @@ gulp.task('images', function() {
 * 单独配置不处理的文件
 * */
 gulp.task('other', async () => {
-
     for (let i = 0; i < noPackingName.length; i++) {
         gulp.src(noPackingList[i]).pipe(gulp.dest(distFileName + '/' + noPackingName[i]))
     }
@@ -203,7 +237,6 @@ gulp.task('reload', () => {
     return gulp.src(htmlList).pipe(connect.reload());
 })
 
-
 /*
 * 启用本地服务器
 * */
@@ -216,20 +249,24 @@ gulp.task('server', async () => {
         livereload: true // 热更新
     });
 
+    const browser = 'http://localhost:' + hostNumber;
+    const mobile = colors.underline.bold.green('http://自己本地的ip:' + hostNumber);
+
     setTimeout(() => console.log(`
-                ---------------------------------------------------
-                |                                                 |
-                       浏览器: http://localhost:${ hostNumber }  
-                |                                                 |
-                       手  机: ${ colors.underline.bold.green('http://自己本地的ip:' + hostNumber) }️   
-                |                                                 |
-                ---------------------------------------------------
+                 ╭────────────────────────────────────────────╮
+                 │                                            │
+                 │                                            │
+                 │      浏览器: ${ browser }         │
+                 |                                            |
+                 │      手  机: ${ mobile }      │
+                 │                                            │
+                 ╰────────────────────────────────────────────╯
     `, ), 200)
 
 });
 
 /*
-* git commit -m
+* git commit -m 命令
 * */
 gulp.task('commit', async () => {
     exec('git commit -m "' + time + '"', async function (err, stdout, stderr) {
@@ -251,6 +288,13 @@ gulp.task('commit', async () => {
     });
 });
 
+/*
+* git上传命令，包含:
+* git add .
+* git commit -m ""
+* git pull
+* git push
+* */
 gulp.task('gitPush', async function (cb) {
     exec('git add --all', function (err, stdout, stderr) {
         if (!err) {

@@ -3,7 +3,7 @@
 ### v1.1.1 更新 - 2020.09.10
 ```
 1. 增加 $h 方法 去除小数运算浮点问题
-2. 新增ajaxPost为本地路径时的设置，使本地开放更方便
+2. 新增ajaxPost域名为本地路径时的设置，使本地开放更便捷
 3. 新增gulp push打包命令，打包成功后自动上传至git
 4. http.globalData.debug修改默认值为false (以前是true)，本地开发的话 会自动为true
 5. ajaxPost方法 在debug为true时会显示报错的接口路径，为false则不显示
@@ -102,12 +102,12 @@
 ~~~
 
 ### v1.0.5.2 更新 - 2020.02.02
-```angular2
+```
 1. 显示ajaxPost服务器返回错误的接口
 ```
 
 ### v1.0.5.1 更新 - 2020.01.20
-```angular2
+```
 1. ajaxPost方法header中增加client字段 区分不同端调取接口
 2. 增加正则验证 zh_ch_num（只能输入英文、中文、数字)
 3. 优化ajaxPost
@@ -164,14 +164,14 @@
 13. setStorageSync 设置缓存
 14. removeStorageSync 删除缓存
 15. clearStorageSync 清除所有缓存
-16. validate 验证
+16. validate 验证规则
 17. iosPhoneBug 解决ios下页面被第三方输入法顶上去的bug
 18. getScrollDirection 滑动方向
 19. showPage 显示某个页面
 20. hidePage 隐藏某个页面
 21. scrollPage 向上滑动某个页面
 22. wrLoading 载入器
-23. Player 音频播放器
+23. Player 音频播放器 (音频实例化)
 24. client 获取当前机型或浏览器类型
 25. isIPhoneX 是否是iPhoneX以上机型
 26. onReachBottom 滑动底部事件

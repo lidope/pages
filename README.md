@@ -15,7 +15,7 @@
         注意： 如果没有cnpm请先安装淘宝镜像 npm install -g cnpm --registry=https://registry.npm.taobao.org
 
 > 开启本地运行环境
-    gulp dev
+    gulp dev 或 npm run dev
 
     本地运行环境地址 
         localhost:3008    
@@ -27,13 +27,16 @@
             Mac 打开终端 输入ifconfig
 
 > 项目打包
-    gulp
+    gulp 或 npm run build
 
-> 项目打包的同时传到git
-    gulp push
+> 项目打包完毕后上传至git
+    gulp push 或 npm run push
 
     注意：如果遇到多人开发情况下 gulp push 打包有时会提示git pull
          需先git pull后在手动 git push
+
+> 清除打包文件
+    gulp clear 或 npm run clear
 
 ```
 

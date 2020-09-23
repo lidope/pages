@@ -83,7 +83,7 @@ _orageCenter()
 
     // 隐藏到显示
 
-    &.animate_showOpacity
+    &.animate_showToHide
         -webkit-animation-name showOpacity
         animation-name showOpacity
 
@@ -100,7 +100,7 @@ _orageCenter()
 
     // 显示到隐藏
 
-    &.animate_hideOpacity
+    &.animate_hideToShow
         -webkit-animation-name hideOpacity
         animation-name hideOpacity
 
@@ -317,11 +317,29 @@ _orageCenter()
                 transform-origin 50% 50%
                 transform scale(1, 1) rotateY(0deg)
 
-
             100%
                 opacity 0
                 transform-origin 50% 50%
                 transform scale(0, 0) rotateY(180deg)
+
+    &.animate_bounceIn
+        animation-name bounceIn
+
+        @keyframes bounceIn
+            0%
+                opacity 0
+                transform scale(.3)
+
+            50%
+                opacity 1
+                transform scale(1.05)
+
+            70%
+                -webkit-transform scale(.9)
+
+            100%
+                opacity 1
+                transform scale(1)
 
 .delay00
     animation-delay 0s
