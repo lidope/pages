@@ -39,7 +39,6 @@ var http = {
     },
 
     init() {
-        let _hostList = ['192.168', 'file://', 'localhost', '127.0.0.1']
         if (baseUrl.indexOf('leaddevelop.net') > -1) {
             http.globalData.debug = false;
         } else {
