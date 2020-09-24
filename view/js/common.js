@@ -245,7 +245,6 @@ var http = {
 
     // 用户授权
     getUserAuth() {
-
         let token = http.getSessionStorageToken();
         if (!token) {
             if (getQueryString('token')) {
