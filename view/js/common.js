@@ -1,5 +1,5 @@
 /*
- * common.js v1.1.1 *
+ * common.js v1.1.2 *
  */
 var baseUrl = window.location.protocol + "//" + window.location.host + "/"; // 域名
 var authUrl = baseUrl + "work/WechatApi/getAuthUser"; // 授权地址
@@ -847,13 +847,32 @@ var http = {
         })
     },
 
-    // 是否是iPhoneX以上机型
+    /*
+    * 是否是iPhoneX以上机型
+    * */
     isIPhoneX() {
         if (typeof window !== 'undefined' && window) {
             return /iphone/gi.test(window.navigator.userAgent) && window.screen.height >= 724;
         }
         return false;
     },
+
+    /*
+    * 获取大机型还是小机型
+    * 0 大机型
+    * 1 小机型
+    * 2 授权后带bar的小机型 或者很小的机型
+    * */
+    getPhoneSize() {
+        if (window.innerHeight >= 1160) {
+            return 1;
+        } else if (window.innerHeight < 1160) {
+            return 2;
+        } else if (window.innerHeight < 1335) {
+            return 3;
+        }
+    },
+
     /*
     * 获取机型范围
     * 已知
