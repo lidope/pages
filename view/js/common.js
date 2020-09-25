@@ -137,7 +137,7 @@ var http = {
         let ___baseUrl = sessionStorage.getItem('___baseUrl');
         if (___baseUrl) baseUrl = ___baseUrl;
 
-        if (baseUrl.indexOf('http') == -1 || _isHostLen) {
+        if (baseUrl.indexOf('http') == -1 || _isHostLen && !___baseUrl) {
             http.showMessage(`<b style="color: firebrick;">失败原因:\nbaseUrl不能是本地路径</b>\n<i style="font-size: 20px; letter-spacing: 1.5px; ">Tips: 点击设置baseUrl直到页面关闭前生效</i>`, () => {
                 showPrompt();
             }, () => {
