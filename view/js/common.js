@@ -865,11 +865,11 @@ var http = {
     * */
     getPhoneSize() {
         if (window.innerHeight >= 1160) {
-            return 1;
+            return 0;
         } else if (window.innerHeight < 1160) {
-            return 2;
+            return 1;
         } else if (window.innerHeight < 1335) {
-            return 3;
+            return 2;
         }
     },
 
