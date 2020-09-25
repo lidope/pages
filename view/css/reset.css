@@ -139,7 +139,7 @@ input,textarea{
     -moz-user-select: text;
     -ms-user-select: text;
     user-select:text;
-    font-family: PingFang SC, Microsoft YaHei, Arial, Helvetica, sans-serif;
+    font-family: PingFangSC, MicrosoftYaHei, Arial, Helvetica, sans-serif;
     border: none;
     background: none;
     outline: none;
