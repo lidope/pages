@@ -95,7 +95,7 @@ var http = {
         params.v = new Date().getTime();
 
         let showPrompt = (value) => {
-            let promptValue = prompt('请输入baseUrl，直到页面关闭前生效\n注意: baseUrl要以 "/" 结尾', value || '');
+            let promptValue = prompt('请输入baseUrl，直到页面关闭前生效', value || '');
             if (promptValue == null) {
                 http.showToast('手动取消baseUrl设置')
             } else if (promptValue == '') {
@@ -103,34 +103,23 @@ var http = {
                     showPrompt();
                 });
             } else {
-                if (promptValue.indexOf('https') > -1) {
+                if (promptValue.indexOf('https') === -1) {
                     if (promptValue.substring(promptValue.length - 1) === '/') {
-                        sessionStorage.setItem('___baseUrl', promptValue);
-                        http.showModal('生效时间: 直到页面关闭前生效\nTips: 请重新调取接口', () => {}, {
-                            title: '设置成功'
-                        })
+                        sessionStorage.setItem('___baseUrl', 'https://' + promptValue);
                     } else {
-                        http.showMessage(`baseUrl要以 "<b>/</b>" 结尾`, () => {
-                            showPrompt(promptValue);
-                        }, () => {
-
-                        }, {
-                            title: '设置失败',
-                            confirmText: '重新设置',
-                            cancelText: '取消设置'
-                        })
+                        sessionStorage.setItem('___baseUrl', 'https://' + promptValue + '/');
                     }
                 } else {
-                    http.showMessage(`baseUrl请以 "<b>https</b> 或 <b>http</b>" 开头`, () => {
-                        showPrompt(promptValue)
-                    }, () => {
-
-                    }, {
-                        title: '设置失败',
-                        confirmText: '重新设置',
-                        cancelText: '取消设置'
-                    })
+                    if (promptValue.substring(promptValue.length - 1) === '/') {
+                        sessionStorage.setItem('___baseUrl', promptValue);
+                    } else {
+                        sessionStorage.setItem('___baseUrl', promptValue + '/');
+                    }
                 }
+
+                http.showModal('生效时间: 直到页面关闭前生效\nTips: 请重新调取接口', () => {}, {
+                    title: '设置成功'
+                })
             }
         }
 
@@ -219,10 +208,10 @@ var http = {
             }
 
             console.groupCollapsed('服务器返回错误');
-                console.log('└─状态码: ' + msg.status);
-                console.log('└─接口: ' + url);
-                    console.group('原因');
-                    console.error(msg.responseText);
+            console.log('└─状态码: ' + msg.status);
+            console.log('└─接口: ' + url);
+            console.group('原因');
+            console.error(msg.responseText);
             console.groupEnd();
             console.groupEnd();
             console.groupEnd();
