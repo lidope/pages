@@ -665,7 +665,7 @@ var http = {
     // 读取缓存
     getStorageSync(name) {
         try {
-            return JSON.parse(localStorage.getItem(name))
+            return name? JSON.parse(localStorage.getItem(name)): '';
         } catch (e) {
             return ''
         }
