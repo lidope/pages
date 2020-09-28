@@ -10,6 +10,7 @@
 2. 更新本地设置baseUrl无需在输入 "https:" 或者 "/", 系统会自动识别并添加
 3. 更新getStorageSync方法若没获取到则返回空，之前是null
 4. 增加showToast方法的direction参数增加center 跟middle一样，从页面中间显示
+5. 增加ajaxPost方法params参数内的loadingText字段值，有该字段值loading文字则会显示该内容
 ```
 
 ### v1.1.1 更新 - 2020.09.10

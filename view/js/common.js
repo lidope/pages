@@ -158,7 +158,7 @@ var http = {
 
         var ajaxBeforeSend = function() {
             if (showLoading == 1) {
-                http.showLoading();
+                http.showLoading(params.loadingText? params.loadingText: '');
             }
         };
 
