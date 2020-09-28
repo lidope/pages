@@ -129,7 +129,7 @@ gulp.task('clear', async () => {
 /*
 * 配置css
 * */
-gulp.task('css', () => {
+gulp.task('css', async () => {
     return gulp.src(cssList)
     .pipe(hash())
     .pipe(autoprefixer({ // 自动加兼容前缀
@@ -193,7 +193,7 @@ gulp.task('html', () => {
 /**
  * image压缩
  */
-gulp.task('images', function() {
+gulp.task('images', async () => {
     return gulp.src( imagesList )
     .pipe(imagemin({
         distgressive: true,
