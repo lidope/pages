@@ -129,7 +129,7 @@ gulp.task('clear', async () => {
 /*
 * 配置css
 * */
-gulp.task('css', async () => {
+gulp.task('css', () => {
     return gulp.src(cssList)
     .pipe(hash())
     .pipe(autoprefixer({ // 自动加兼容前缀
@@ -156,8 +156,6 @@ gulp.task('js', () => {
     .pipe(babel())
     .pipe(uglify({
         mangle: true, // 是否混淆变量
-        compress: true,
-        toplevel: true,
     }))
     .pipe(rev())
     .pipe(gulp.dest(distFileName + '/js'))
@@ -193,7 +191,7 @@ gulp.task('html', () => {
 /**
  * image压缩
  */
-gulp.task('images', async () => {
+gulp.task('images', _ => {
     return gulp.src( imagesList )
     .pipe(imagemin({
         distgressive: true,
