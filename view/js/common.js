@@ -612,7 +612,7 @@ var http = {
     showToast(content, direction, hasModal = false) {
         /*
         * content String 要显示的消息，支持换行\n
-        * direction 出现的方向 top 页面上方 默认值 middle 页面中间 bottom 页面底部
+        * direction 出现的方向 top 页面上方 默认值 middle(或center) 页面中间 bottom 页面底部
         * hasModal Boolean 是否有遮罩层，默认false
         * */
         if (content) {
@@ -641,7 +641,7 @@ var http = {
         }
 
         if (direction) {
-            if (direction == 'middle') {
+            if (direction == 'middle' || direction == 'center') {
                 __leadToastBlock.className += ' center'
             } else if (direction == 'bottom') {
                 __leadToastBlock.className += ' end'
