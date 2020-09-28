@@ -8,6 +8,8 @@
     * 2 授权后带bar的小机型 或者很小的机型
 
 2. 更新本地设置baseUrl无需在输入 "https:" 或者 "/", 系统会自动识别并添加
+3. 更新getStorageSync方法若没获取到则返回空，之前是null
+4. 增加showToast方法的direction参数增加center 跟middle一样，从页面中间显示
 ```
 
 ### v1.1.1 更新 - 2020.09.10
