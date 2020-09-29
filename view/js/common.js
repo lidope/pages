@@ -95,7 +95,7 @@ var http = {
         params.v = new Date().getTime();
 
         let showPrompt = (value) => {
-            let promptValue = prompt('请输入baseUrl，直到页面关闭前生效', value || '');
+            let promptValue = prompt('请输入baseUrl，页面关闭前保持生效', value || '');
             if (promptValue == null) {
                 http.showToast('手动取消baseUrl设置')
             } else if (promptValue == '') {
@@ -117,7 +117,7 @@ var http = {
                     }
                 }
 
-                http.showModal('生效时间: 直到页面关闭前生效\nTips: 请重新调取接口', () => {}, {
+                http.showModal('生效时间: 页面关闭前保持生效\nTips: 请重新调取接口', () => {}, {
                     title: '设置成功'
                 })
             }
@@ -127,7 +127,7 @@ var http = {
         if (___baseUrl) baseUrl = ___baseUrl;
 
         if (baseUrl.indexOf('http') == -1 || _isHostLen && !___baseUrl) {
-            http.showMessage(`<b style="color: firebrick;">失败原因:\nbaseUrl不能是本地路径</b>\n<i style="font-size: 20px; letter-spacing: 1.5px; ">Tips: 点击设置baseUrl直到页面关闭前生效</i>`, () => {
+            http.showMessage(`<b style="color: firebrick;">baseUrl（域名）不能是本地路径</b>`, () => {
                 showPrompt();
             }, () => {
 

@@ -1,5 +1,10 @@
 * {
     -webkit-tap-highlight-color: transparent;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 html,
@@ -77,13 +82,13 @@ body, img, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form,
 body {
     line-height: 1;
     color: #000;
-    background: #fff;
     font-family: PingFangSC, MicrosoftYaHei, Arial, Helvetica, sans-serif;
     max-width: 7.5rem;
     margin: 0 auto;
 }
 body, html {
     min-height: 100vh;
+    background-color: black;
 }
 ol,
 ul {
@@ -147,12 +152,9 @@ input,textarea{
     padding: 0;
     margin: 0;
 }
-* {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
+.container {
+    background: #fff;
+    position: relative;
 }
 [hide] {
     display: none !important;
