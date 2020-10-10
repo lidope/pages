@@ -16,13 +16,10 @@ for (let i = 0; i < _hostList.length; i++) baseUrl.indexOf(_hostList[i]) > -1 &&
 document.body.addEventListener('touchstart', function () {});
 
 // 获取URL参数
-function getQueryString(name)
-{
-    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
-    var r = window.location.search.substr(1).match(reg);
-    if (r != null) return unescape(r[2]);
-    return null;
-}
+function getQueryString(name) { var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i"), r = window.location.search.substr(1).match(reg);if (r != null) return unescape(r[2]);return null; }
+
+// 获取所有url参数 返回一个对象或者字符串
+function getQueryAllString(name) { var url = location.search, theRequest = new Object(); if (url.indexOf("?") != -1) { var str = url.substr(1); strs = str.split("&"); for(var i = 0; i < strs.length; i ++) { theRequest[strs[i].split("=")[0]]=decodeURIComponent(strs[i].split("=")[1]) } } return name? theRequest[name]: theRequest; }
 
 //ajax请求
 var http = {
