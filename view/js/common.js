@@ -267,6 +267,9 @@ var http = {
                     token: http.getSessionStorageToken()
                 }
             });
+
+            // 监听微信授权测试
+            wxAuth.addEventListener('auth', _ => _);
         } catch (e) {}
     },
 
