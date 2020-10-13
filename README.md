@@ -1,6 +1,7 @@
-
+## [查看common.js更新记录](common.md)
+## [查看animate.css更新记录](animate.md)
+## [查看其他更新记录](update.md)
 <br/>
-<hr>
 
 ## gulp打包
 ```

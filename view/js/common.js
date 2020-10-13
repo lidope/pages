@@ -4,22 +4,19 @@
 var baseUrl = window.location.protocol + "//" + window.location.host + "/"; // 域名
 var authUrl = baseUrl + "work/WechatApi/getAuthUser"; // 授权地址
 var authLocationPath = authUrl + "?redirect_url=" + encodeURIComponent(window.location.href);
+
+// 详细说明见 common.md 的 ### v1.1.2 更新 第7条
+var ___closeWechat; // 关闭微信授权或者分享 (单独对某个页面配置)
+var ___closeWechatList = ['auth', 'share', 'authShare', 'shareAuth'];
+
 var wxAuth; // 监听微信授权
 
+// 本地开发验证
 var _hostList = ['192.168', 'file://', 'localhost', '127.0.0.1'], _isHostLen = 0;
 
 for (let i = 0; i < _hostList.length; i++) baseUrl.indexOf(_hostList[i]) > -1 && _isHostLen++;
 
 !_isHostLen && document.write("<script src='https://wxshare.leaddevelop.net/wxShare.js'></script>");
-
-// 解决ios下伪类不起作用的bug
-document.body.addEventListener('touchstart', function () {});
-
-// 获取URL参数
-function getQueryString(name) { var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i"), r = window.location.search.substr(1).match(reg);if (r != null) return unescape(r[2]);return null; }
-
-// 获取所有url参数 返回一个对象或者字符串
-function getQueryAllString(name) { var url = location.search, theRequest = new Object(); if (url.indexOf("?") != -1) { var str = url.substr(1); strs = str.split("&"); for(var i = 0; i < strs.length; i ++) { theRequest[strs[i].split("=")[0]]=decodeURIComponent(strs[i].split("=")[1]) } } return name? theRequest[name]: theRequest; }
 
 //ajax请求
 var http = {
@@ -49,14 +46,20 @@ var http = {
             }
         }
 
+        ___closeWechat = ___closeWechat.toLocaleUpperCase();
+
         // 开启授权
-        if (http.globalData.openAuth && !sessionStorage.getItem('closeWechatAuth')) {
-            http.getUserAuth();
+        if (http.globalData.openAuth) {
+            if (!___closeWechat || (___closeWechat && ___closeWechat != 'AUTH')) {
+                http.getUserAuth();
+            }
         }
 
         // 开启分享
         if (http.globalData.openShare && !sessionStorage.getItem('closeWechatShare')) {
-            http.getWechatShare();
+            if (!___closeWechat || (___closeWechat && ___closeWechat != 'SHARE')) {
+                http.getWechatShare();
+            }
         }
 
         // 开启调试
@@ -977,6 +980,16 @@ var http = {
 
 http.init();
 
+// 解决ios下伪类不起作用的bug
+document.body.addEventListener('touchstart', _ => {});
+
+// 获取URL参数
+function getQueryString(name) { var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i"), r = window.location.search.substr(1).match(reg);if (r != null) return unescape(r[2]);return null; }
+
+// 获取所有url参数 返回一个对象或者字符串
+function getQueryAllString(name) { var url = location.search, theRequest = new Object(); if (url.indexOf("?") != -1) { var str = url.substr(1); strs = str.split("&"); for(var i = 0; i < strs.length; i ++) { theRequest[strs[i].split("=")[0]]=decodeURIComponent(strs[i].split("=")[1]) } } return name? theRequest[name]: theRequest; }
+
+
 // 去除小数运算浮点问题
 const $h = {
     //除法函数，用来得到精确的除法结果
@@ -1577,22 +1590,21 @@ wrLoading.prototype = {
     if (http.globalData.debug) {
         window._log = console.log;
     } else {
-
         window._debug = window.console.warn;
 
-        function _tipsFun() {
+        function _tipsConsoleFun() {
             if (!_logNum) {
                 window._logNum = _logNum + 1;
             }
         };
 
-        window._log = () => _tipsFun();
+        window._log = () => _tipsConsoleFun();
         try {
-            console.log = () => _tipsFun();
-            console.warn = () => _tipsFun();
-            console.error = () => _tipsFun();
-            console.info = () => _tipsFun();
-            console.debug = () => _tipsFun();
+            console.log = () => _tipsConsoleFun();
+            console.warn = () => _tipsConsoleFun();
+            console.error = () => _tipsConsoleFun();
+            console.info = () => _tipsConsoleFun();
+            console.debug = () => _tipsConsoleFun();
         } catch (e) {}
     }
 })();

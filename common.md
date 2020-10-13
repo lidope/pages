@@ -9,9 +9,35 @@
 
 2. 更新本地设置baseUrl无需在输入 "https:" 或者 "/", 系统会自动识别并添加
 3. 更新getStorageSync方法若没获取到则返回空，之前是null
-4. 增加showToast方法的direction参数增加center 跟middle一样，从页面中间显示
+
+4. 增加showToast方法的direction参数增加center 跟middle一样，从页面中间显示 
+    例: http.showToast('test', 'center')
+
 5. 增加ajaxPost方法params参数内的loadingText字段值，有该字段值loading文字则会显示该内容
-6. 增加 getQueryAllString 方法，获取所有url参数 返回一个对象或者字符串 
+    例 改变接口loading文字: http.ajaxPost('demo/uploadImage', { loadingText: '上传中' })
+
+6. 增加ajaxPost方法params参数内的ajaxPostType字段值，有该字段值ajax的请求方式会用该字段值
+    例 get请求: http.ajaxPost('demo/getAddress', { ajaxPostType: 'get' })
+
+7. 更新开启微信授权或微信分享后，单独关闭某个页面的授权或分享方法 
+    在对应页面的head内写入 var ___closeWechat = 'auth' || 'share' || 'authShare' || 'shareAuth';
+
+    @value String
+      auth 关闭微信授权
+      share 关闭微信分享
+      authShare 或 shareAuth 两者都关闭
+    
+    注意：
+        1. 最好在页面head标签内增加
+        2. 该方法仅在 http.globalData.openShare 或 http.globalData.openAuth 开启时有效
+    
+    例:
+      <head>
+        <script> var ___closeWechat = 'auth' </script>
+      </head>
+
+8. 增加 getQueryAllString 方法，获取所有url参数 返回一个对象或者字符串
+9. 修复已知自动开启授权后，页面未增加监听报错问题 
 ```
 
 ### v1.1.1 更新 - 2020.09.10
