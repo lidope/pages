@@ -7,7 +7,6 @@ var authLocationPath = authUrl + "?redirect_url=" + encodeURIComponent(window.lo
 
 // 详细说明见 common.md 的 ### v1.1.2 更新 第7条
 var ___closeWechat; // 关闭微信授权或者分享 (单独对某个页面配置)
-var ___closeWechatList = ['auth', 'share', 'authShare', 'shareAuth'];
 
 var wxAuth; // 监听微信授权
 
@@ -50,14 +49,31 @@ var http = {
 
         // 开启授权
         if (http.globalData.openAuth) {
-            if (!___closeWechat || (___closeWechat && ___closeWechat != 'AUTH')) {
+            if (
+                !___closeWechat
+                || (
+                    ___closeWechat
+                    && ___closeWechat != 'AUTH'
+                    && ___closeWechat != 'AUTHSHARE'
+                    && ___closeWechat != 'SHAREAHTU'
+                )
+            ) {
                 http.getUserAuth();
             }
         }
 
         // 开启分享
-        if (http.globalData.openShare && !sessionStorage.getItem('closeWechatShare')) {
-            if (!___closeWechat || (___closeWechat && ___closeWechat != 'SHARE')) {
+        if (http.globalData.openShare) {
+
+            if (
+                !___closeWechat
+                || (
+                    ___closeWechat
+                    && ___closeWechat != 'SHARE'
+                    && ___closeWechat != 'AUTHSHARE'
+                    && ___closeWechat != 'SHAREAHTU'
+                )
+            ) {
                 http.getWechatShare();
             }
         }
