@@ -136,6 +136,8 @@ var http = {
 
                 _sceenX.appendChild(_sceenImg);
                 _sceenX.appendChild(_sceenText);
+
+                _sceenX.ontouchmove = e => e.preventDefault();
                 $('body').append(_sceenX);
             })
         }
