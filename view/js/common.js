@@ -23,6 +23,7 @@ var http = {
         debug: false, // false 则关闭所有console及ajaxPost网络不稳定的接口路径展示
         openShare: false, // 是否开启分享
         openAuth: false, // 是否开启授权
+        openPhoneScreenX: true, // 是否开启横屏提示
         share: {
             title: '', // 标题
             desc: '', // 描述
@@ -31,11 +32,16 @@ var http = {
         },
     },
 
+    // 初始化
     init() {
+
+        const { debug, openAuth, openShare, openPhoneScreenX } = http.globalData;
+
+        // 线上自动关闭debug，本地测试自动打开debug
         if (baseUrl.indexOf('leaddevelop.net') > -1) {
             http.globalData.debug = false;
         } else {
-            if (!http.globalData.debug) {
+            if (!debug) {
                 for (let i = 0; i < _hostList.length; i++) {
                     if (baseUrl.indexOf(_hostList[i]) > -1) {
                         http.globalData.debug = true;
@@ -45,10 +51,10 @@ var http = {
             }
         }
 
-        ___closeWechat = ___closeWechat.toLocaleUpperCase();
+        if (___closeWechat) ___closeWechat = ___closeWechat.toLocaleUpperCase();
 
         // 开启授权
-        if (http.globalData.openAuth) {
+        if (openAuth) {
             if (
                 !___closeWechat
                 || (
@@ -63,8 +69,7 @@ var http = {
         }
 
         // 开启分享
-        if (http.globalData.openShare) {
-
+        if (openShare) {
             if (
                 !___closeWechat
                 || (
@@ -104,6 +109,36 @@ var http = {
 
         // 创建微信授权监听对象
         wxAuth = new EventDispatcherWechatAuth();
+
+        // 获取手机方向，如果是横屏则打开横屏提示
+        if (openPhoneScreenX) {
+            http.getPhoneDirection(_ => {
+                $('.__sceenTips').remove();
+            }, _ => {
+                let _sceenX = document.createElement('div');
+                _sceenX.style.position = 'fixed';
+                _sceenX.style.zIndex = '999999';
+                _sceenX.style.left = 0;
+                _sceenX.style.top = 0;
+                _sceenX.style.backgroundColor = '#2d2d2d';
+                _sceenX.className = '__sceenTips vw100 vh100 col items center';
+
+                let _sceenImg = document.createElement('img');
+                _sceenImg.src = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAMAAACahl6sAAAAQlBMVEVMaXH///////////////////////////////////////////////////////////////////////////////////83sySiAAAAFXRSTlMAKg2RqlXSgL9Aap3pHLXdSDX1dV97hXZvAAAEBklEQVR42u3d3Y6kIBCG4RIQFPzX7/5vdbMHs/bMTi+CrVP01ntsOnlCxxjBFH1tdmGwC/IaG+NaYtCkR5xuMb6nH601eFHjqujHqgJemPWUnjEv8M8jXltIdwDDacmEl2fTHeclDhe0pDuA5pTE45JsugNoesquxkXpFMd5SdXhqly6A7C5koDrmtMdgK0opxYXZpId+RKDK5tuc0y4tOEuB2lcW3+Tgyye1ySFb/M3OSr8o1c8HQz3OMhdDcE9Dgq4+K+F/hYHDbi6+RYHWVxdfYuDFlzdeouDcHkuwVEgxCDaMjZGr9vEGmKQkKkVV4hBYsb3HCEGGen+MMS9rH9DDLLqVnUUQknl/qpBbnbjBKlxoqHlATkvWTwPyHkJAhPIeYllAjkvQcUEcl7SM4A8lbi/Cs2zTcCFCWSXRC+s1gbfNLCBxCW7xVv8leMDiUv21hFf8wwgGRLlFnxpYgDJkNA04nMDA0iWRFl8buMAiUvir6ktE8h5iWcAyZQEPDYqBpBMyYDHHAdIXBLfuB1vhiRL3NF3/tO9kFTJSs/rOzykmUGofuKILcnIDfIo8bQXXZKZG2SX+KTdW8cMsku2tP10ywuySzaK1+EhxQmyS7bkbc+KIYTqOv3wTMsLkn80oC4YovDQWjCEFuzpkiEj9kzJkAZ7jUAEIhCBCEQgAhGIQAQiEIEIRCACEYhABFIIpH2MGSQ/gQhEIAIRiEAEIhCBCEQg/w+knyef9mXoi1vrtj8LUXXowCKz9fmQSndg1DDlQXq9gFlmzoBsHRimkyEePGtUGkSDa8ucAhnAuP44JIBz9jBkBe/0QcgM7vljkADujf0RSAv+6SMQg2c1dHN42hSHVCgBEuIQXwTExiFDERD0MYhCGZA6BpkKgbgYxBcCMTGIKwTSxCChEMgYgzSFQCAQgbwC4px7D0hLAhGIQAQiEIEIRCACuRUSSSACuQViw9p6bYuHOEW/U6ZwyEQf1UVDDO2t7CALjmYVPWS5QWzm4DbNDTJkjtaquUE0jqboMcUN4jNn7czcIH3miBrHDUJN3tS2gR1kzVqSCewgc9Yw04UfJOG+Nc4f994O3CCJI0PDNlO1BYAjhBxSYwqh5l0gffcmEKreBULzu0Cot28CIWUKh+x5+yYQUmtXOGSnbKYrHLLXbqsemj8VA4kkEIH8H5A9gQhEIAL5tqEQyEKRyjnAHKmcI+WRtkIggSK1hUAcxerKgMwUSxcBGSlaXQREUzTVlQCZKN76HOJuLnKUIZKyYF9LR/LgXqBjDeDdWNGx1AjWzXS0Cpyb6Hgt+OYopX4E0zylpQZwrKspOdeBXaGijCoNXpmWMptdAy5ZPdGZeq8H2+EnW8YmuIq+9At92MbPqBAH8wAAAABJRU5ErkJggg==';
+                _sceenImg.width = 80;
+                _sceenImg.height = 80;
+                _sceenImg.style.marginBottom = '.7em';
+
+                let _sceenText = document.createElement('span');
+                _sceenText.innerText = '为了更好的体验，请将手机竖屏';
+                _sceenText.style.color = 'white';
+                _sceenText.style.fontSize = '.6em';
+
+                _sceenX.appendChild(_sceenImg);
+                _sceenX.appendChild(_sceenText);
+                $('body').append(_sceenX);
+            })
+        }
     },
 
     ajaxPost:function(url, params, callback, error, showLoading) {
@@ -706,8 +741,7 @@ var http = {
     },
 
     /* 验证 */
-    validate(name, content, otherParams)
-    {
+    validate(name, content, otherParams) {
 
         /*
         * 验证的种类
@@ -983,8 +1017,7 @@ var http = {
     },
 
     // 解决ios下页面被第三方输入法顶上去的bug
-    iosPhoneBug()
-    {
+    iosPhoneBug() {
         setTimeout(() => {
             if (client && client.os == 'iPhone') {
                 const scrollHeight = document.documentElement.scrollTop || document.body.scrollTop || 0;
