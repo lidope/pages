@@ -155,6 +155,7 @@ input,textarea{
 .container {
     background: #fff;
     position: relative;
+    min-height: 100vh;
 }
 [hide] {
     display: none !important;
@@ -687,7 +688,7 @@ span {
     max-width: 6.5rem;
     width: 100%;
     background-color: #FFFFFF;
-    border-radius: .3rem;
+    border-radius: .2rem;
     overflow: hidden;
     opacity: 0;
     -webkit-box-shadow: .0rem .0rem .5rem .0rem #444;

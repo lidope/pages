@@ -3,8 +3,14 @@
 
 <br>
 
+### 2020.10.14 更新
+```
+> reset.css、resetREM.css
+1. 更新 showModal, showMessage, showTextCopy 的 borderRadius
+```
+
 ### 2020.09.14 更新
 ```
 > reset.css、resetREM.css
-1.更新页面最小高度为100vh 
+1. 更新页面最小高度为100vh 
 ```
