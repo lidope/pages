@@ -643,7 +643,7 @@ var http = {
         var is_click = true;
 
         var $__lead_modal_block = $('.__lead_modal_block');
-        var __lead_modal_button = $__lead_modal_block.eq($__lead_modal_block.length - 1).find('.__lead_modal_button span');
+        var __lead_modal_button = $__lead_modal_block.eq($__lead_modal_block.length - 1).find('.__lead_modal_button');
 
         __lead_modal_button.off('click');
         __lead_modal_button.on('click', function () {
