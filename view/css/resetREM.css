@@ -23,7 +23,6 @@ h6,
 p,
 blockquote,
 pre,
-a,
 abbr,
 acronym,
 address,
@@ -41,7 +40,6 @@ s,
 samp,
 small,
 strike,
-strong,
 sub,
 sup,
 tt,
@@ -68,9 +66,7 @@ td {
     padding: 0;
     border: 0;
     outline: 0;
-    font-weight: normal;
     font-style: normal;
-    font-size: .3rem;
     vertical-align: baseline;
 }
 body, img, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, textarea, p, blockquote, th, td, hr, button, article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
