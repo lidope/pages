@@ -81,6 +81,7 @@ body {
     font-family: PingFangSC, MicrosoftYaHei, Arial, Helvetica, sans-serif;
     max-width: 7.5rem;
     margin: 0 auto;
+    overflow-x: hidden;
 }
 body, html {
     min-height: 100vh;
