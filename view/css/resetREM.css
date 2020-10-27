@@ -79,7 +79,9 @@ body {
     line-height: 1;
     color: #000;
     font-family: PingFangSC, MicrosoftYaHei, Arial, Helvetica, sans-serif;
-    max-width: 7.5rem;
+}
+html {
+    max-width: 750px;
     margin: 0 auto;
     overflow-x: hidden;
 }
