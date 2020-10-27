@@ -80,14 +80,12 @@ body {
     color: #000;
     font-family: PingFangSC, MicrosoftYaHei, Arial, Helvetica, sans-serif;
 }
-html {
-    max-width: 750px;
-    margin: 0 auto;
-    overflow-x: hidden;
-}
 html, body {
     min-height: 100vh;
     background: black;
+    max-width: 750px;
+    margin: 0 auto;
+    overflow-x: hidden;
 }
 ol,
 ul {
