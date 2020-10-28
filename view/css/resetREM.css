@@ -880,4 +880,20 @@ html #__vconsole .vc-switch {
     bottom: 1.5em;
 }
 
+/* 富文本增加默认样式 */
+.rich-text a {
+    text-decoration: underline;
+}
 
+.rich-text span, .rich-text p {
+    user-select: text;
+}
+
+.rich-text b, .rich-text strong {
+    font-weight: bold;
+}
+
+.rich-text img {
+    max-width: 100%;
+    height: auto;
+}
