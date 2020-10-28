@@ -1,5 +1,5 @@
 /*
- * common.js v1.1.2 *
+ * common.js v1.1.3 *
  */
 var baseUrl = window.location.protocol + "//" + window.location.host + "/"; // 域名
 var authUrl = baseUrl + "work/WechatApi/getAuthUser"; // 授权地址
@@ -290,10 +290,11 @@ var http = {
         if (!token) {
             if (getQueryString('token')) {
                 http.setSessionStorageToken(getQueryString('token'))
-                http.getFunDetail()
+                var _url = getQueryDelString('token');
+                window.location.replace(location.origin + location.pathname + (_url? '?' + _url: ''));
             } else {
                 sessionStorage.clear();
-                http.navigateTo(authLocationPath)
+                http.redirectTo(authLocationPath)
             }
         } else {
             http.getFunDetail()
@@ -1040,6 +1041,8 @@ function getQueryString(name) { var reg = new RegExp("(^|&)" + name + "=([^&]*)(
 // 获取所有url参数 返回一个对象或者字符串
 function getQueryAllString(name) { var url = location.search, theRequest = new Object(); if (url.indexOf("?") != -1) { var str = url.substr(1); strs = str.split("&"); for(var i = 0; i < strs.length; i ++) { theRequest[strs[i].split("=")[0]]=decodeURIComponent(strs[i].split("=")[1]) } } return name? theRequest[name]: theRequest; }
 
+// 获取所有url参数 并删除某个参数
+function getQueryDelString(arg_name_removed) { try { var url = window.location.search; var arr = []; var query_string = ""; if ( url.lastIndexOf('?') == 0) { var arg_str = url.substr( url.lastIndexOf('?') +1, url.length); if (arg_str.indexOf('&') != -1) { var arr = arg_str.split('&'); for (var i in arr) { if (arr[i].split('=')[0] != arg_name_removed) { query_string = query_string + arr[i].split('=')[0] + "=" + arr[i].split('=')[1] + "&"; } } return query_string.substr(0, query_string.length - 1); } } } catch (e) { return ''; } }
 
 // 去除小数运算浮点问题
 const $h = {
