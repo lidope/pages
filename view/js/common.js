@@ -903,7 +903,7 @@ var http = {
     },
 
     /*
-    * 获取大机型还是小机型
+    * 获取机型大小
     * 0 大机型
     * 1 小机型
     * 2 授权后带bar的小机型 或者很小的机型
@@ -1631,12 +1631,13 @@ wrLoading.prototype = {
 
         console.log(
             '%c PageLoadTime_' + loadTime / 100 + 's',
-            `color: white; 
+            `color: black;
+             font-weight: 500;
              letter-spacing: -1px; 
-             margin: 5px; 
-             background: black; 
-             padding: 5px 10px; 
-             border-radius: 20px;
+             margin: 5px;
+             background: #91cec9;
+             padding: 10px 10px;
+             border-radius: 5px;
             `
         );
     }
