@@ -39,7 +39,7 @@ var http = {
         const { debug, openAuth, openShare, openPhoneScreenX } = http.globalData;
 
         // 线上自动关闭debug，本地测试自动打开debug
-        if (baseUrl.indexOf('leaddevelop.net') > -1) {
+        if (baseUrl.indexOf('leaddevelop') > -1) {
             http.globalData.debug = false;
         } else if (!debug && _isHostLen) {
             http.globalData.debug = true;
