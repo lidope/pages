@@ -24,6 +24,7 @@ var http = {
         openShare: false, // 是否开启分享
         openAuth: false, // 是否开启授权
         openPhoneScreenX: true, // 是否开启横屏提示
+        isLocal: _isHostLen? 1: 0, // 是否是本地开发 1 是本地
         share: {
             title: '', // 标题
             desc: '', // 描述
@@ -40,15 +41,8 @@ var http = {
         // 线上自动关闭debug，本地测试自动打开debug
         if (baseUrl.indexOf('leaddevelop.net') > -1) {
             http.globalData.debug = false;
-        } else {
-            if (!debug) {
-                for (let i = 0; i < _hostList.length; i++) {
-                    if (baseUrl.indexOf(_hostList[i]) > -1) {
-                        http.globalData.debug = true;
-                        break;
-                    }
-                }
-            }
+        } else if (!debug && _isHostLen) {
+            http.globalData.debug = true;
         }
 
         if (___closeWechat) ___closeWechat = ___closeWechat.toLocaleUpperCase();

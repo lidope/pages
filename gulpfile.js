@@ -180,11 +180,11 @@ gulp.task('html', () => {
     };
 
     return gulp.src(htmlList)
+    .pipe(hash())
     .pipe(revCollector({
         replaceReved: true, // 替换为追加Hash值后的文件名
     }))
     .pipe(htmlmin(htmlOptions))
-    .pipe(hash())
     .pipe(gulp.dest(distFileName))
 });
 
