@@ -150,9 +150,12 @@ input,textarea{
     margin: 0;
 }
 .container {
-    background: #fff;
     position: relative;
-    min-height: 100vh;
+    background-color: #fff;
+    max-height: 100vh;
+    height: 100vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
 }
 [hide] {
     display: none !important;

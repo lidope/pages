@@ -155,7 +155,10 @@ input,textarea{
 .container {
     position: relative;
     background-color: #fff;
-    min-height: 100vh;
+    max-height: 100vh;
+    height: 100vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
 }
 [hide] {
     display: none !important;
