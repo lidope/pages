@@ -19,8 +19,30 @@
     <!--<link rel="stylesheet" href="./css/index.css?rev=@@hash">-->
 </head>
 <body touchstart>
-<div class="container" id="main" v-cloak>
+<style>
 
+    .container {
+        max-width: 750px;
+        overflow-x: hidden;
+        position: relative;
+    }
+
+    .container div {
+        width: 300vw;
+        height: 85vh;
+        background: red;
+    }
+
+    .container div:nth-child(2n) {
+        background: skyblue;
+    }
+</style>
+<div class="container" id="main" v-cloak>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
 </div>
 
 </body>
