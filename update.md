@@ -3,6 +3,12 @@
 
 <br>
 
+### 2020.11.04 更新
+```
+> utils/main.min.js
+1. 新增iNoBounce.js 阻止页面自动回弹，默认禁止页面滚动，需自己增加样式滚动
+```
+
 ### 2020.10.27 更新
 ```
 > reset.css、resetREM.css

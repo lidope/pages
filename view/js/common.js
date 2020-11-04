@@ -15,7 +15,7 @@ var _hostList = ['192.168', 'file://', 'localhost', '127.0.0.1'], _isHostLen = 0
 
 for (let i = 0; i < _hostList.length; i++) baseUrl.indexOf(_hostList[i]) > -1 && _isHostLen++;
 
-!_isHostLen && document.write("<script src='https://wxshare.leaddevelop.net/wxShare.js'></script>");
+!_isHostLen && document.write("<script src='https://open.leaddevelop.net/wxShare.js'></script>");
 
 //ajax请求
 var http = {
