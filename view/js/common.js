@@ -1029,6 +1029,9 @@ http.init();
 // 解决ios下伪类不起作用的bug
 document.body.addEventListener('touchstart', _ => {});
 
+// 增加左右移动时禁止页面上下滚动
+document.addEventListener('touchmove', event => event.comesFormScrollable && event.preventDefault(), { passive: false })
+
 // 获取URL参数
 function getQueryString(name) { var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i"), r = window.location.search.substr(1).match(reg);if (r != null) return unescape(r[2]);return null; }
 
