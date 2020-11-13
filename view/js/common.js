@@ -5,8 +5,25 @@ var baseUrl = window.location.protocol + "//" + window.location.host + "/"; // �
 var authUrl = baseUrl + "work/WechatApi/getAuthUser"; // 授权地址
 var authLocationPath = authUrl + "?redirect_url=" + encodeURIComponent(window.location.href);
 
-// 详细说明见 common.md 的 ### v1.1.2 更新 第7条
-var ___closeWechat; // 关闭微信授权或者分享 (单独对某个页面配置)
+/*
+* 关闭微信授权或者分享 (单独对某个页面配置)
+    在对应页面的head内写入 var ___closeWechat = 'auth' || 'share' || 'authShare' || 'shareAuth';
+
+    @value String
+      auth 关闭微信授权
+      share 关闭微信分享
+      authShare 或 shareAuth 两者都关闭
+
+    注意：
+        1. 最好在页面head标签内增加
+        2. 该方法仅在 http.globalData.openShare 或 http.globalData.openAuth 开启时有效
+
+    例:
+      <head>
+        <script> var ___closeWechat = 'auth' </script>
+      </head>
+* */
+var ___closeWechat;
 
 var wxAuth; // 监听微信授权
 

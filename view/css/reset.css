@@ -81,12 +81,14 @@ body {
     font-family: PingFangSC, MicrosoftYaHei, Arial, Helvetica, sans-serif;
 }
 html, body {
-    min-height: 100vh;
+    height: 100vh;
     background: black;
     max-width: 750px;
     margin: 0 auto;
     overflow-x: hidden;
+    overflow-y: auto;
     position: relative;
+    -webkit-overflow-scrolling: touch;
 }
 a, b, span, strong {
     font-size: 100%;
