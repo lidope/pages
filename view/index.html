@@ -15,23 +15,18 @@
     <script>
         var phoneWidth = parseInt(window.screen.width);var phoneScale = phoneWidth / 750;var ua = navigator.userAgent;if (/Android (\d+\.\d+)/.test(ua)) {var version = parseFloat(RegExp.$1);if (version > 2.3) {document.write('<meta name="viewport" content="width=750, minimum-scale = ' + phoneScale + ', maximum-scale = ' + phoneScale + ', target-densitydpi=device-dpi">');} else {document.write('<meta name="viewport" content="width=750, target-densitydpi=device-dpi">');}} else {document.write('<meta name="viewport" content="width=750, user-scalable=no, target-densitydpi=device-dpi">');}
     </script>
-    <link rel="stylesheet" href="./css/reset.css?rev=@@hash">
-    <!--<link rel="stylesheet" href="./css/index.css?rev=@@hash">-->
+    <link rel="stylesheet" href="./css/reset.css">
+    <!--<link rel="stylesheet" href="./css/index.css">-->
 </head>
 <body touchstart>
 <style>
 
 </style>
-<div class="container row items" id="main" v-cloak>
+<div class="container" id="main" v-cloak>
 
 </div>
-
 </body>
 <script src="./utils/main.min.js"></script>
-<script src="./js/common.js?rev=@@hash"></script>
-<!--<script src="./js/index.js?rev=@@hash"></script>-->
-<script>
-
-
-</script>
+<script src="./js/common.js"></script>
+<!--<script src="./js/index.js"></script>-->
 </html>

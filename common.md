@@ -4,6 +4,7 @@
 ```
 1. 去除授权成功后url存在token的问题
 2. http.globalData增加isLocal字段(是否是本地开发)
+3. 增加showToast方法的回调，弹窗消失后触发callback
 ```
 
 ### v1.1.2 更新 - 2020.09.25

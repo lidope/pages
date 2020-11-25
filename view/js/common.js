@@ -718,10 +718,13 @@ var http = {
 
         $('body').append(__leadToastBlock)
 
-        setTimeout(function() {
-            __leadToastView.className = '__lead_toast __lead_toast_hide'
-            __leadToastBlock.remove();
-        }, 2000)
+        return new Promise((reslove, reject) => {
+            setTimeout(function() {
+                __leadToastView.className = '__lead_toast __lead_toast_hide'
+                __leadToastBlock.remove();
+                reslove()
+            }, 2000)
+        })
 
     },
 
