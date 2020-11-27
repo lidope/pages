@@ -228,16 +228,16 @@ gulp.task('watch', async () => {
     gulp.watch(noPackingList, gulp.series('other'));
 */
 
-    gulp.watch(htmlList, gulp.series('html'));
-    gulp.watch(cssList, gulp.series('css'));
-    gulp.watch(jsList, gulp.series('js'));
-    gulp.watch(imagesList, gulp.series('images'));
+    // gulp.watch(htmlList, gulp.series('html'));
+    // gulp.watch(cssList, gulp.series('css'));
+    // gulp.watch(jsList, gulp.series('js'));
+    // gulp.watch(imagesList, gulp.series('images'));
 
     // 单独配置不处理的文件
-    gulp.watch(noPackingList, gulp.series('other'));
+    // gulp.watch(noPackingList, gulp.series('other'));
 
     // 更新页面
-    // gulp.watch(fileName + '/**/*', gulp.series('reload'));
+    gulp.watch(fileName + '/**/*', gulp.series('reload'));
 });
 
 /*
