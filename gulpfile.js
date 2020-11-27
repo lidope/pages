@@ -229,7 +229,7 @@ gulp.task('watch', async () => {
 */
 
     gulp.watch(htmlList, gulp.series('html'));
-    // gulp.watch(cssList, gulp.series('css'));
+    gulp.watch(cssList, gulp.series('css'));
     gulp.watch(jsList, gulp.series('js'));
     gulp.watch(imagesList, gulp.series('images'));
 
