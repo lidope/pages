@@ -16,3 +16,18 @@ $wh2()
 $touch()
     overflow-y auto
     -webkit-overflow-scrolling touch
+
+/*
+type: 0 png 1 jpg
+*/
+$setbg(w, h, name, type)
+    background-image url('../images/login/' + name + '.' + (type == 1? 'jpg': 'png'))
+    $setwh(w, h)
+    $bg()
+
+$setwh(w, h)
+    width w
+    height h
+
+$setposi(type)
+    position type == 1? relative: type == 2? absolute: fixed
