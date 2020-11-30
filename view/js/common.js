@@ -1042,6 +1042,16 @@ var http = {
             }
         }, 150)
     },
+
+    // 打开inobounceJs
+    openPageScroll() {
+        if (!iNoBounce.isEnabled()) iNoBounce.enable();
+    },
+
+    // 关闭inobounceJs
+    closePageScroll() {
+        if (iNoBounce.isEnabled()) iNoBounce.disable();
+    },
 };
 
 http.init();

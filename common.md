@@ -5,6 +5,9 @@
 1. 去除授权成功后url存在token的问题
 2. http.globalData增加isLocal字段(是否是本地开发)
 3. 增加showToast方法的回调，弹窗消失后触发callback
+4. 新增打开、关闭inobounceJs方法 (默认打开)
+    openPageScroll 打开inobounceJs方法
+    closePageScroll 关闭inobounceJs方法
 ```
 
 ### v1.1.2 更新 - 2020.09.25
