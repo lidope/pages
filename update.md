@@ -3,6 +3,12 @@
 
 <br>
 
+### 2020.12.01 更新
+```
+> reset.css、resetREM.css
+1. 修改背景颜色 black => #2d2d2d
+```
+
 ### 2020.11.04 更新
 ```
 > utils/main.min.js
