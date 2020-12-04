@@ -1,6 +1,6 @@
 # common.js
 
-### v1.1.3 更新 - 2020.10.28
+### v1.1.3 更新 - 2020.12.04
 ```
 1. 去除授权成功后url存在token的问题
 2. http.globalData增加isLocal字段(是否是本地开发)
@@ -8,6 +8,8 @@
 4. 新增打开、关闭inobounceJs方法 (默认打开)
     openPageScroll 打开inobounceJs方法
     closePageScroll 关闭inobounceJs方法
+5. globalData增加getTokenType
+    token存sessionStorage还是localStorage
 ```
 
 ### v1.1.2 更新 - 2020.09.25

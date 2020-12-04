@@ -42,6 +42,7 @@ var http = {
         openAuth: false, // 是否开启授权
         openPhoneScreenX: true, // 是否开启横屏提示
         isLocal: _isHostLen? 1: 0, // 是否是本地开发 1 是本地
+        getTokenType: 0, // token存sessionStorage还是localStorage 0 sessionStorage 1 localStorage
         share: {
             title: '', // 标题
             desc: '', // 描述
@@ -211,7 +212,7 @@ var http = {
             return false;
         }
 
-        var token = http.getSessionStorageToken();
+        var token = http.getStorageToken();
         var header = {
             token: token,
             client: '2',
@@ -297,10 +298,10 @@ var http = {
 
     // 用户授权
     getUserAuth() {
-        let token = http.getSessionStorageToken();
+        let token = http.getStorageToken();
         if (!token) {
             if (getQueryString('token')) {
-                http.setSessionStorageToken(getQueryString('token'))
+                http.setStorageToken(getQueryString('token'))
                 var _url = getQueryDelString('token');
                 window.location.replace(location.origin + location.pathname + (_url? '?' + _url: ''));
             } else {
@@ -308,7 +309,14 @@ var http = {
                 http.redirectTo(authLocationPath)
             }
         } else {
-            http.getFunDetail()
+            if (getQueryString('token')) {
+                http.setStorageToken(getQueryString('token'))
+                sessionStorage.setItem('token', getQueryString('token'));
+                var _url = getQueryDelString('token');
+                window.location.replace(location.origin + location.pathname + (_url? '?' + _url: ''));
+            } else {
+                http.getFunDetail()
+            }
         }
     },
 
@@ -332,7 +340,7 @@ var http = {
                 status: 1,
                 msg: 'success',
                 data: {
-                    token: http.getSessionStorageToken()
+                    token: http.getStorageToken()
                 }
             });
 
@@ -342,30 +350,42 @@ var http = {
     },
 
     // 设置token
-    setSessionStorageToken(token) {
-        token && sessionStorage.setItem('token', token || '');
+    setStorageToken(token) {
+        if (http.globalData.getTokenType)
+            token && localStorage.setItem('token', token || '');
+        else
+            token && sessionStorage.setItem('token', token || '');
     },
 
     // 获取token
-    getSessionStorageToken() {
-        return sessionStorage.getItem('token') || '';
+    getStorageToken() {
+        if (http.globalData.getTokenType)
+            return localStorage.getItem('token') || '';
+        else
+            return sessionStorage.getItem('token') || '';
     },
 
     // 关闭当前页面，返回上一页面或多个页面
     navigateBack(delta) {
+        http.showLoading();
         !delta && history.go(-1) || history.go('-' + delta);
+        setTimeout(_ => http.hideLoading(), 800);
     },
 
     // 保留当前页面，跳转到新页面
     navigateTo(url) {
         if (!url) return;
-        location.href = url
+        http.showLoading();
+        location.href = url;
+        setTimeout(_ => http.hideLoading(), 800);
     },
 
     // 关闭当前页面，打开新页面
     redirectTo(url) {
         if (!url) return;
+        http.showLoading();
         location.replace(url);
+        setTimeout(_ => http.hideLoading(), 800);
     },
 
     // 显示loading
