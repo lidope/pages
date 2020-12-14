@@ -7,6 +7,9 @@
 ```
 > reset.css、resetREM.css
 1. 修改页面默认背景颜色 black => #2d2d2d
+2. 更新loading样式, 默认不再显示加载中文字
+3. 更新showModal, showMessage, showCopyText, showToast样式
+4. 新增showSuccess, showFail样式
 ```
 
 ### 2020.11.04 更新

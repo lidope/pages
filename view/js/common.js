@@ -1,5 +1,5 @@
 /*
- * common.js v1.1.3 *
+ * common.js v1.1.4 *
  */
 var baseUrl = window.location.protocol + "//" + window.location.host + "/"; // 域名
 var authUrl = baseUrl + "work/WechatApi/getAuthUser"; // 授权地址
@@ -394,8 +394,10 @@ var http = {
         * content 要显示的loading内容，支持换行 \n
         * */
 
+        const defaultText = '';
+
         if ($('.__lead_loading_block').length) {
-            $('.__lead_loading_block .__lead_loading span').html(http.getLineFeedHtml(content || '加载中'))
+            $('.__lead_loading_block .__lead_loading span').html(http.getLineFeedHtml(content || defaultText))
             return false;
         }
 
@@ -403,9 +405,9 @@ var http = {
 
         var __leadLoading = `
             <div class="__lead_loading_block __lead_transparent col items center">
-                <div class="__lead_loading __lead_smallBig_animate col items">
+                <div class="__lead_loading __lead_smallBig_animate col items center">
                     <div class="__lead_icon_loading"></div>
-                    <span>${ content || '加载中' }</span>
+                    <span>${ content || defaultText }</span>
                 </div>
             </div>
         `;
@@ -417,6 +419,60 @@ var http = {
         }, 20)
 
         $('.__lead_loading_block').length && $('.__lead_loading_block').on('touchmove', function (event) {
+            event.preventDefault();
+        })
+    },
+
+    // 显示成功
+    showSuccess(content) {
+        /*
+        * content 要显示的成功内容，支持换行 \n
+        * */
+
+        const defaultText = '';
+
+        // if ($('.__lead_suc_block').length) {
+        //     $('.__lead_suc_block').remove();
+        // }
+
+        if (content) content = http.getLineFeedHtml(content)
+
+        var __leadSuc = `
+            <div class="__lead_suc_block __lead_transparent col items center">
+                <div class="__lead_suc __lead_smallBig_animate col items center">
+                    <svg class="__lead_icon_suc ${ content? '__getText': '' }">
+                        <polyline 
+                            class="tick" 
+                            fill="none" 
+                            stroke="#fff" 
+                            stroke-width="24" 
+                            points="28, 134 93, 204 224, 58" 
+                            stroke-linecap="round" 
+                            stroke-linejoin="round">
+                        </polyline>
+                    </svg>
+                    <span class="__lead_suc_text">${ content || defaultText }</span>
+                </div>
+            </div>
+        `;
+
+        $('body').append(__leadSuc);
+
+        var $__lead_suc_block = $('.__lead_suc_block').eq($('.__lead_suc_block').length - 1);
+
+        setTimeout(function () {
+            $('.__lead_suc').length && $('.__lead_suc').addClass('showLeadSuc');
+        }, 20)
+
+        return new Promise((reslove, reject) => {
+            setTimeout(function () {
+                $__lead_suc_block.find('.__lead_suc').removeClass('showLeadSuc');
+                setTimeout(_ => $__lead_suc_block.remove(), 500)
+                reslove();
+            }, 2500)
+        })
+
+        $('.__lead_suc_block').length && $('.__lead_suc_block').on('touchmove', function (event) {
             event.preventDefault();
         })
     },
@@ -725,24 +781,24 @@ var http = {
         __leadToastBlock.appendChild(__leadToastView);
 
         if (!hasModal) {
-            __leadToastBlock.className = '__lead_toast_block __lead_transparent __lead_toast_nopointer col items'
+            __leadToastBlock.className = '__lead_toast_block __lead_transparent __lead_toast_nopointer col items';
         }
 
         if (direction) {
             if (direction == 'middle' || direction == 'center') {
-                __leadToastBlock.className += ' center'
+                __leadToastBlock.className += ' center';
             } else if (direction == 'bottom') {
-                __leadToastBlock.className += ' end'
+                __leadToastBlock.className += ' end';
             }
         }
 
-        $('body').append(__leadToastBlock)
+        $('body').append(__leadToastBlock);
 
         return new Promise((reslove, reject) => {
             setTimeout(function() {
-                __leadToastView.className = '__lead_toast __lead_toast_hide'
+                __leadToastView.className = '__lead_toast __lead_toast_hide';
                 __leadToastBlock.remove();
-                reslove()
+                reslove();
             }, 2000)
         })
 

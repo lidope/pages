@@ -1,5 +1,11 @@
 # common.js
 
+### v1.1.4 更新 - 2020.12.11
+```
+1. showLoading、showModal、showMessage、showCopyText样式更新
+2. 新增 showSuccess、showFail 弹窗
+```
+
 ### v1.1.3 更新 - 2020.12.04
 ```
 1. 去除授权成功后url存在token的问题
