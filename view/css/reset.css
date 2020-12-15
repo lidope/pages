@@ -1054,7 +1054,7 @@ html #__vconsole .vc-switch {
 .rich-text {
     letter-spacing: 1px;
     text-align: justify;
-    line-height: 160%;
+    line-height: 140%;
 }
 
 .rich-text a {

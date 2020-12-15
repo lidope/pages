@@ -1005,6 +1005,12 @@ html #__vconsole .vc-switch {
 }
 
 /* 富文本增加默认样式 */
+.rich-text {
+    letter-spacing: .01rem;
+    text-align: justify;
+    line-height: 140%;
+}
+
 .rich-text a {
     text-decoration: underline;
 }
@@ -1020,4 +1026,6 @@ html #__vconsole .vc-switch {
 .rich-text img {
     max-width: 100%;
     height: auto;
+    margin: .1rem 0;
 }
+
