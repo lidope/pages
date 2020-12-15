@@ -442,12 +442,11 @@ var http = {
                 <div class="__lead_suc __lead_smallBig_animate col items center">
                     <svg class="__lead_icon_suc ${ content? '__getText': '' }">
                         <polyline 
-                            class="tick" 
                             fill="none" 
                             stroke="#fff" 
                             stroke-width="24" 
                             points="28, 134 93, 204 224, 58" 
-                            stroke-linecap="round" 
+                            stroke-linecap="round"
                             stroke-linejoin="round">
                         </polyline>
                     </svg>
@@ -473,6 +472,53 @@ var http = {
         })
 
         $('.__lead_suc_block').length && $('.__lead_suc_block').on('touchmove', function (event) {
+            event.preventDefault();
+        })
+    },
+
+    // 显示成功
+    showFail(content) {
+        /*
+        * content 要显示的成功内容，支持换行 \n
+        * */
+
+        const defaultText = '';
+
+        // if ($('.__lead_suc_block').length) {
+        //     $('.__lead_suc_block').remove();
+        // }
+
+        if (content) content = http.getLineFeedHtml(content)
+
+        var __leadFail = `
+            <div class="__lead_fail_block __lead_transparent col items center">
+                <div class="__lead_fail __lead_smallBig_animate col items center ${ content? '': '__hidePadding' }">
+                    <svg class="__lead_icon_fail">
+                        <path class="__fail_line1" d="M10 10 L40 40" fill="none"></path>
+                        <path class="__fail_line2" d="M40 10 L10 40" fill="none"></path>
+                    </svg>
+                    <span class="__lead_fail_text">${ content || defaultText }</span>
+                </div>
+            </div>
+        `;
+
+        $('body').append(__leadFail);
+
+        var $__lead_fail_block = $('.__lead_fail_block').eq($('.__lead_fail_block').length - 1);
+
+        setTimeout(function () {
+            $('.__lead_fail').length && $('.__lead_fail').addClass('showLeadFail');
+        }, 20)
+
+        return new Promise((reslove, reject) => {
+            setTimeout(function () {
+                $__lead_fail_block.find('.__lead_fail').removeClass('showLeadFail');
+                setTimeout(_ => $__lead_fail_block.remove(), 500)
+                reslove();
+            }, 2500)
+        })
+
+        $('.__lead_fail_block').length && $('.__lead_fail_block').on('touchmove', function (event) {
             event.preventDefault();
         })
     },
