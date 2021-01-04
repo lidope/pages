@@ -48,19 +48,34 @@ for (let i = 0; i < _hostList.length; i++) baseUrl.indexOf(_hostList[i]) > -1 &&
 
 var http = {
 
-    /**! 全局数据 !**/
     globalData: {
-        debug: false, // false 则关闭所有console及ajaxPost网络不稳定的接口路径展示
-        openShare: false, // 开启分享
-        openAuth: false, // 开启授权
-        openPhoneScreenX: true, // 开启横屏提示
-        isLocal: _isHostLen? 1: 0, // 本地开发 1 是本地
-        getTokenType: 0, // token存sessionStorage还是localStorage 0 sessionStorage 1 localStorage
+        /** 开启debug 默认false，false则关闭所有console及ajaxPost网络不稳定的接口路径展示 **/
+        debug: false,
+
+        /* 开启分享 */
+        openShare: false,
+
+        /* 开启授权 */
+        openAuth: false,
+
+        /* 开启横屏提示 */
+        openPhoneScreenX: true,
+
+        /** 本地开发 1 是本地 无需修改 **/
+        isLocal: _isHostLen? 1: 0,
+
+        /** token存sessionStorage还是localStorage
+         * 0 sessionStorage
+         * 1 localStorage
+         * **/
+        getTokenType: 0,
+
+        /** 微信分享 **/
         share: {
-            title: '', // 标题
-            desc: '', // 描述
-            link: baseUrl, // 链接
-            imgUrl: '' // 图片
+            title: '',      // 标题
+            desc: '',       // 描述
+            link: baseUrl,  // 链接
+            imgUrl: ''      // 图片
         },
     },
 
