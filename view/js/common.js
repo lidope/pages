@@ -1,9 +1,19 @@
-/*
- * common.js v1.1.4 *
+/*!
+ * Common.js v1.1.5
+ * (c) 2019-2021
  */
-var baseUrl = window.location.protocol + "//" + window.location.host + "/"; // 域名
-var authUrl = baseUrl + "work/WechatApi/getAuthUser"; // 授权地址
-var authLocationPath = authUrl + "?redirect_url=" + encodeURIComponent(window.location.href);
+
+/**! 域名 !**/
+var baseUrl = window.location.protocol + '//' + window.location.host + '/';
+
+/**! 本地调试的域名，不会影响线上，可以写死 !**/
+var devBaseUrl = '';
+
+/**! 授权地址 !**/
+var authUrl = baseUrl + 'work/WechatApi/getAuthUser';
+
+/**! 授权跳转地址 !**/
+var authLocationPath = authUrl + '?redirect_url=' + encodeURIComponent(window.location.href);
 
 /*
 * 关闭微信授权或者分享 (单独对某个页面配置)
@@ -25,23 +35,26 @@ var authLocationPath = authUrl + "?redirect_url=" + encodeURIComponent(window.lo
 * */
 var ___closeWechat;
 
-var wxAuth; // 监听微信授权
+/**! 监听微信授权 !**/
+var wxAuth;
 
-// 本地开发验证
+/**! 本地开发验证 !**/
 var _hostList = ['192.168', 'file://', 'localhost', '127.0.0.1'], _isHostLen = 0;
 
 for (let i = 0; i < _hostList.length; i++) baseUrl.indexOf(_hostList[i]) > -1 && _isHostLen++;
 
+/**! 非本地写入分享文件 !**/
 !_isHostLen && document.write("<script src='https://open.leaddevelop.net/wxShare.js'></script>");
 
-//ajax请求
 var http = {
+
+    /**! 全局数据 !**/
     globalData: {
         debug: false, // false 则关闭所有console及ajaxPost网络不稳定的接口路径展示
-        openShare: false, // 是否开启分享
-        openAuth: false, // 是否开启授权
-        openPhoneScreenX: true, // 是否开启横屏提示
-        isLocal: _isHostLen? 1: 0, // 是否是本地开发 1 是本地
+        openShare: false, // 开启分享
+        openAuth: false, // 开启授权
+        openPhoneScreenX: true, // 开启横屏提示
+        isLocal: _isHostLen? 1: 0, // 本地开发 1 是本地
         getTokenType: 0, // token存sessionStorage还是localStorage 0 sessionStorage 1 localStorage
         share: {
             title: '', // 标题
@@ -51,9 +64,8 @@ var http = {
         },
     },
 
-    // 初始化
+    /**! 初始化 !**/
     init() {
-
         const { debug, openAuth, openShare, openPhoneScreenX } = http.globalData;
 
         // 线上自动关闭debug，本地测试自动打开debug
@@ -68,8 +80,8 @@ var http = {
         // 开启授权
         if (openAuth) {
             if (
-                !___closeWechat
-                || (
+                !___closeWechat ||
+                (
                     ___closeWechat
                     && ___closeWechat != 'AUTH'
                     && ___closeWechat != 'AUTHSHARE'
@@ -83,8 +95,8 @@ var http = {
         // 开启分享
         if (openShare) {
             if (
-                !___closeWechat
-                || (
+                !___closeWechat ||
+                (
                     ___closeWechat
                     && ___closeWechat != 'SHARE'
                     && ___closeWechat != 'AUTHSHARE'
@@ -97,7 +109,7 @@ var http = {
 
         // 开启调试
         if (getQueryString('dev_mode') === 'debug') {
-            new VConsole();
+            try { new VConsole() } catch (e) { http.showModal('未找到VConsole插件', _ => {}, { title: '开启调试失败' }) }
             http.globalData.debug = true;
         }
 
@@ -155,14 +167,23 @@ var http = {
         }
     },
 
-    ajaxPost:function(url, params, callback, error, showLoading) {
-        showLoading = showLoading == 0 ? 0 : 1;
-        params.v = new Date().getTime();
-
+    /*
+    * ajax 方法
+    * @params
+    *   url: 接口路径
+    *   params: 接口附加参数，如果带了以下字段名，则ajax会默认调用以下参数的值
+    *       ajaxPostType: ajax的请求方式
+    *       ajaxUrl: ajax请求的接口路径，需要自己手动加上域名，如果写了此参数，则不会应用url形参
+    *       loadingText: loading的加载文字
+    *
+    *   showErrorCallback 是否是用Promise的catch方法 是的话1 默认是0
+    *   showLoading 是否显示loading 默认 1
+    * */
+    ajaxPost(url, params, showErrorCallback, showLoading) {
         let showPrompt = (value) => {
-            let promptValue = prompt('请输入baseUrl，页面关闭前保持生效', value || '');
+            let promptValue = prompt('请输入baseUrl，页面关闭前保持生效', value || devBaseUrl);
             if (promptValue == null) {
-                http.showToast('手动取消baseUrl设置')
+                http.showFail('取消baseUrl设置')
             } else if (promptValue == '') {
                 http.showModal('内容不能为空', () => {
                     showPrompt();
@@ -212,91 +233,95 @@ var http = {
             return false;
         }
 
-        var token = http.getStorageToken();
-        var header = {
-            token: token,
-            client: '2',
-        };
+        return new Promise((resolve, reject) => {
+            showLoading = showLoading == 0 ? 0 : 1;
+            params.v = new Date().getTime();
 
-        var ajaxPostUrl = params.ajaxUrl || (baseUrl + url);
-        var ajaxPostType = params.ajaxPostType || 'POST';
+            var ajaxPostUrl = params.ajaxUrl || (baseUrl + url);
+            var ajaxPostType = params.ajaxPostType || 'POST';
 
-        var ajaxBeforeSend = function() {
-            if (showLoading == 1) {
-                http.showLoading(params.loadingText? params.loadingText: '');
-            }
-        };
+            var token = http.getStorageToken();
+            var header = {
+                token: token,
+                client: '2',
+            };
 
-        var ajaxSuccess = function (data) {
-            if (showLoading == 1) {
-                http.hideLoading();
-            }
-
-            if (data.c) {
-                http.hideLoading();
-
-                if (data.c == 110) {
-                    // token失效
-                    http.showModal('您尚未授权登录登录，请先授权登录!', function() {
-                        sessionStorage.clear();
-                        location.replace(authLocationPath);
-                    }, { title: '操作失败' })
-                } else if (data.c == 400) {
-                    // 页面不存在
-                    location.replace(baseUrl);
-                } else if (data.c == 10000) {
-                    // 登录超时，请重新登录
-                    http.showModal(data.m, function () {
-                        localStorage.clear();
-                        sessionStorage.clear();
-                        location.replace(baseUrl);
-                    })
-                } else {
-                    if (error) {
-                        error(data)
-                    } else {
-                        data.m? http.showModal(data.m): http.showModal('操作失败')
-                    }
+            var ajaxBeforeSend = function() {
+                if (showLoading == 1) {
+                    http.showLoading(params.loadingText? params.loadingText: '');
                 }
-                return false;
-            } else {
-                callback(data);
-            }
-        };
+            };
 
-        var ajaxError = function (msg) {
-            http.hideLoading();
-            if (http.globalData.debug || getQueryString('dev_mode') === 'debug') {
-                http.showModal('当前网络不稳定，请稍后再试~\n' + url)
-            } else {
-                http.showModal('当前网络不稳定，请稍后再试~')
-            }
+            var ajaxSuccess = function (data) {
+                if (showLoading == 1) {
+                    http.hideLoading();
+                }
 
-            console.groupCollapsed('服务器返回错误');
-            console.log('└─状态码: ' + msg.status);
-            console.log('└─接口: ' + url);
-            console.group('原因');
-            console.error(msg.responseText);
-            console.groupEnd();
-            console.groupEnd();
-            console.groupEnd();
-        };
+                if (data.c) {
+                    http.hideLoading();
 
-        var ajaxSetting = {
-            url : ajaxPostUrl,
-            type : ajaxPostType,
-            headers: header,
-            data : params,
-            dataType : "json",
-            beforeSend : ajaxBeforeSend,
-            success : ajaxSuccess,
-            error : ajaxError
-        };
+                    if (data.c == 110) {
+                        // token失效
+                        http.showModal('您尚未授权登录登录，请先授权登录!', function() {
+                            sessionStorage.clear();
+                            location.replace(authLocationPath);
+                        }, { title: '操作失败' })
+                    } else if (data.c == 400) {
+                        // 页面不存在
+                        location.replace(baseUrl);
+                    } else if (data.c == 10000) {
+                        // 登录超时，请重新登录
+                        http.showModal('登录超时，请重新登录', function () {
+                            sessionStorage.clear();
+                            location.replace(authLocationPath);
+                        })
+                    } else {
+                        if (showErrorCallback) {
+                            reject(data);
+                        } else {
+                            data.m? http.showModal(data.m): http.showModal('操作失败')
+                        }
+                    }
+                } else {
+                    resolve(data);
+                }
+            };
 
-        $.ajax(ajaxSetting);
+            var ajaxError = function (msg) {
+                http.hideLoading();
+
+                if (http.globalData.debug || getQueryString('dev_mode') === 'debug') {
+                    http.showModal('当前网络不稳定，请稍后再试~\n' + url)
+                } else {
+                    http.showModal('当前网络不稳定，请稍后再试~')
+                }
+
+                console.groupCollapsed('服务器返回错误');
+                console.log('└─状态码: ' + msg.status);
+                console.log('└─接口: ' + url);
+                console.group('原因');
+                console.error(msg.responseText);
+                console.groupEnd();
+                console.groupEnd();
+                console.groupEnd();
+            };
+
+            var ajaxSetting = {
+                url : ajaxPostUrl,
+                type : ajaxPostType,
+                headers: header,
+                data : params,
+                dataType : "json",
+                beforeSend : ajaxBeforeSend,
+                success : ajaxSuccess,
+                error : ajaxError
+            };
+
+            $.ajax(ajaxSetting);
+        })
     },
 
-    // 用户授权
+    /**! 用户授权 !**/
     getUserAuth() {
         let token = http.getStorageToken();
         if (!token) {
@@ -320,7 +345,23 @@ var http = {
         }
     },
 
-    // 微信分享
+    /**! 授权成功后的回调 !**/
+    getFunDetail() {
+        try {
+            window.onload = () => wxAuth.dispatchEvent('auth', {
+                status: 1,
+                msg: 'success',
+                data: {
+                    token: http.getStorageToken()
+                }
+            });
+
+            // 监听微信授权模拟，如果不加这个，页面会报错
+            wxAuth.addEventListener('auth', _ => _);
+        } catch (e) {}
+    },
+
+    /**! 微信分享 !**/
     getWechatShare() {
         setTimeout(() => {
             try {
@@ -334,22 +375,7 @@ var http = {
         }, 300)
     },
 
-    getFunDetail() {
-        try {
-            window.onload = () => wxAuth.dispatchEvent('auth', {
-                status: 1,
-                msg: 'success',
-                data: {
-                    token: http.getStorageToken()
-                }
-            });
-
-            // 监听微信授权测试
-            wxAuth.addEventListener('auth', _ => _);
-        } catch (e) {}
-    },
-
-    // 设置token
+    /**! 设置token !**/
     setStorageToken(token) {
         if (http.globalData.getTokenType)
             token && localStorage.setItem('token', token || '');
@@ -357,7 +383,7 @@ var http = {
             token && sessionStorage.setItem('token', token || '');
     },
 
-    // 获取token
+    /**! 获取token !**/
     getStorageToken() {
         if (http.globalData.getTokenType)
             return localStorage.getItem('token') || '';
@@ -365,14 +391,14 @@ var http = {
             return sessionStorage.getItem('token') || '';
     },
 
-    // 关闭当前页面，返回上一页面或多个页面
+    /**! 关闭当前页面，返回上一页面或多个页面 !**/
     navigateBack(delta) {
         http.showLoading();
         !delta && history.go(-1) || history.go('-' + delta);
         setTimeout(_ => http.hideLoading(), 800);
     },
 
-    // 保留当前页面，跳转到新页面
+    /**! 保留当前页面，跳转到新页面 !**/
     navigateTo(url) {
         if (!url) return;
         http.showLoading();
@@ -380,7 +406,7 @@ var http = {
         setTimeout(_ => http.hideLoading(), 800);
     },
 
-    // 关闭当前页面，打开新页面
+    /**! 关闭当前页面，打开新页面 !**/
     redirectTo(url) {
         if (!url) return;
         http.showLoading();
@@ -388,7 +414,7 @@ var http = {
         setTimeout(_ => http.hideLoading(), 800);
     },
 
-    // 显示loading
+    /**! 显示loading !**/
     showLoading(content) {
         /*
         * content 要显示的loading内容，支持换行 \n
@@ -423,7 +449,17 @@ var http = {
         })
     },
 
-    // 显示成功
+    /**! 隐藏loading !**/
+    hideLoading() {
+        if ($('.__lead_loading_block').length) {
+            $('.__lead_loading').removeClass('showLeadLoading');
+            setTimeout(function () {
+                $('.__lead_loading_block').remove();
+            }, 250)
+        }
+    },
+
+    /**! 显示成功 2.5秒后消失 !**/
     showSuccess(content) {
         /*
         * content 要显示的成功内容，支持换行 \n
@@ -476,7 +512,7 @@ var http = {
         })
     },
 
-    // 显示成功
+    /**! 显示失败 2.5秒后消失 !**/
     showFail(content) {
         /*
         * content 要显示的成功内容，支持换行 \n
@@ -523,17 +559,7 @@ var http = {
         })
     },
 
-    // 隐藏loading
-    hideLoading() {
-        if ($('.__lead_loading_block').length) {
-            $('.__lead_loading').removeClass('showLeadLoading');
-            setTimeout(function () {
-                $('.__lead_loading_block').remove();
-            }, 250)
-        }
-    },
-
-    // 显示消息弹窗，带确认取消按钮
+    /**! 显示消息弹窗，带确认取消按钮 !**/
     showMessage(content, confirm, cancel, otherParams) {
         /*
         * content 要显示的消息，支持换行\n
@@ -618,7 +644,7 @@ var http = {
         })
     },
 
-    // 可复制内容的消息弹窗，带确认取消按钮
+    /**! 可复制内容的消息弹窗，带确认取消按钮 !**/
     showCopyText(content, confirm, cancel, otherParams) {
         /*
         * content 要复制的消息，支持换行\n
@@ -719,7 +745,7 @@ var http = {
         })
     },
 
-    // 显示消息弹窗，带确认按钮
+    /**! 显示消息弹窗，带确认按钮 !**/
     showModal(content, confirm, otherParams) {
         /*
         * content 要显示的消息，支持换行\n
@@ -798,7 +824,7 @@ var http = {
         })
     },
 
-    // 2秒后消失的浮层
+    /**! 2秒后消失的浮层 !**/
     showToast(content, direction, hasModal = false) {
         /*
         * content String 要显示的消息，支持换行\n
@@ -850,12 +876,12 @@ var http = {
 
     },
 
-    // \n 转换为 </br>
+    /**! (\n 转换为 </br>) !**/
     getLineFeedHtml(content) {
         return String(content).replace(/\n/g, "</br>")
     },
 
-    // 读取缓存
+    /**! 读取缓存 !**/
     getStorageSync(name) {
         try {
             return name? JSON.parse(localStorage.getItem(name)): '';
@@ -864,22 +890,22 @@ var http = {
         }
     },
 
-    // 设置缓存
+    /**! 设置缓存 !**/
     setStorageSync(name, val) {
         localStorage.setItem(name, JSON.stringify(val))
     },
 
-    // 删除缓存
+    /**! 删除缓存 !**/
     removeStorageSync(name) {
         localStorage.removeItem(name);
     },
 
-    // 清除所有缓存
+    /**! 清除所有缓存 !**/
     clearStorageSync() {
         localStorage.clear();
     },
 
-    /* 验证 */
+    /**! 验证 !**/
     validate(name, content, otherParams) {
 
         /*
@@ -1014,7 +1040,7 @@ var http = {
         }
     },
 
-    // 滑动到底部事件
+    /**! 滑动到底部事件 !**/
     onReachBottom(_el, callback) {
         if (!_el) _el = $(window);
         _el.scroll(function () {
@@ -1028,9 +1054,7 @@ var http = {
         })
     },
 
-    /*
-    * 是否是iPhoneX以上机型
-    * */
+    /**! 是否是iPhoneX以上机型 !**/
     isIPhoneX() {
         if (typeof window !== 'undefined' && window) {
             return /iphone/gi.test(window.navigator.userAgent) && window.screen.height >= 724;
@@ -1155,7 +1179,7 @@ var http = {
         });
     },
 
-    // 解决ios下页面被第三方输入法顶上去的bug
+    /**! 解决ios下页面被第三方输入法顶上去的bug !**/
     iosPhoneBug() {
         setTimeout(() => {
             if (client && client.os == 'iPhone') {
@@ -1165,12 +1189,12 @@ var http = {
         }, 150)
     },
 
-    // 打开inobounceJs
+    /**! 打开inobounceJs !**/
     openPageScroll() {
         if (!iNoBounce.isEnabled()) iNoBounce.enable();
     },
 
-    // 关闭inobounceJs
+    /**! 关闭inobounceJs !**/
     closePageScroll() {
         if (iNoBounce.isEnabled()) iNoBounce.disable();
     },
@@ -1178,111 +1202,125 @@ var http = {
 
 http.init();
 
-// 解决ios下伪类不起作用的bug
+/**! 解决ios下伪类不起作用的bug !**/
 document.body.addEventListener('touchstart', _ => {});
 
-// 增加左右移动时禁止页面上下滚动
+/**! 增加左右移动时禁止页面上下滚动 !**/
 document.addEventListener('touchmove', event => event.comesFormScrollable && event.preventDefault(), { passive: false })
 
-// 获取URL参数
+/**! 获取URL参数 !**/
 function getQueryString(name) { var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i"), r = window.location.search.substr(1).match(reg);if (r != null) return unescape(r[2]);return null; }
 
-// 获取所有url参数 返回一个对象或者字符串
+/**! 获取所有url参数 返回一个对象或者字符串 !**/
 function getQueryAllString(name) { var url = location.search, theRequest = new Object(); if (url.indexOf("?") != -1) { var str = url.substr(1); strs = str.split("&"); for(var i = 0; i < strs.length; i ++) { theRequest[strs[i].split("=")[0]]=decodeURIComponent(strs[i].split("=")[1]) } } return name? theRequest[name]: theRequest; }
 
-// 获取所有url参数 并删除某个参数
+/**! 获取所有url参数 并删除某个参数 !**/
 function getQueryDelString(arg_name_removed) { try { var url = window.location.search; var arr = []; var query_string = ""; if ( url.lastIndexOf('?') == 0) { var arg_str = url.substr( url.lastIndexOf('?') +1, url.length); if (arg_str.indexOf('&') != -1) { var arr = arg_str.split('&'); for (var i in arr) { if (arr[i].split('=')[0] != arg_name_removed) { query_string = query_string + arr[i].split('=')[0] + "=" + arr[i].split('=')[1] + "&"; } } return query_string.substr(0, query_string.length - 1); } } } catch (e) { return ''; } }
 
-// 去除小数运算浮点问题
+/**! 去除小数运算浮点问题 !**/
 const $h = {
-    //除法函数，用来得到精确的除法结果
-    //说明：javascript的除法结果会有误差，在两个浮点数相除的时候会比较明显。这个函数返回较为精确的除法结果。
-    //调用：$h.Div(arg1,arg2)
-    //返回值：arg1除以arg2的精确结果
+    // 除法函数，用来得到精确的除法结果
+    // 说明：javascript的除法结果会有误差，在两个浮点数相除的时候会比较明显。这个函数返回较为精确的除法结果。
+    // 调用：$h.Div(arg1, arg2)
+    // 返回值：arg1除以arg2的精确结果
     Div: function (arg1, arg2) {
         arg1 = parseFloat(arg1);
         arg2 = parseFloat(arg2);
-        var t1 = 0,
-            t2 = 0,
-            r1, r2;
+
+        var t1 = 0, t2 = 0, r1, r2;
+
         try {
-            t1 = arg1.toString().split(".")[1].length;
-        } catch (e) {
-        }
+            t1 = arg1.toString().split('.')[1].length;
+        } catch (e) {}
+
         try {
-            t2 = arg2.toString().split(".")[1].length;
-        } catch (e) {
-        }
-        r1 = Number(arg1.toString().replace(".", ""));
-        r2 = Number(arg2.toString().replace(".", ""));
+            t2 = arg2.toString().split('.')[1].length;
+        } catch (e) {}
+
+        r1 = Number(arg1.toString().replace('.', ''));
+        r2 = Number(arg2.toString().replace('.', ''));
+
         return this.Mul(r1 / r2, Math.pow(10, t2 - t1));
     },
-    //加法函数，用来得到精确的加法结果
-    //说明：javascript的加法结果会有误差，在两个浮点数相加的时候会比较明显。这个函数返回较为精确的加法结果。
-    //调用：$h.Add(arg1,arg2)
-    //返回值：arg1加上arg2的精确结果
+
+    // 加法函数，用来得到精确的加法结果
+    // 说明：javascript的加法结果会有误差，在两个浮点数相加的时候会比较明显。这个函数返回较为精确的加法结果。
+    // 调用：$h.Add(arg1, arg2)
+    // 返回值：arg1加上arg2的精确结果
     Add: function (arg1, arg2) {
         arg2 = parseFloat(arg2);
         var r1, r2, m;
+
         try {
-            r1 = arg1.toString().split(".")[1].length
+            r1 = arg1.toString().split('.')[1].length;
         } catch (e) {
-            r1 = 0
+            r1 = 0;
         }
+
         try {
-            r2 = arg2.toString().split(".")[1].length
+            r2 = arg2.toString().split('.')[1].length;
         } catch (e) {
-            r2 = 0
+            r2 = 0;
         }
+
         m = Math.pow(100, Math.max(r1, r2));
+
         return (this.Mul(arg1, m) + this.Mul(arg2, m)) / m;
     },
-    //减法函数，用来得到精确的减法结果
-    //说明：javascript的加法结果会有误差，在两个浮点数相加的时候会比较明显。这个函数返回较为精确的减法结果。
-    //调用：$h.Sub(arg1,arg2)
-    //返回值：arg1减去arg2的精确结果
+
+    // 减法函数，用来得到精确的减法结果
+    // 说明：javascript的加法结果会有误差，在两个浮点数相加的时候会比较明显。这个函数返回较为精确的减法结果。
+    // 调用：$h.Sub(arg1, arg2)
+    // 返回值：arg1减去arg2的精确结果
     Sub: function (arg1, arg2) {
         arg1 = parseFloat(arg1);
         arg2 = parseFloat(arg2);
         var r1, r2, m, n;
+
         try {
-            r1 = arg1.toString().split(".")[1].length
+            r1 = arg1.toString().split('.')[1].length;
         } catch (e) {
-            r1 = 0
+            r1 = 0;
         }
+
         try {
-            r2 = arg2.toString().split(".")[1].length
+            r2 = arg2.toString().split('.')[1].length;
         } catch (e) {
-            r2 = 0
+            r2 = 0;
         }
+
         m = Math.pow(10, Math.max(r1, r2));
-        //动态控制精度长度
+
+        // 动态控制精度长度
         n = (r1 >= r2) ? r1 : r2;
         return ((this.Mul(arg1, m) - this.Mul(arg2, m)) / m).toFixed(n);
     },
-    //乘法函数，用来得到精确的乘法结果
-    //说明：javascript的乘法结果会有误差，在两个浮点数相乘的时候会比较明显。这个函数返回较为精确的乘法结果。
-    //调用：$h.Mul(arg1,arg2)
-    //返回值：arg1乘以arg2的精确结果
+
+    // 乘法函数，用来得到精确的乘法结果
+    // 说明：javascript的乘法结果会有误差，在两个浮点数相乘的时候会比较明显。这个函数返回较为精确的乘法结果。
+    // 调用：$h.Mul(arg1,arg2)
+    // 返回值：arg1乘以arg2的精确结果
     Mul: function (arg1, arg2) {
         arg1 = parseFloat(arg1);
         arg2 = parseFloat(arg2);
+
         var m = 0,
             s1 = arg1.toString(),
             s2 = arg2.toString();
+
         try {
-            m += s1.split(".")[1].length
-        } catch (e) {
-        }
+            m += s1.split('.')[1].length;
+        } catch (e) {}
+
         try {
-            m += s2.split(".")[1].length
-        } catch (e) {
-        }
-        return Number(s1.replace(".", "")) * Number(s2.replace(".", "")) / Math.pow(10, m);
+            m += s2.split('.')[1].length;
+        } catch (e) {}
+
+        return Number(s1.replace('.', '')) * Number(s2.replace('.', '')) / Math.pow(10, m);
     },
 }
 
-// 滑动方向
+/**! 滑动方向 !**/
 var hasScrollPageCommonJs = 1;
 var getScrollDirection = function (element, callUp, callDown) {
     /*
@@ -1457,7 +1495,7 @@ var getScrollDirection = function (element, callUp, callDown) {
 
 })();
 
-//载入器
+/**! 载入器 !**/
 function wrLoading(objname, filearray, callback, type) {
     this.callback = callback;
     this.objname = objname;

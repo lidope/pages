@@ -1,5 +1,10 @@
 # common.js
 
+### v1.1.5 更新 - 2021.01.04
+```
+1. 修改ajaxPost方法，改为new Promise方式
+``` 
+
 ### v1.1.4 更新 - 2020.12.11
 ```
 1. showLoading、showModal、showMessage、showCopyText样式更新
