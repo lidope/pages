@@ -79,6 +79,11 @@ body {
     line-height: 1;
     color: #000;
     font-family: PingFangSC, MicrosoftYaHei, Arial, Helvetica, sans-serif;
+
+    /** IOS禁止微信调整字体大小 安卓用js控制 **/
+    -webkit-text-size-adjust: 100% !important;
+    text-size-adjust: 100% !important;
+    -moz-text-size-adjust: 100% !important;
 }
 html, body {
     height: 100vh;

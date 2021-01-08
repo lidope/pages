@@ -1393,6 +1393,9 @@ var getScrollDirection = function (element, callUp, callDown) {
     });
 }
 
+/**! 安卓手机禁止微信客户端修改字体大小 IOS则用样式修改 !**/
+(function() { if (typeof WeixinJSBridge == "object" && typeof WeixinJSBridge.invoke == "function") { handleFontSize(); } else { if (document.addEventListener) { document.addEventListener("WeixinJSBridgeReady", handleFontSize, false); } else if (document.attachEvent) { document.attachEvent("WeixinJSBridgeReady", handleFontSize); document.attachEvent("onWeixinJSBridgeReady", handleFontSize);  } } function handleFontSize() { WeixinJSBridge.invoke('setFontSizeCallback', { 'fontSize' : 0 }); WeixinJSBridge.on('menu:setfont', function() { WeixinJSBridge.invoke('setFontSizeCallback', { 'fontSize' : 0 }); }); } })();
+
 ;(function() {
     var browser = {
         ua  : navigator.userAgent,
