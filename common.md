@@ -4,12 +4,14 @@
 ```
 1. 修改ajaxPost方法，改为new Promise方式
 2. 禁止微信调整字体大小
+3. 增加 "showSuc" 简写方法，作用跟 "showSuccess" 一样
+4. 修复IOS端 "showFail" 方法svg只有一端是圆弧问题
 ``` 
 
 ### v1.1.4 更新 - 2020.12.11
 ```
-1. showLoading、showModal、showMessage、showCopyText样式更新
-2. 新增 showSuccess、showFail 弹窗
+1. "showLoading"、"showModal"、"showMessage"、"showCopyText" 样式更新
+2. 新增 "showSuccess"、"showFail" 弹窗
 ```
 
 ### v1.1.3 更新 - 2020.12.04

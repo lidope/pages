@@ -475,6 +475,11 @@ var http = {
     },
 
     /**! 显示成功 2.5秒后消失 !**/
+    showSuc(content) {
+        http.showSuccess(content)
+    },
+
+    /**! 显示成功 2.5秒后消失 !**/
     showSuccess(content) {
         /*
         * content 要显示的成功内容，支持换行 \n
@@ -516,8 +521,8 @@ var http = {
 
         return new Promise((reslove, reject) => {
             setTimeout(function () {
-                $__lead_suc_block.find('.__lead_suc').removeClass('showLeadSuc');
-                setTimeout(_ => $__lead_suc_block.remove(), 500)
+                // $__lead_suc_block.find('.__lead_suc').removeClass('showLeadSuc');
+                // setTimeout(_ => $__lead_suc_block.remove(), 500)
                 reslove();
             }, 2500)
         })
@@ -561,6 +566,13 @@ var http = {
             $('.__lead_fail').length && $('.__lead_fail').addClass('showLeadFail');
         }, 20)
 
+        setTimeout(function () {
+            $__lead_fail_block.find('.__fail_line2').css({
+                strokeLinecap: 'round',
+                strokeLinejoin: 'round'
+            })
+        }, 450)
+
         return new Promise((reslove, reject) => {
             setTimeout(function () {
                 $__lead_fail_block.find('.__lead_fail').removeClass('showLeadFail');
@@ -597,14 +609,14 @@ var http = {
             <div class="__lead __lead_message_block col items center">
                 <div class="__lead_message __lead_smallBig_animate col items">
                     <div class="__lead_message_title col items center">
-                        <span class="nowrap">${ otherParams && otherParams.title || '提示' }</span>
+                        <span class="nowrap">${ otherParams && otherParams.title || '温馨提醒' }</span>
                     </div>
                     <div class="__lead_message_content col items center">
                         <span>${ content || '' }</span>
                     </div>
                     <div class="__lead_message_button row items center">
-                        <span class="flex_group_1 col items center" style="color: ${ otherParams && otherParams.cancelColor || '#999' }">${ otherParams && otherParams.cancelText || '取消' }</span>
-                        <span class="flex_group_1 col items center" style="color: ${ otherParams && otherParams.confirmColor || '#5f646e' }">${ otherParams && otherParams.confirmText || '确定' }</span>
+                        <span class="flex_group_1 button-active col items center" style="color: ${ otherParams && otherParams.cancelColor || '#999' }">${ otherParams && otherParams.cancelText || '取消' }</span>
+                        <span class="flex_group_1 button-active col items center" style="color: ${ otherParams && otherParams.confirmColor || '#5f646e' }">${ otherParams && otherParams.confirmText || '确定' }</span>
                     </div>
                 </div>
             </div>
@@ -682,14 +694,14 @@ var http = {
             <div class="__lead __lead_message_copy col items center">
                 <div class="__lead_copy __lead_smallBig_animate col items">
                     <div class="__lead_copy_title col items center">
-                        <span class="nowrap">${ otherParams && otherParams.title || '提示' }</span>
+                        <span class="nowrap">${ otherParams && otherParams.title || '温馨提醒' }</span>
                     </div>
                     <div class="__lead_copy_content col items center">
                         <span>${ content || '' }</span>
                     </div>
                     <div class="__lead_copy_button row items center">
-                        <span class="flex_group_1 col items center" style="color: ${ otherParams && otherParams.cancelColor || '#999' }">${ otherParams && otherParams.cancelText || '取消' }</span>
-                        <span class="flex_group_1 col items center" style="color: ${ otherParams && otherParams.confirmColor || '#5f646e' }">${ otherParams && otherParams.confirmText || '复制' }</span>
+                        <span class="flex_group_1 button-active col items center" style="color: ${ otherParams && otherParams.cancelColor || '#999' }">${ otherParams && otherParams.cancelText || '取消' }</span>
+                        <span class="flex_group_1 button-active col items center" style="color: ${ otherParams && otherParams.confirmColor || '#5f646e' }">${ otherParams && otherParams.confirmText || '复制' }</span>
                     </div>
                 </div>
             </div>
@@ -780,13 +792,13 @@ var http = {
             <div class="__lead __lead_modal_block col items center">
                 <div class="__lead_modal __lead_smallBig_animate col items">
                     <div class="__lead_modal_title col items center">
-                        <span class="nowrap">${ otherParams && otherParams.title || '提示' }</span>
+                        <span class="nowrap">${ otherParams && otherParams.title || '温馨提醒' }</span>
                     </div>
                     <div class="__lead_modal_content col items center">
                         <span>${ content || '' }</span>
                     </div>
                     <div class="__lead_modal_button row items center">
-                        <span class="flex_group_1 col items center" style="color: ${ otherParams && otherParams.confirmColor || '#5f646e' }">${ otherParams && otherParams.confirmText || '确定' }</span>
+                        <span class="flex_group_1 button-active col items center" style="color: ${ otherParams && otherParams.confirmColor || '#5f646e' }">${ otherParams && otherParams.confirmText || '我知道了' }</span>
                     </div>
                 </div>
             </div>
@@ -1394,7 +1406,7 @@ var getScrollDirection = function (element, callUp, callDown) {
 }
 
 /**! 安卓手机禁止微信客户端修改字体大小 IOS则用样式修改 !**/
-(function() { if (typeof WeixinJSBridge == "object" && typeof WeixinJSBridge.invoke == "function") { handleFontSize(); } else { if (document.addEventListener) { document.addEventListener("WeixinJSBridgeReady", handleFontSize, false); } else if (document.attachEvent) { document.attachEvent("WeixinJSBridgeReady", handleFontSize); document.attachEvent("onWeixinJSBridgeReady", handleFontSize);  } } function handleFontSize() { WeixinJSBridge.invoke('setFontSizeCallback', { 'fontSize' : 0 }); WeixinJSBridge.on('menu:setfont', function() { WeixinJSBridge.invoke('setFontSizeCallback', { 'fontSize' : 0 }); }); } })();
+;(function() { if (typeof WeixinJSBridge == "object" && typeof WeixinJSBridge.invoke == "function") { handleFontSize(); } else { if (document.addEventListener) { document.addEventListener("WeixinJSBridgeReady", handleFontSize, false); } else if (document.attachEvent) { document.attachEvent("WeixinJSBridgeReady", handleFontSize); document.attachEvent("onWeixinJSBridgeReady", handleFontSize);  } } function handleFontSize() { WeixinJSBridge.invoke('setFontSizeCallback', { 'fontSize' : 0 }); WeixinJSBridge.on('menu:setfont', function() { WeixinJSBridge.invoke('setFontSizeCallback', { 'fontSize' : 0 }); }); } })();
 
 ;(function() {
     var browser = {

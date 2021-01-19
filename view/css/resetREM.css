@@ -715,7 +715,7 @@ __lead_fail_block {
 
 .__lead_suc_block .__lead_suc .__lead_suc_text,
 .__lead_fail_block .__lead_fail .__lead_fail_text {
-    padding-top: 1.2rem;
+    padding-top: 1rem;
     opacity: 0;
     letter-spacing: .04rem;
     animation: __svg_title .4s .6s ease-in-out forwards;
@@ -723,7 +723,7 @@ __lead_fail_block {
 }
 
 .__lead_fail_block .__lead_fail .__lead_fail_text {
-    padding-top: 1.3rem;
+    padding-top: 1.1rem;
 }
 
 @keyframes __svg_title {
@@ -794,6 +794,7 @@ __lead_fail_block {
     width: 100%;
     height: 100%;
     z-index: 40000;
+    padding-bottom: 10vh;
 }
 
 .__lead_message_block .__lead_message,
@@ -857,7 +858,7 @@ __lead_fail_block {
     padding: .1rem .6rem 0;
     margin-bottom: .6rem;
     width: 100%;
-    min-height: 1.2rem;
+    min-height: .8rem;
     max-height: 6.18rem;
     overflow: auto;
     -webkit-overflow-scrolling: touch;
