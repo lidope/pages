@@ -1081,3 +1081,9 @@ html #__vconsole .vc-switch {
     height: auto;
     margin: 10px 0;
 }
+
+/* 横屏提示 */
+.__sceenTips span {
+    font-size: 24px;
+    margin-top: 20px;
+}

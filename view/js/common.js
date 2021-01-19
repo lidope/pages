@@ -164,14 +164,15 @@ var http = {
 
                 let _sceenImg = document.createElement('img');
                 _sceenImg.src = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAMAAACahl6sAAAAQlBMVEVMaXH///////////////////////////////////////////////////////////////////////////////////83sySiAAAAFXRSTlMAKg2RqlXSgL9Aap3pHLXdSDX1dV97hXZvAAAEBklEQVR42u3d3Y6kIBCG4RIQFPzX7/5vdbMHs/bMTi+CrVP01ntsOnlCxxjBFH1tdmGwC/IaG+NaYtCkR5xuMb6nH601eFHjqujHqgJemPWUnjEv8M8jXltIdwDDacmEl2fTHeclDhe0pDuA5pTE45JsugNoesquxkXpFMd5SdXhqly6A7C5koDrmtMdgK0opxYXZpId+RKDK5tuc0y4tOEuB2lcW3+Tgyye1ySFb/M3OSr8o1c8HQz3OMhdDcE9Dgq4+K+F/hYHDbi6+RYHWVxdfYuDFlzdeouDcHkuwVEgxCDaMjZGr9vEGmKQkKkVV4hBYsb3HCEGGen+MMS9rH9DDLLqVnUUQknl/qpBbnbjBKlxoqHlATkvWTwPyHkJAhPIeYllAjkvQcUEcl7SM4A8lbi/Cs2zTcCFCWSXRC+s1gbfNLCBxCW7xVv8leMDiUv21hFf8wwgGRLlFnxpYgDJkNA04nMDA0iWRFl8buMAiUvir6ktE8h5iWcAyZQEPDYqBpBMyYDHHAdIXBLfuB1vhiRL3NF3/tO9kFTJSs/rOzykmUGofuKILcnIDfIo8bQXXZKZG2SX+KTdW8cMsku2tP10ywuySzaK1+EhxQmyS7bkbc+KIYTqOv3wTMsLkn80oC4YovDQWjCEFuzpkiEj9kzJkAZ7jUAEIhCBCEQgAhGIQAQiEIEIRCACEYhABFIIpH2MGSQ/gQhEIAIRiEAEIhCBCEQg/w+knyef9mXoi1vrtj8LUXXowCKz9fmQSndg1DDlQXq9gFlmzoBsHRimkyEePGtUGkSDa8ucAhnAuP44JIBz9jBkBe/0QcgM7vljkADujf0RSAv+6SMQg2c1dHN42hSHVCgBEuIQXwTExiFDERD0MYhCGZA6BpkKgbgYxBcCMTGIKwTSxCChEMgYgzSFQCAQgbwC4px7D0hLAhGIQAQiEIEIRCACuRUSSSACuQViw9p6bYuHOEW/U6ZwyEQf1UVDDO2t7CALjmYVPWS5QWzm4DbNDTJkjtaquUE0jqboMcUN4jNn7czcIH3miBrHDUJN3tS2gR1kzVqSCewgc9Yw04UfJOG+Nc4f994O3CCJI0PDNlO1BYAjhBxSYwqh5l0gffcmEKreBULzu0Cot28CIWUKh+x5+yYQUmtXOGSnbKYrHLLXbqsemj8VA4kkEIH8H5A9gQhEIAL5tqEQyEKRyjnAHKmcI+WRtkIggSK1hUAcxerKgMwUSxcBGSlaXQREUzTVlQCZKN76HOJuLnKUIZKyYF9LR/LgXqBjDeDdWNGx1AjWzXS0Cpyb6Hgt+OYopX4E0zylpQZwrKspOdeBXaGijCoNXpmWMptdAy5ZPdGZeq8H2+EnW8YmuIq+9At92MbPqBAH8wAAAABJRU5ErkJggg==';
-                _sceenImg.width = 80;
-                _sceenImg.height = 80;
-                _sceenImg.style.marginBottom = '.7em';
+                _sceenImg.width = 70;
+                _sceenImg.height = 70;
+                // _sceenImg.style.marginBottom = '1em';
 
                 let _sceenText = document.createElement('span');
                 _sceenText.innerText = '为了更好的体验，请将手机竖屏';
                 _sceenText.style.color = 'white';
-                _sceenText.style.fontSize = '.6em';
+                // _sceenText.style.fontSize = '1em';
+                _sceenText.style.letterSpacing = '1px';
 
                 _sceenX.appendChild(_sceenImg);
                 _sceenX.appendChild(_sceenText);
@@ -609,7 +610,7 @@ var http = {
             <div class="__lead __lead_message_block col items center">
                 <div class="__lead_message __lead_smallBig_animate col items">
                     <div class="__lead_message_title col items center">
-                        <span class="nowrap">${ otherParams && otherParams.title || '温馨提醒' }</span>
+                        <span class="nowrap">${ otherParams && otherParams.title || '提示' }</span>
                     </div>
                     <div class="__lead_message_content col items center">
                         <span>${ content || '' }</span>
@@ -694,7 +695,7 @@ var http = {
             <div class="__lead __lead_message_copy col items center">
                 <div class="__lead_copy __lead_smallBig_animate col items">
                     <div class="__lead_copy_title col items center">
-                        <span class="nowrap">${ otherParams && otherParams.title || '温馨提醒' }</span>
+                        <span class="nowrap">${ otherParams && otherParams.title || '提示' }</span>
                     </div>
                     <div class="__lead_copy_content col items center">
                         <span>${ content || '' }</span>
@@ -792,7 +793,7 @@ var http = {
             <div class="__lead __lead_modal_block col items center">
                 <div class="__lead_modal __lead_smallBig_animate col items">
                     <div class="__lead_modal_title col items center">
-                        <span class="nowrap">${ otherParams && otherParams.title || '温馨提醒' }</span>
+                        <span class="nowrap">${ otherParams && otherParams.title || '提示' }</span>
                     </div>
                     <div class="__lead_modal_content col items center">
                         <span>${ content || '' }</span>
