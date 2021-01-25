@@ -1093,16 +1093,19 @@ var http = {
     /*
     * 获取机型大小
     * 0 大机型
-    * 1 小机型
-    * 2 授权后带bar的小机型 或者很小的机型
+    * 1 授权后带bar的大
+    * 2 小机型
+    * 3 授权后带bar的小机型 或者很小的机型
     * */
     getPhoneSize() {
-        if (window.innerHeight < 1335) {
-            return 1;
-        } else if (window.innerHeight < 1160) {
+        if (window.innerHeight < 1160) {
+            return 3;
+        } else if (window.innerHeight < 1270) {
             return 2;
+        } else if (window.innerHeight < 1335) {
+            return  1;
         } else {
-            return 0;
+            return  0;
         }
     },
 
