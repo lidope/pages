@@ -653,7 +653,7 @@ __lead_fail_block {
 .__lead_loading_block .__lead_loading,
 .__lead_suc_block .__lead_suc,
 .__lead_fail_block .__lead_fail {
-    width: 200px;
+    width: 220px;
     min-height: 200px;
     margin: 0;
     background: rgba(17, 17, 17, 0.7);
@@ -713,6 +713,7 @@ __lead_fail_block {
     height: 220px;
     transform: scale(.3);
     position: absolute;
+    margin-left: 5px;
 }
 
 .__lead_fail_block .__lead_fail .__lead_icon_fail {
@@ -762,14 +763,14 @@ __lead_fail_block {
 }
 
 .__lead_suc_block .__lead_suc .__lead_icon_suc.__getText {
-    top: -30px;
+    top: -40px;
 }
 
 .__lead_suc_block .__lead_suc .__lead_suc_text,
 .__lead_fail_block .__lead_fail .__lead_fail_text {
     padding-top: 100px;
     opacity: 0;
-    letter-spacing: 4px;
+    letter-spacing: 2px;
     animation: __svg_title .4s .6s ease-in-out forwards;
     -webkit-animation: __svg_title .4s .6s ease-in-out forwards;
 }
@@ -810,6 +811,7 @@ __lead_fail_block {
 .__lead_fail_block .__lead_fail span {
     font-size: 24px;
     margin-top: 20px;
+    font-weight: bold;
 }
 
 @-webkit-keyframes __leadLoading {

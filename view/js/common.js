@@ -522,8 +522,8 @@ var http = {
 
         return new Promise((reslove, reject) => {
             setTimeout(function () {
-                // $__lead_suc_block.find('.__lead_suc').removeClass('showLeadSuc');
-                // setTimeout(_ => $__lead_suc_block.remove(), 500)
+                $__lead_suc_block.find('.__lead_suc').removeClass('showLeadSuc');
+                setTimeout(_ => $__lead_suc_block.remove(), 500)
                 reslove();
             }, 2500)
         })
@@ -642,9 +642,9 @@ var http = {
             }
         }, 20)
 
-        $('.__lead_message_block').length && $('.__lead_message_block').on('touchmove', function (event) {
-            event.preventDefault();
-        })
+        // $('.__lead_message_block').length && $('.__lead_message_block').on('touchmove', function (event) {
+        //     event.preventDefault();
+        // })
 
         var is_click = true;
 
@@ -739,9 +739,9 @@ var http = {
             }
         }, 20)
 
-        $('.__lead_message_copy').length && $('.__lead_message_copy').on('touchmove', function (event) {
-            event.preventDefault();
-        })
+        // $('.__lead_message_copy').length && $('.__lead_message_copy').on('touchmove', function (event) {
+        //     event.preventDefault();
+        // })
 
         var is_click = true;
 
@@ -824,9 +824,9 @@ var http = {
             }
         }, 20)
 
-        $('.__lead_modal_block').length && $('.__lead_modal_block').on('touchmove', function (event) {
-            event.preventDefault();
-        })
+        // $('.__lead_modal_block').length && $('.__lead_modal_block').on('touchmove', function (event) {
+        //     event.preventDefault();
+        // })
 
         var is_click = true;
 

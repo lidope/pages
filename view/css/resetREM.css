@@ -83,7 +83,7 @@ body {
 html, body {
     min-height: 100vh;
     background: #2d2d2d;
-    max-width: 7.5rem;
+    /*max-width: 7.5rem;*/
     margin: 0 auto;
     overflow-x: hidden;
 }
@@ -601,7 +601,7 @@ __lead_fail_block {
 .__lead_loading_block .__lead_loading,
 .__lead_suc_block .__lead_suc,
 .__lead_fail_block .__lead_fail {
-    width: 2rem;
+    width: 2.2rem;
     min-height: 2rem;
     margin: 0;
     background: rgba(17, 17, 17, 0.7);
@@ -657,18 +657,19 @@ __lead_fail_block {
 }
 
 .__lead_suc_block .__lead_suc .__lead_icon_suc {
-    width: 2.4rem;
-    height: 2.2rem;
-    transform: scale(.3);
+    width: 4.8rem;
+    height: 4.8rem;
+    transform: scale(.15);
     position: absolute;
+    margin-left: .05rem;
 }
 
 .__lead_fail_block .__lead_fail .__lead_icon_fail {
-    width: .5rem;
-    height: .5rem;
-    transform: scale(1.5);
+    width: 1rem;
+    height: 1rem;
+    transform: scale(.7);
     position: absolute;
-    top: .6rem;
+    top: .35rem;
 }
 
 .__lead_fail_block .__lead_fail .__fail_line1 {
@@ -710,14 +711,14 @@ __lead_fail_block {
 }
 
 .__lead_suc_block .__lead_suc .__lead_icon_suc.__getText {
-    top: -.3rem;
+    top: -1.6rem;
 }
 
 .__lead_suc_block .__lead_suc .__lead_suc_text,
 .__lead_fail_block .__lead_fail .__lead_fail_text {
     padding-top: 1rem;
     opacity: 0;
-    letter-spacing: .04rem;
+    letter-spacing: .02rem;
     animation: __svg_title .4s .6s ease-in-out forwards;
     -webkit-animation: __svg_title .4s .6s ease-in-out forwards;
 }
@@ -758,6 +759,7 @@ __lead_fail_block {
 .__lead_fail_block .__lead_fail span {
     font-size: .24rem;
     margin-top: .2rem;
+    font-weight: bold;
 }
 
 @-webkit-keyframes __leadLoading {
