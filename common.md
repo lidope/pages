@@ -1,8 +1,32 @@
 # common.js
 
+### v1.1.6 更新 - 2021.01.30
+```
+1. 修改 "showModal"、 "showMessage"、"showCopyText" 方法，改为new Promise方式
+2. globalData新增 "clearAllStorageType" 和 "clearAllStorageList" 字段
+* *
+* 授权或者token失效时是否清除当前 "getTokenType" 类型的所有缓存，默认全部清除
+* 如果不清除或者想清除某些缓存里的字段，则配置 "clearAllStorageList" 字段列表并且把 "clearAllStorageType" 改为0
+* 例子: token失效或者没有token授权的时候，想要清除缓存内的 token, user_id, open_id, type，则：
+* clearAllStorageType: 0
+* clearAllStorageList: ['user_id', 'open_id', 'type']  // token无需加进去, 默认会清除
+* *
+3. 修复本地环境没有配置域名的情况下开启微信分享无限调用接口问题
+4. 增加本地环境下如果开启微信授权则手动输入token功能
+5. 增加环境检测 checkAppBrowser方法 返回值
+    * 1 微信
+    * 2 企业微信
+    * 3 微信或者企业微信
+    * 4 微博
+    * 5 网易POPO
+    * 1000 其他
+6. 增加环境检测
+    默认是在微信内打开，如需其他环境，请配置globalData.checkAppBrowser值
+```
+
 ### v1.1.5 更新 - 2021.01.04
 ```
-1. 修改ajaxPost方法，改为new Promise方式
+1. 修改 "ajaxPost" 方法，改为new Promise方式
 2. 禁止微信调整字体大小
 3. 增加 "showSuc" 简写方法，作用跟 "showSuccess" 一样
 4. 修复IOS端 "showFail" 方法svg只有一端是圆弧问题

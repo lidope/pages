@@ -1,9 +1,9 @@
-document.write("<script src='//res.wx.qq.com/open/js/jweixin-1.2.0.js'></script>");
+document.write("<script src='https://res.wx.qq.com/open/js/jweixin-1.6.0.js'></script>");
 
 /**
  * Created by Administrator on 15-1-14.
  */
-var wxshare = {
+var wxShare = {
     init : function (options){
 	    
 	    var setting = {

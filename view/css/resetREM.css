@@ -78,7 +78,7 @@ body, img, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form,
 body {
     line-height: 1;
     color: #000;
-    font-family: PingFangSC, MicrosoftYaHei, Arial, Helvetica, sans-serif;
+    font-family: PingFangSC-Regular, MicrosoftYaHei, Arial, Helvetica, sans-serif;
 }
 html, body {
     min-height: 100vh;
@@ -659,7 +659,7 @@ __lead_fail_block {
 .__lead_suc_block .__lead_suc .__lead_icon_suc {
     width: 4.8rem;
     height: 4.8rem;
-    transform: scale(.15);
+    transform: scale(.17);
     position: absolute;
     margin-left: .05rem;
 }
@@ -667,7 +667,7 @@ __lead_fail_block {
 .__lead_fail_block .__lead_fail .__lead_icon_fail {
     width: 1rem;
     height: 1rem;
-    transform: scale(.7);
+    transform: scale(.85);
     position: absolute;
     top: .35rem;
 }
@@ -857,10 +857,10 @@ __lead_fail_block {
 .__lead_message_block .__lead_message .__lead_message_content,
 .__lead_modal_block .__lead_modal .__lead_modal_content,
 .__lead_message_copy .__lead_copy .__lead_copy_content {
-    padding: .1rem .6rem 0;
+    padding: .2rem .6rem 0;
     margin-bottom: .6rem;
     width: 100%;
-    min-height: .8rem;
+    min-height: 1rem;
     max-height: 6.18rem;
     overflow: auto;
     -webkit-overflow-scrolling: touch;
@@ -948,6 +948,7 @@ __lead_fail_block {
     text-align: center;
     line-height: 180%;
     letter-spacing: .04rem;
+    font-weight: bold;
 }
 
 @-webkit-keyframes __leadToastShow {
@@ -1002,9 +1003,9 @@ __lead_fail_block {
 
 /* vconsole */
 html #__vconsole .vc-switch {
-    font-size: 2em;
-    right: 1.5em;
-    bottom: 1.5em;
+    font-size: 1.2em;
+    right: 2.5em;
+    bottom: 4em;
 }
 
 /* 富文本增加默认样式 */

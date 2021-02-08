@@ -78,7 +78,7 @@ body, img, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form,
 body {
     line-height: 1;
     color: #000;
-    font-family: PingFangSC, MicrosoftYaHei, Arial, Helvetica, sans-serif;
+    font-family: PingFangSC-Regular, MicrosoftYaHei, Arial, Helvetica, sans-serif;
 
     /** IOS禁止微信调整字体大小 安卓用js控制 **/
     -webkit-text-size-adjust: 100% !important;
@@ -487,6 +487,7 @@ input,textarea{
     -o-transform: scale(.93);
     transform: scale(.93);
     -webkit-tap-highlight-color: transparent;
+    transition: .1s linear transform;
 }
 
 mask, div.mask {
@@ -903,16 +904,17 @@ __lead_fail_block {
     width: 100%;
     text-align: center;
     padding: 0 20px;
-    letter-spacing: 4px;
+    letter-spacing: 2px;
+    color: rgba(0, 0, 0, .8);
 }
 
 .__lead_message_block .__lead_message .__lead_message_content,
 .__lead_modal_block .__lead_modal .__lead_modal_content,
 .__lead_message_copy .__lead_copy .__lead_copy_content {
-    padding: 10px 60px 0;
+    padding: 20px 60px 0;
     margin-bottom: 60px;
     width: 100%;
-    min-height: 80px;
+    min-height: 100px;
     max-height: 618px;
     overflow: auto;
     -webkit-overflow-scrolling: touch;
@@ -1000,6 +1002,7 @@ __lead_fail_block {
     text-align: center;
     line-height: 180%;
     letter-spacing: 4px;
+    font-weight: bold;
 }
 
 @-webkit-keyframes __leadToastShow {

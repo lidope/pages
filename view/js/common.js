@@ -1,18 +1,19 @@
-/*!
- * Common.js v1.1.5
- * (c) 2019-2021
+/*
+ * Update Time 2021.01.30
+ * common.js v1.1.6
+ * 2019-2021 © sxin
  */
 
-/**! 域名 !**/
+/** 域名 **/
 var baseUrl = window.location.protocol + '//' + window.location.host + '/';
 
-/**! 本地调试的域名，不会影响线上，可以写死 !**/
+/** 本地调试的域名，不会影响线上，可以写死 **/
 var devBaseUrl = '';
 
-/**! 授权地址 !**/
+/** 授权地址 **/
 var authUrl = baseUrl + 'work/WechatApi/getAuthUser';
 
-/**! 授权跳转地址 !**/
+/** 授权跳转地址 **/
 var authLocationPath = authUrl + '?redirect_url=' + encodeURIComponent(window.location.href);
 
 /*
@@ -35,31 +36,60 @@ var authLocationPath = authUrl + '?redirect_url=' + encodeURIComponent(window.lo
 * */
 var ___closeWechat;
 
-/**! 监听微信授权 !**/
+/** 监听微信授权 **/
 var wxAuth;
 
-/**! 本地开发验证 !**/
+/** 本地开发验证 **/
 var _hostList = ['192.168', 'file://', 'localhost', '127.0.0.1'], _isHostLen = 0;
 
 for (let i = 0; i < _hostList.length; i++) baseUrl.indexOf(_hostList[i]) > -1 && _isHostLen++;
 
-/**! 非本地写入分享文件 !**/
+/** 非本地写入分享文件 **/
 !_isHostLen && document.write("<script src='https://open.leaddevelop.net/wxShare.js'></script>");
 
 var http = {
 
     globalData: {
-        /** 开启debug 默认false，false则关闭所有console及ajaxPost网络不稳定的接口路径展示 **/
+        /*
+        ********************** 请勿手动开启，就算手动开启，也会自动关闭 **********************
+        *
+        * 开启debug 默认false，false则关闭所有console及ajaxPost网络不稳定的接口路径展示
+        * debug 目前功能
+        *   1. 关闭|打开所有 console
+        *   2. 显示|隐藏ajaxPost网络不稳定的接口路径展示
+        *
+        * 目前本地环境已自动打开debug，其他环境自动关闭debug
+        *
+        ********************** 请勿手动开启，如需手动开启，记得关闭 **********************
+        */
         debug: false,
 
-        /* 开启分享 */
-        openShare: false,
+        /* 开启微信分享 */
+        openShare: true,
 
-        /* 开启授权 */
+        /* 开启微信授权 */
         openAuth: false,
 
         /* 开启横屏提示 */
         openPhoneScreenX: true,
+
+        /* 检测环境 默认是在微信内打开，如需其他环境，则配置 checkAppBrowser值
+        * 1 微信
+        * 2 企业微信
+        * 3 微信或者企业微信
+        * 4 微博
+        * 5 网易POPO
+        * 1000 其他
+        * */
+        checkAppBrowser: 1,
+        checkAppBrowserList: [
+            { id: 1, name: '微信', page: 'wechat' },
+            { id: 2, name: '企业微信', page: 'workwechat' },
+            { id: 3, name: '微信或者企业微信', page: 'wxwechat' },
+            { id: 4, name: '微博', page: 'weibo' },
+            { id: 5, name: '网易POPO', page: 'popo' },
+            { id: 1000, name: '其他', page: 'other' },
+        ],
 
         /** 本地开发 1 是本地 无需修改 **/
         isLocal: _isHostLen? 1: 0,
@@ -70,6 +100,16 @@ var http = {
          * **/
         getTokenType: 0,
 
+        /*
+        * 授权或者token失效时是否清除当前 "getTokenType" 类型的所有缓存，默认全部清除
+        * 如果不清除或者想清除某些缓存里的字段，则配置 "clearAllStorageList" 字段并且把 "clearAllStorageType" 改为0
+        * 例子: token失效或者没有token授权的时候，想要清除缓存内的 token, user_id, open_id, type，则：
+        * clearAllStorageType: 0
+        * clearAllStorageList: ['user_id', 'open_id', 'type']  // token无需加进去, 默认会清除
+        * */
+        clearAllStorageType: 1,
+        clearAllStorageList: [],
+
         /** 微信分享 **/
         share: {
             title: '',      // 标题
@@ -79,31 +119,76 @@ var http = {
         },
     },
 
-    /**! 初始化 !**/
+    /** 初始化 **/
     init() {
-        const { debug, openAuth, openShare, openPhoneScreenX } = http.globalData;
+        const { openAuth, openShare, openPhoneScreenX, checkAppBrowserList } = http.globalData;
+
+        // 环境检测
+        let checkAppBrowser = http.checkAppBrowser();
+
+        if (checkAppBrowser != http.globalData.checkAppBrowser && !_isHostLen) {
+            for (var i = 0; i < checkAppBrowserList.length; i++) {
+                if (checkAppBrowserList[i].id == http.globalData.checkAppBrowser) {
+                    http.redirectTo('../invalid/' + checkAppBrowserList[i].page + '.html');
+                    break;
+                }
+            }
+            return false;
+        }
 
         // 线上自动关闭debug，本地测试自动打开debug
-        if (baseUrl.indexOf('leaddevelop') > -1) {
-            http.globalData.debug = false;
-        } else if (!debug && _isHostLen) {
+        if (_isHostLen) {
             http.globalData.debug = true;
+        } else {
+            http.globalData.debug = false;
         }
 
         if (___closeWechat) ___closeWechat = ___closeWechat.toLocaleUpperCase();
 
         // 开启授权
         if (openAuth) {
-            if (
-                !___closeWechat ||
-                (
-                    ___closeWechat
-                    && ___closeWechat != 'AUTH'
-                    && ___closeWechat != 'AUTHSHARE'
-                    && ___closeWechat != 'SHAREAHTU'
-                )
-            ) {
-                http.getUserAuth();
+
+            // 只能在微信中授权
+            if (http.globalData.checkAppBrowser == 1) {
+                if (
+                    !___closeWechat ||
+                    (
+                        ___closeWechat
+                        && ___closeWechat != 'AUTH'
+                        && ___closeWechat != 'AUTHSHARE'
+                        && ___closeWechat != 'SHAREAHTU'
+                    )
+                ) {
+                    if (_isHostLen) {
+                        !http.getStorageToken() && setTimeout(_ => {
+                            http.showMessage('由于配置了微信授权，监测到您是本地环境，无法进行微信授权，是否手动输入token？', _ => {}, {
+                                confirmText: '输入',
+                                cancelText: '不输入'
+                            }).then(_ => {
+                                let showPrompt = (value) => {
+                                    let promptValue = prompt('请输入token', value || '');
+                                    if (promptValue == null) {
+                                        http.showFail('取消token设置')
+                                    } else if (promptValue == '') {
+                                        http.showModal('token不能为空', () => {
+                                            showPrompt();
+                                        });
+                                    } else {
+                                        http.setStorageToken(promptValue);
+
+                                        http.showModal('Tips: 请重新调取接口', () => {}, {
+                                            title: '设置token成功'
+                                        })
+                                    }
+                                }
+
+                                showPrompt();
+                            })
+                        }, 2000)
+                    } else {
+                        http.getUserAuth();
+                    }
+                }
             }
         }
 
@@ -118,13 +203,17 @@ var http = {
                     && ___closeWechat != 'SHAREAHTU'
                 )
             ) {
-                http.getWechatShare();
+                if (baseUrl.indexOf('http') == -1 || _isHostLen && !sessionStorage.getItem('___baseUrl')) {
+
+                } else {
+                    http.getWechatShare();
+                }
             }
         }
 
         // 开启调试
         if (getQueryString('dev_mode') === 'debug') {
-            try { new VConsole() } catch (e) { http.showModal('未找到VConsole插件', _ => {}, { title: '开启调试失败' }) }
+            try { new VConsole() } catch (e) { http.showModal('未找到VConsole插件', { title: '开启调试失败' }) }
             http.globalData.debug = true;
         }
 
@@ -195,15 +284,13 @@ var http = {
     *   showErrorCallback 是否是用Promise的catch方法 是的话1 默认是0
     *   showLoading 是否显示loading 默认 1
     * */
-    ajaxPost(url, params, showErrorCallback, showLoading) {
+    ajaxPost(url, params = {}, showErrorCallback, showLoading) {
         let showPrompt = (value) => {
             let promptValue = prompt('请输入baseUrl，页面关闭前保持生效', value || devBaseUrl);
             if (promptValue == null) {
                 http.showFail('取消baseUrl设置')
             } else if (promptValue == '') {
-                http.showModal('内容不能为空', () => {
-                    showPrompt();
-                });
+                http.showModal('内容不能为空').then(_ => showPrompt());
             } else {
                 if (promptValue.indexOf('https') === -1) {
                     if (promptValue.substring(promptValue.length - 1) === '/') {
@@ -219,7 +306,7 @@ var http = {
                     }
                 }
 
-                http.showModal('生效时间: 页面关闭前保持生效\nTips: 请重新调取接口', () => {}, {
+                http.showModal('生效时间: 页面关闭前保持生效\nTips: 请重新调取接口', {
                     title: '设置成功'
                 })
             }
@@ -229,15 +316,11 @@ var http = {
         if (___baseUrl) baseUrl = ___baseUrl;
 
         if (baseUrl.indexOf('http') == -1 || _isHostLen && !___baseUrl) {
-            http.showMessage(`<b style="color: firebrick;">baseUrl（域名）不能是本地路径</b>`, () => {
-                showPrompt();
-            }, () => {
-
-            }, {
+            http.showMessage(`<b style="color: firebrick;">baseUrl（域名）不能是本地路径</b>`, {
                 title: 'ajaxPost调取失败',
                 confirmColor: 'red',
                 confirmText: '设置baseUrl'
-            })
+            }).then(_ => showPrompt())
             /*
             *   title: 标题 默认为提示
             *   confirmColor: 确认颜色 默认为 #5f646e
@@ -278,17 +361,17 @@ var http = {
 
                     if (data.c == 110) {
                         // token失效
-                        http.showModal('您尚未授权登录登录，请先授权登录!', function() {
-                            sessionStorage.clear();
+                        http.showModal('登陆已过期', { title: '提示' }).then(_ => {
+                            http.clearStorageFun();
                             location.replace(authLocationPath);
-                        }, { title: '操作失败' })
+                        })
                     } else if (data.c == 400) {
                         // 页面不存在
                         location.replace(baseUrl);
                     } else if (data.c == 10000) {
                         // 登录超时，请重新登录
-                        http.showModal('登录超时，请重新登录', function () {
-                            sessionStorage.clear();
+                        http.showModal('登录超时，请重新登录').then(_ => {
+                            http.clearStorageFun();
                             location.replace(authLocationPath);
                         })
                     } else {
@@ -337,7 +420,7 @@ var http = {
         })
     },
 
-    /**! 用户授权 !**/
+    /** 用户授权 **/
     getUserAuth() {
         let token = http.getStorageToken();
         if (!token) {
@@ -346,13 +429,12 @@ var http = {
                 var _url = getQueryDelString('token');
                 window.location.replace(location.origin + location.pathname + (_url? '?' + _url: ''));
             } else {
-                sessionStorage.clear();
+                http.clearStorageFun();
                 http.redirectTo(authLocationPath)
             }
         } else {
             if (getQueryString('token')) {
                 http.setStorageToken(getQueryString('token'))
-                sessionStorage.setItem('token', getQueryString('token'));
                 var _url = getQueryDelString('token');
                 window.location.replace(location.origin + location.pathname + (_url? '?' + _url: ''));
             } else {
@@ -361,7 +443,7 @@ var http = {
         }
     },
 
-    /**! 授权成功后的回调 !**/
+    /** 授权成功后的回调 **/
     getFunDetail() {
         try {
             window.onload = () => wxAuth.dispatchEvent('auth', {
@@ -378,7 +460,8 @@ var http = {
     },
 
     /**! 微信分享 !**/
-    getWechatShare() {
+    getWechatShare(fail) {
+        var fail = fail || 0;
         setTimeout(() => {
             try {
                 if (wx && wxShare) {
@@ -386,12 +469,36 @@ var http = {
                 }
             }
             catch (e) {
-                http.getWechatShare();
+                fail++;
+                fail <= 3 && setTimeout(_ => http.getWechatShare(fail), 3000) || http.showFail('微信分享配置失败');
             }
         }, 300)
     },
 
-    /**! 设置token !**/
+    /** 清除缓存 **/
+    clearStorageFun() {
+        let { clearAllStorageType, clearAllStorageList, getTokenType } = http.globalData;
+
+        if (clearAllStorageType) {
+            getTokenType? localStorage.clear(): sessionStorage.clear();
+        } else {
+            if (getTokenType) {
+                clearAllStorageList.length && clearAllStorageList.forEach(ele => {
+                    http.removeStorageSync(ele)
+                })
+
+                http.removeStorageSync('token')
+            } else {
+                clearAllStorageList.length && clearAllStorageList.forEach(ele => {
+                    sessionStorage.removeItem(ele);
+                })
+
+                sessionStorage.removeItem('token');
+            }
+        }
+    },
+
+    /** 设置token **/
     setStorageToken(token) {
         if (http.globalData.getTokenType)
             token && localStorage.setItem('token', token || '');
@@ -399,7 +506,7 @@ var http = {
             token && sessionStorage.setItem('token', token || '');
     },
 
-    /**! 获取token !**/
+    /** 获取token **/
     getStorageToken() {
         if (http.globalData.getTokenType)
             return localStorage.getItem('token') || '';
@@ -407,14 +514,14 @@ var http = {
             return sessionStorage.getItem('token') || '';
     },
 
-    /**! 关闭当前页面，返回上一页面或多个页面 !**/
+    /** 关闭当前页面，返回上一页面或多个页面 **/
     navigateBack(delta) {
         http.showLoading();
         !delta && history.go(-1) || history.go('-' + delta);
         setTimeout(_ => http.hideLoading(), 800);
     },
 
-    /**! 保留当前页面，跳转到新页面 !**/
+    /** 保留当前页面，跳转到新页面 **/
     navigateTo(url) {
         if (!url) return;
         http.showLoading();
@@ -422,7 +529,7 @@ var http = {
         setTimeout(_ => http.hideLoading(), 800);
     },
 
-    /**! 关闭当前页面，打开新页面 !**/
+    /** 关闭当前页面，打开新页面 **/
     redirectTo(url) {
         if (!url) return;
         http.showLoading();
@@ -430,7 +537,7 @@ var http = {
         setTimeout(_ => http.hideLoading(), 800);
     },
 
-    /**! 显示loading !**/
+    /** 显示loading **/
     showLoading(content) {
         /*
         * content 要显示的loading内容，支持换行 \n
@@ -465,7 +572,7 @@ var http = {
         })
     },
 
-    /**! 隐藏loading !**/
+    /** 隐藏loading **/
     hideLoading() {
         if ($('.__lead_loading_block').length) {
             $('.__lead_loading').removeClass('showLeadLoading');
@@ -475,12 +582,12 @@ var http = {
         }
     },
 
-    /**! 显示成功 2.5秒后消失 !**/
+    /** 显示成功 2.5秒后消失 **/
     showSuc(content) {
         http.showSuccess(content)
     },
 
-    /**! 显示成功 2.5秒后消失 !**/
+    /** 显示成功 2.5秒后消失 **/
     showSuccess(content) {
         /*
         * content 要显示的成功内容，支持换行 \n
@@ -533,7 +640,7 @@ var http = {
         })
     },
 
-    /**! 显示失败 2.5秒后消失 !**/
+    /** 显示失败 2.5秒后消失 **/
     showFail(content) {
         /*
         * content 要显示的成功内容，支持换行 \n
@@ -587,26 +694,25 @@ var http = {
         })
     },
 
-    /**! 显示消息弹窗，带确认取消按钮 !**/
-    showMessage(content, confirm, cancel, otherParams) {
+    /** 显示消息弹窗，带确认取消按钮 **/
+    showMessage(content, otherParams) {
         /*
         * content 要显示的消息，支持换行\n
-        * confirm 确认按钮
-        * cancel 取消按钮
-        * otherParams: {
-        *   title: 标题 默认为提示
-        *   confirmColor: 确认颜色 默认为 #5f646e
-        *   cancelColor: 取消颜色 默认为 #999
-        *   confirmText: 确认文字
-        *   cancelText: 取消文字
-        * }
+        * otherParams
+        *   title 标题 默认为提示
+        *   confirmColor 确认按钮的颜色 默认值 -> #5f646e
+        *   cancelColor 取消按钮的颜色  默认值 -> #999
+        *   confirmText 确认按钮的文字  默认值 -> 确定
+        *   cancelText 取消按钮的文字   默认值 -> 取消
+        *
         * */
 
-        if (content) {
-            content = content.constructor == Array || content.constructor == Object? JSON.stringify(content): this.getLineFeedHtml(content);
-        }
+        return new Promise((reslove, reject) => {
+            if (content) {
+                content = content.constructor == Array || content.constructor == Object? JSON.stringify(content): this.getLineFeedHtml(content);
+            }
 
-        var __leadMessage = `
+            var __leadMessage = `
             <div class="__lead __lead_message_block col items center">
                 <div class="__lead_message __lead_smallBig_animate col items">
                     <div class="__lead_message_title col items center">
@@ -623,75 +729,75 @@ var http = {
             </div>
         `;
 
-        if (!$('.__lead_mask').length) {
-            $('body').append(`<div class="__lead_mask"></div>`)
-        }
+            if (!$('.__lead_mask').length) {
+                $('body').append(`<div class="__lead_mask"></div>`)
+            }
 
-        $('body').append(__leadMessage);
+            $('body').append(__leadMessage);
 
-        setTimeout(function () {
-            if ($('.__lead_message').length > 1) {
-                var __leadMessage = $('.__lead_message');
-                for (var i = 0; i < __leadMessage.length; i++) {
-                    if (!__leadMessage.eq(i).hasClass('.showLeadMessage')) {
-                        __leadMessage.eq(i).addClass('showLeadMessage');
+            setTimeout(function () {
+                if ($('.__lead_message').length > 1) {
+                    var __leadMessage = $('.__lead_message');
+                    for (var i = 0; i < __leadMessage.length; i++) {
+                        if (!__leadMessage.eq(i).hasClass('.showLeadMessage')) {
+                            __leadMessage.eq(i).addClass('showLeadMessage');
+                        }
                     }
+                } else {
+                    $('.__lead_message').length && $('.__lead_message').addClass('showLeadMessage');
                 }
-            } else {
-                $('.__lead_message').length && $('.__lead_message').addClass('showLeadMessage');
-            }
-        }, 20)
+            }, 20)
 
-        // $('.__lead_message_block').length && $('.__lead_message_block').on('touchmove', function (event) {
-        //     event.preventDefault();
-        // })
+            // $('.__lead_message_block').length && $('.__lead_message_block').on('touchmove', function (event) {
+            //     event.preventDefault();
+            // })
 
-        var is_click = true;
+            var is_click = true;
 
-        var $__lead_message_block = $('.__lead_message_block');
-        var __lead_message_button = $__lead_message_block.eq($__lead_message_block.length - 1).find('.__lead_message_button span');
+            var $__lead_message_block = $('.__lead_message_block');
+            var __lead_message_button = $__lead_message_block.eq($__lead_message_block.length - 1).find('.__lead_message_button span');
 
-        __lead_message_button.off('click');
-        __lead_message_button.on('click', function () {
-            if (is_click) {
-                is_click = false;
-                var _this = $(this);
-                _this.closest('.__lead_message').removeClass('showLeadMessage');
-                setTimeout(function () {
-                    var _index = _this.index();
-                    _this.closest('.__lead_message_block').remove();
-                    if (!$('.__lead').length) {
-                        $('.__lead_mask').remove();
-                    }
-                    is_click = true;
-                    _index == 1 && confirm && confirm('confirm');
-                    _index == 0 && cancel && cancel('cancel');
-                }, 250)
+            __lead_message_button.off('click');
+            __lead_message_button.on('click', function () {
+                if (is_click) {
+                    is_click = false;
+                    var _this = $(this);
+                    _this.closest('.__lead_message').removeClass('showLeadMessage');
+                    setTimeout(function () {
+                        var _index = _this.index();
+                        _this.closest('.__lead_message_block').remove();
+                        if (!$('.__lead').length) {
+                            $('.__lead_mask').remove();
+                        }
+                        is_click = true;
+                        _index == 1 && reslove('confirm');
+                        _index == 0 && reject('cancel');
+                    }, 250)
 
-            }
+                }
+            })
         })
     },
 
-    /**! 可复制内容的消息弹窗，带确认取消按钮 !**/
-    showCopyText(content, confirm, cancel, otherParams) {
+    /** 可复制内容的消息弹窗，带确认取消按钮 **/
+    showCopyText(content, otherParams) {
         /*
         * content 要复制的消息，支持换行\n
-        * confirm 确认按钮
-        * cancel 取消按钮
-        * otherParams: {
-        *   title: 标题 默认为提示
-        *   confirmColor: 确认颜色 默认为 #5f646e
-        *   cancelColor: 取消颜色 默认为 #999
-        *   confirmText: 确认文字
-        *   cancelText: 取消文字
-        * }
+        * otherParams
+        *   title 标题 默认文字 -> 提示
+        *   confirmColor 确认按钮的颜色   默认值 -> #5f646e
+        *   cancelColor  取消按钮的颜色   默认值 -> #999
+        *   confirmText  确认按钮的文字   默认值 -> 复制
+        *   cancelText   取消按钮的文字   默认值 -> 取消
+        *
         * */
 
-        if (content) {
-            content = content.constructor == Array || content.constructor == Object? JSON.stringify(content): this.getLineFeedHtml(content);
-        }
+        return new Promise((reslove, reject) => {
+            if (content) {
+                content = content.constructor == Array || content.constructor == Object? JSON.stringify(content): this.getLineFeedHtml(content);
+            }
 
-        var __leadMessage = `
+            var __leadMessage = `
             <div class="__lead __lead_message_copy col items center">
                 <div class="__lead_copy __lead_smallBig_animate col items">
                     <div class="__lead_copy_title col items center">
@@ -708,88 +814,89 @@ var http = {
             </div>
         `;
 
-        if (!$('.__lead_mask').length) {
-            $('body').append(`<div class="__lead_mask"></div>`)
-        }
-
-        var input = document.createElement("input");
-
-        content = content.replace(/<\/br>/g, ' ');
-
-        input.value = content;
-        input.readOnly = true;
-        input.style.opacity = 0;
-        input.style.fontSize = '20px';
-        input.style.position = 'fixed';
-        input.style.left = '-9999999px';
-        input.style.top = '-999999px';
-        $('body').append(__leadMessage);
-        $('.__lead_message_copy').append(input);
-
-        setTimeout(function () {
-            if ($('.__lead_copy').length > 1) {
-                var __leadCopy = $('.__lead_copy');
-                for (var i = 0; i < __leadCopy.length; i++) {
-                    if (!__leadCopy.eq(i).hasClass('.showLeadCopy')) {
-                        __leadCopy.eq(i).addClass('showLeadCopy');
-                    }
-                }
-            } else {
-                $('.__lead_copy').length && $('.__lead_copy').addClass('showLeadCopy');
+            if (!$('.__lead_mask').length) {
+                $('body').append(`<div class="__lead_mask"></div>`)
             }
-        }, 20)
 
-        // $('.__lead_message_copy').length && $('.__lead_message_copy').on('touchmove', function (event) {
-        //     event.preventDefault();
-        // })
+            var input = document.createElement("input");
 
-        var is_click = true;
+            content = content.replace(/<\/br>/g, ' ');
 
-        $('.__lead_copy_button span').click(function () {
-            if (is_click) {
-                is_click = false;
-                var _this = $(this);
-                var _index = _this.index();
-                _this.closest('.__lead_copy').removeClass('showLeadCopy');
+            input.value = content;
+            input.readOnly = true;
+            input.style.opacity = 0;
+            input.style.fontSize = '20px';
+            input.style.position = 'fixed';
+            input.style.left = '-9999999px';
+            input.style.top = '-999999px';
+            $('body').append(__leadMessage);
+            $('.__lead_message_copy').append(input);
 
-                if (_index == 1) {
-                    input.select();
-                    input.setSelectionRange(0, input.value.length)
-                    document.execCommand('Copy');
-                    // http.showModal('复制成功')
-                }
-
-                setTimeout(function () {
-                    _this.closest('.__lead_message_copy').remove();
-                    if (!$('.__lead').length) {
-                        $('.__lead_mask').remove();
+            setTimeout(function () {
+                if ($('.__lead_copy').length > 1) {
+                    var __leadCopy = $('.__lead_copy');
+                    for (var i = 0; i < __leadCopy.length; i++) {
+                        if (!__leadCopy.eq(i).hasClass('.showLeadCopy')) {
+                            __leadCopy.eq(i).addClass('showLeadCopy');
+                        }
                     }
-                    is_click = true;
-                    _index == 1 && confirm && confirm('confirm');
-                    _index == 0 && cancel && cancel('cancel');
-                }, 250)
+                } else {
+                    $('.__lead_copy').length && $('.__lead_copy').addClass('showLeadCopy');
+                }
+            }, 20)
 
-            }
+            // $('.__lead_message_copy').length && $('.__lead_message_copy').on('touchmove', function (event) {
+            //     event.preventDefault();
+            // })
+
+            var is_click = true;
+
+            $('.__lead_copy_button span').click(function () {
+                if (is_click) {
+                    is_click = false;
+                    var _this = $(this);
+                    var _index = _this.index();
+                    _this.closest('.__lead_copy').removeClass('showLeadCopy');
+
+                    if (_index == 1) {
+                        input.select();
+                        input.setSelectionRange(0, input.value.length)
+                        document.execCommand('Copy');
+                        // http.showModal('复制成功')
+                    }
+
+                    setTimeout(function () {
+                        _this.closest('.__lead_message_copy').remove();
+                        if (!$('.__lead').length) {
+                            $('.__lead_mask').remove();
+                        }
+                        is_click = true;
+                        _index == 1 && reslove('confirm');
+                        _index == 0 && reject('cancel');
+                    }, 250)
+
+                }
+            })
         })
     },
 
-    /**! 显示消息弹窗，带确认按钮 !**/
-    showModal(content, confirm, otherParams) {
+    /** 显示消息弹窗，带确认按钮 **/
+    showModal(content, otherParams) {
         /*
         * content 要显示的消息，支持换行\n
-        * confirm 确认按钮
-        * otherParams: {
-        *   title: 标题 默认为提示
-        *   confirmColor: 确认颜色 默认为 #5f646e
-        *   confirmText: 确认文字
-        * }
+        * otherParams 其他参数
+        *   title 标题            默认值 -> 提示
+        *   confirmColor 确认颜色  默认值 -> #5f646e
+        *   confirmText 确认文字   默认值 -> 我知道了
+        *
         * */
 
-        if (content) {
-            content = content.constructor == Array || content.constructor == Object? JSON.stringify(content): this.getLineFeedHtml(content);
-        }
+        return new Promise((resolve, reject) => {
+            if (content) {
+                content = content.constructor == Array || content.constructor == Object? JSON.stringify(content): this.getLineFeedHtml(content);
+            }
 
-        var __leadModal = `
+            var __leadModal = `
             <div class="__lead __lead_modal_block col items center">
                 <div class="__lead_modal __lead_smallBig_animate col items">
                     <div class="__lead_modal_title col items center">
@@ -805,59 +912,68 @@ var http = {
             </div>
         `;
 
-        if (!$('.__lead_mask').length) {
-            $('body').append(`<div class="__lead_mask"></div>`)
-        }
+            if (!$('.__lead_mask').length) {
+                $('body').append(`<div class="__lead_mask"></div>`)
+            }
 
-        $('body').append(__leadModal);
+            $('body').append(__leadModal);
 
-        setTimeout(function () {
-            if ($('.__lead_modal').length > 1) {
-                var __leadMessage = $('.__lead_modal');
-                for (var i = 0; i < __leadMessage.length; i++) {
-                    if (!__leadMessage.eq(i).hasClass('.showLeadModal')) {
-                        __leadMessage.eq(i).addClass('showLeadModal');
+            setTimeout(function () {
+                if ($('.__lead_modal').length > 1) {
+                    var __leadMessage = $('.__lead_modal');
+                    for (var i = 0; i < __leadMessage.length; i++) {
+                        if (!__leadMessage.eq(i).hasClass('.showLeadModal')) {
+                            __leadMessage.eq(i).addClass('showLeadModal');
+                        }
                     }
+                } else {
+                    $('.__lead_modal').length && $('.__lead_modal').addClass('showLeadModal');
                 }
-            } else {
-                $('.__lead_modal').length && $('.__lead_modal').addClass('showLeadModal');
-            }
-        }, 20)
+            }, 20)
 
-        // $('.__lead_modal_block').length && $('.__lead_modal_block').on('touchmove', function (event) {
-        //     event.preventDefault();
-        // })
+            // $('.__lead_modal_block').length && $('.__lead_modal_block').on('touchmove', function (event) {
+            //     event.preventDefault();
+            // })
 
-        var is_click = true;
+            var is_click = true;
 
-        var $__lead_modal_block = $('.__lead_modal_block');
-        var __lead_modal_button = $__lead_modal_block.eq($__lead_modal_block.length - 1).find('.__lead_modal_button');
+            var $__lead_modal_block = $('.__lead_modal_block');
+            var __lead_modal_button = $__lead_modal_block.eq($__lead_modal_block.length - 1).find('.__lead_modal_button');
 
-        __lead_modal_button.off('click');
-        __lead_modal_button.on('click', function () {
-            if (is_click) {
-                is_click = false;
-                var _this = $(this);
-                _this.closest('.__lead_modal').removeClass('showLeadModal');
-                var _index = _this.index();
-                setTimeout(function () {
-                    _this.closest('.__lead_modal_block').remove();
-                    if (!$('.__lead').length) {
-                        $('.__lead_mask').remove();
-                    }
-                    is_click = true;
-                    confirm && confirm('confirm');
-                }, 250)
-            }
+            __lead_modal_button.off('click');
+            __lead_modal_button.on('click', function () {
+                if (is_click) {
+                    is_click = false;
+                    var _this = $(this);
+                    _this.closest('.__lead_modal').removeClass('showLeadModal');
+                    var _index = _this.index();
+                    setTimeout(function () {
+                        _this.closest('.__lead_modal_block').remove();
+                        if (!$('.__lead').length) {
+                            $('.__lead_mask').remove();
+                        }
+                        is_click = true;
+                        resolve('confirm');
+                    }, 250)
+                }
+            })
         })
     },
 
-    /**! 2秒后消失的浮层 !**/
+    /** 2秒后消失的浮层 **/
     showToast(content, direction, hasModal = false) {
         /*
-        * content String 要显示的消息，支持换行\n
-        * direction 出现的方向 top 页面上方 默认值 middle(或center) 页面中间 bottom 页面底部
-        * hasModal Boolean 是否有遮罩层，默认false
+        * content String
+        *   要显示的消息，支持换行\n
+        *
+        * direction String (默认值是页面上方)
+        *   出现的方向
+        *       top 页面上方 默认值
+        *       middle(或center) 页面中间
+        *       bottom 页面底部
+        *
+        * hasModal Boolean
+        *   是否有遮罩层，默认false
         * */
         if (content) {
             content = content.constructor == Array || content.constructor == Object? JSON.stringify(content): this.getLineFeedHtml(content);
@@ -904,12 +1020,12 @@ var http = {
 
     },
 
-    /**! (\n 转换为 </br>) !**/
+    /** (\n 转换为 </br>) **/
     getLineFeedHtml(content) {
         return String(content).replace(/\n/g, "</br>")
     },
 
-    /**! 读取缓存 !**/
+    /** 读取缓存 **/
     getStorageSync(name) {
         try {
             return name? JSON.parse(localStorage.getItem(name)): '';
@@ -918,22 +1034,22 @@ var http = {
         }
     },
 
-    /**! 设置缓存 !**/
+    /** 设置缓存 **/
     setStorageSync(name, val) {
         localStorage.setItem(name, JSON.stringify(val))
     },
 
-    /**! 删除缓存 !**/
+    /** 删除缓存 **/
     removeStorageSync(name) {
         localStorage.removeItem(name);
     },
 
-    /**! 清除所有缓存 !**/
+    /** 清除所有缓存 **/
     clearStorageSync() {
         localStorage.clear();
     },
 
-    /**! 验证 !**/
+    /** 验证 **/
     validate(name, content, otherParams) {
 
         /*
@@ -1068,13 +1184,15 @@ var http = {
         }
     },
 
-    /**! 滑动到底部事件 !**/
-    onReachBottom(_el, callback) {
+    /** 滑动到底部事件 **/
+    onReachBottom(_el, callback, debug = 0) {
         if (!_el) _el = $(window);
         _el.scroll(function () {
             let height = _el.height();
             let scrollHeight = _el[0].scrollHeight;
             let scrollTop = _el[0].scrollTop;
+
+            debug && _log(scrollTop + height, scrollHeight, scrollTop + height >= scrollHeight)
 
             if (scrollTop + height >= scrollHeight) {
                 if (callback) callback();
@@ -1082,10 +1200,11 @@ var http = {
         })
     },
 
-    /**! 是否是iPhoneX以上机型 !**/
+    /** 是否是iPhoneX以上机型 **/
     isIPhoneX() {
         if (typeof window !== 'undefined' && window) {
             return /iphone/gi.test(window.navigator.userAgent) && window.screen.height >= 724;
+            // return /iphone/gi.test(window.navigator.userAgent) && window.screen.height >= 810;
         }
         return false;
     },
@@ -1103,9 +1222,9 @@ var http = {
         } else if (window.innerHeight < 1270) {
             return 2;
         } else if (window.innerHeight < 1335) {
-            return  1;
+            return 1;
         } else {
-            return  0;
+            return 0;
         }
     },
 
@@ -1210,45 +1329,75 @@ var http = {
         });
     },
 
-    /**! 解决ios下页面被第三方输入法顶上去的bug !**/
+    /** 解决ios下页面被第三方输入法顶上去的bug **/
     iosPhoneBug() {
         setTimeout(() => {
             if (client && client.os == 'iPhone') {
                 const scrollHeight = document.documentElement.scrollTop || document.body.scrollTop || 0;
-                window.scrollTo(0, Math.max(scrollHeight - 1, 0));
+                window.scrollTo(0, Math.max(scrollHeight, 0));
             }
         }, 150)
     },
 
-    /**! 打开inobounceJs !**/
+    /** 打开inobounceJs **/
     openPageScroll() {
         if (!iNoBounce.isEnabled()) iNoBounce.enable();
     },
 
-    /**! 关闭inobounceJs !**/
+    /** 关闭inobounceJs **/
     closePageScroll() {
         if (iNoBounce.isEnabled()) iNoBounce.disable();
+    },
+
+    /* 检测环境
+    * 1 微信
+    * 2 企业微信
+    * 3 微信或者企业微信
+    * 4 微博
+    * 5 网易POPO
+    * 1000 其他
+    * */
+    checkAppBrowser() {
+        var ua = window.navigator.userAgent.toLowerCase();
+        if ((ua.match(/MicroMessenger/i) == 'micromessenger') && (ua.match(/wxwork/i) != 'wxwork')) {
+            // 微信环境
+            return 1;
+        } else if ((ua.match(/MicroMessenger/i) == 'micromessenger') && (ua.match(/wxwork/i) == 'wxwork')) {
+            // 企业微信
+            return 2;
+        } else if ((ua.match(/MicroMessenger/i) == 'micromessenger') || (ua.match(/wxwork/i) == 'wxwork')) {
+            // 微信或者企业微信
+            return 3;
+        } else if (ua.indexOf('Weibo') > -1 || ua.indexOf('weibo') > -1) {
+            // 微博
+            return 4;
+        } else if (ua.indexOf('popo') > -1) {
+            // 网易POPO
+            return 5;
+        } else {
+            return 1000;
+        }
     },
 };
 
 http.init();
 
-/**! 解决ios下伪类不起作用的bug !**/
+/** 解决ios下伪类不起作用的bug **/
 document.body.addEventListener('touchstart', _ => {});
 
-/**! 增加左右移动时禁止页面上下滚动 !**/
+/** 增加左右移动时禁止页面上下滚动 **/
 document.addEventListener('touchmove', event => event.comesFormScrollable && event.preventDefault(), { passive: false })
 
-/**! 获取URL参数 !**/
+/** 获取URL参数 **/
 function getQueryString(name) { var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i"), r = window.location.search.substr(1).match(reg);if (r != null) return unescape(r[2]);return null; }
 
-/**! 获取所有url参数 返回一个对象或者字符串 !**/
+/** 获取所有url参数 返回一个对象或者字符串 **/
 function getQueryAllString(name) { var url = location.search, theRequest = new Object(); if (url.indexOf("?") != -1) { var str = url.substr(1); strs = str.split("&"); for(var i = 0; i < strs.length; i ++) { theRequest[strs[i].split("=")[0]]=decodeURIComponent(strs[i].split("=")[1]) } } return name? theRequest[name]: theRequest; }
 
-/**! 获取所有url参数 并删除某个参数 !**/
+/** 获取所有url参数 并删除某个参数 **/
 function getQueryDelString(arg_name_removed) { try { var url = window.location.search; var arr = []; var query_string = ""; if ( url.lastIndexOf('?') == 0) { var arg_str = url.substr( url.lastIndexOf('?') +1, url.length); if (arg_str.indexOf('&') != -1) { var arr = arg_str.split('&'); for (var i in arr) { if (arr[i].split('=')[0] != arg_name_removed) { query_string = query_string + arr[i].split('=')[0] + "=" + arr[i].split('=')[1] + "&"; } } return query_string.substr(0, query_string.length - 1); } } } catch (e) { return ''; } }
 
-/**! 去除小数运算浮点问题 !**/
+/** 去除小数运算浮点问题 **/
 const $h = {
     // 除法函数，用来得到精确的除法结果
     // 说明：javascript的除法结果会有误差，在两个浮点数相除的时候会比较明显。这个函数返回较为精确的除法结果。
@@ -1351,7 +1500,7 @@ const $h = {
     },
 }
 
-/**! 滑动方向 !**/
+/** 滑动方向 **/
 var hasScrollPageCommonJs = 1;
 var getScrollDirection = function (element, callUp, callDown) {
     /*
@@ -1409,7 +1558,7 @@ var getScrollDirection = function (element, callUp, callDown) {
     });
 }
 
-/**! 安卓手机禁止微信客户端修改字体大小 IOS则用样式修改 !**/
+/** 安卓手机禁止微信客户端修改字体大小 IOS则用样式修改 **/
 ;(function() { if (typeof WeixinJSBridge == "object" && typeof WeixinJSBridge.invoke == "function") { handleFontSize(); } else { if (document.addEventListener) { document.addEventListener("WeixinJSBridgeReady", handleFontSize, false); } else if (document.attachEvent) { document.attachEvent("WeixinJSBridgeReady", handleFontSize); document.attachEvent("onWeixinJSBridgeReady", handleFontSize);  } } function handleFontSize() { WeixinJSBridge.invoke('setFontSizeCallback', { 'fontSize' : 0 }); WeixinJSBridge.on('menu:setfont', function() { WeixinJSBridge.invoke('setFontSizeCallback', { 'fontSize' : 0 }); }); } })();
 
 ;(function() {
@@ -1418,9 +1567,9 @@ var getScrollDirection = function (element, callUp, callDown) {
         init: function () {
             this.OS = this.searchString(this.dataOS) || "an unknown OS";
             this.BS = this.searchBrowser(this.dataBS);
-            if(this.OS == 'iPhone' || this.OS == 'iPad' || this.OS == 'Android' || this.OS == 'Winphone' ){
+            if (this.OS == 'iPhone' || this.OS == 'iPad' || this.OS == 'Android' || this.OS == 'Winphone' ) {
                 this.mobile = true;
-            }else{
+            } else {
                 this.mobile = false;
             }
         },
@@ -1529,7 +1678,7 @@ var getScrollDirection = function (element, callUp, callDown) {
 
 })();
 
-/**! 载入器 !**/
+/** 载入器 **/
 function wrLoading(objname, filearray, callback, type) {
     this.callback = callback;
     this.objname = objname;
@@ -1784,7 +1933,6 @@ wrLoading.prototype = {
                 }
             }
         }
-
     };
     window.hidePage = hidePage;
 

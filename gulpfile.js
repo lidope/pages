@@ -38,7 +38,7 @@ const distFileName = '.';
 /*
 * 不打包目录名
 * */
-const noPackingName = ['utils', 'audio', 'fonts', 'video'];
+const noPackingName = ['utils', 'audio', 'fonts', 'video', 'invalid'];
 
 /*
 * .css文件打包路径 (默认打包所有css)
