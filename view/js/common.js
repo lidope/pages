@@ -1,7 +1,7 @@
 /*
  * Update Time 2021.01.30
  * common.js v1.1.6
- * 2019-2021 © sxin
+ * 2019-2021 © lead
  */
 
 /** 域名 **/
@@ -73,7 +73,15 @@ var http = {
         /* 开启横屏提示 */
         openPhoneScreenX: true,
 
-        /* 检测环境 默认是在微信内打开，如需其他环境，则配置 checkAppBrowser值
+        /** 微信分享 **/
+        share: {
+            title: '',      // 标题
+            desc: '',       // 描述
+            link: baseUrl,  // 链接
+            imgUrl: ''      // 图片
+        },
+
+        /* 检测环境 默认是在微信内打开，如需其他环境，则配置 checkAppBrowser值，如果都可以打开，则checkAppBrowser值为0
         * 1 微信
         * 2 企业微信
         * 3 微信或者企业微信
@@ -84,8 +92,8 @@ var http = {
         checkAppBrowser: 1,
         checkAppBrowserList: [
             { id: 1, name: '微信', page: 'wechat' },
-            { id: 2, name: '企业微信', page: 'workwechat' },
-            { id: 3, name: '微信或者企业微信', page: 'wxwechat' },
+            { id: 2, name: '企业微信', page: 'work' },
+            { id: 3, name: '微信或者企业微信', page: 'workwechat' },
             { id: 4, name: '微博', page: 'weibo' },
             { id: 5, name: '网易POPO', page: 'popo' },
             { id: 1000, name: '其他', page: 'other' },
@@ -109,14 +117,6 @@ var http = {
         * */
         clearAllStorageType: 1,
         clearAllStorageList: [],
-
-        /** 微信分享 **/
-        share: {
-            title: '',      // 标题
-            desc: '',       // 描述
-            link: baseUrl,  // 链接
-            imgUrl: ''      // 图片
-        },
     },
 
     /** 初始化 **/
@@ -126,10 +126,22 @@ var http = {
         // 环境检测
         let checkAppBrowser = http.checkAppBrowser();
 
-        if (checkAppBrowser != http.globalData.checkAppBrowser && !_isHostLen) {
+        if (http.globalData.checkAppBrowser && checkAppBrowser != http.globalData.checkAppBrowser) {
+
             for (var i = 0; i < checkAppBrowserList.length; i++) {
+                if (http.globalData.checkAppBrowser == 3 && checkAppBrowser == 1) {
+                    break;
+                }
+
                 if (checkAppBrowserList[i].id == http.globalData.checkAppBrowser) {
-                    http.redirectTo('../invalid/' + checkAppBrowserList[i].page + '.html');
+                    $('body').append(`
+                        <iframe
+                            class="warnIframe"
+                            style="width: 100vw; height: 100vh; position: fixed; left: 0; top: 0; z-index: 2147483647; background-color: white;" 
+                            src="https://warn110.leaddevelop.net/invalid/${ checkAppBrowserList[i].page }.html" 
+                            frameborder="0">
+                        </iframe>
+                    `)
                     break;
                 }
             }
@@ -1395,7 +1407,7 @@ function getQueryString(name) { var reg = new RegExp("(^|&)" + name + "=([^&]*)(
 function getQueryAllString(name) { var url = location.search, theRequest = new Object(); if (url.indexOf("?") != -1) { var str = url.substr(1); strs = str.split("&"); for(var i = 0; i < strs.length; i ++) { theRequest[strs[i].split("=")[0]]=decodeURIComponent(strs[i].split("=")[1]) } } return name? theRequest[name]: theRequest; }
 
 /** 获取所有url参数 并删除某个参数 **/
-function getQueryDelString(arg_name_removed) { try { var url = window.location.search; var arr = []; var query_string = ""; if ( url.lastIndexOf('?') == 0) { var arg_str = url.substr( url.lastIndexOf('?') +1, url.length); if (arg_str.indexOf('&') != -1) { var arr = arg_str.split('&'); for (var i in arr) { if (arr[i].split('=')[0] != arg_name_removed) { query_string = query_string + arr[i].split('=')[0] + "=" + arr[i].split('=')[1] + "&"; } } return query_string.substr(0, query_string.length - 1); } } } catch (e) { return ''; } }
+function getQueryDelString(arg_name_removed) {try {var url = window.location.search;var arr = [];var query_string = "";if (url.lastIndexOf('?') == 0) {var arg_str = url.substr(url.lastIndexOf('?') + 1, url.length);if (arg_str.indexOf('&') != -1) {var arr = arg_str.split('&');for (var i in arr) {if (arr[i].split('=')[0] != arg_name_removed) {query_string = query_string + arr[i].split('=')[0] + "=" + arr[i].split('=')[1] + "&";}}return query_string.substr(0, query_string.length - 1);} else {if (arg_str.split('=')[0] != arg_name_removed) {query_string = query_string + arg_str.split('=')[0] + "=" + arg_str.split('=')[1]}return query_string.substr(0, query_string.length);}}} catch (e) {return '';}}
 
 /** 去除小数运算浮点问题 **/
 const $h = {

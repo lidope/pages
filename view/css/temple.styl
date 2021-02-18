@@ -1,3 +1,18 @@
+// Company 单位值
+// 0 默认值 px
+// 1 rem
+
+_Company = 1;
+
+$n(num)
+    unit(
+            _Company? num / 100: num,
+            _Company? 'rem': 'px'
+    )
+
+
+@import 'vendor';
+
 $bg()
     background-size cover
     background-repeat no-repeat
@@ -13,21 +28,19 @@ $wh2()
     width 100%
     height 100%
 
+$wh3(w, h)
+    width $n(w)
+    height $n(h)
+
 $touch()
     overflow-y auto
     -webkit-overflow-scrolling touch
 
-/*
-type: 0 png 1 jpg
-*/
-$setbg(w, h, name, type)
-    background-image url('../images/login/' + name + '.' + (type == 1? 'jpg': 'png'))
-    $setwh(w, h)
+// type: 0 png 1 jpg
+$b(w, h, name, type = 0)
+    background-image url('../images/' + name + '.' + (type == 0? 'png': type == 1? 'jpg': 'svg'))
+    $wh3(w, h)
     $bg()
 
-$setwh(w, h)
-    width w
-    height h
-
-$sp(type)
+$p(type = 1)
     position type == 1? relative: type == 2? absolute: fixed

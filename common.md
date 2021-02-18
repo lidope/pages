@@ -20,7 +20,7 @@
     * 4 微博
     * 5 网易POPO
     * 1000 其他
-6. 增加环境检测
+6. 增加环境检测 checkAppBrowser
     默认是在微信内打开，如需其他环境，请配置globalData.checkAppBrowser值
 ```
 
