@@ -45,7 +45,7 @@ var _hostList = ['192.168', 'file://', 'localhost', '127.0.0.1'], _isHostLen = 0
 for (let i = 0; i < _hostList.length; i++) baseUrl.indexOf(_hostList[i]) > -1 && _isHostLen++;
 
 /** 非本地写入分享文件 **/
-!_isHostLen && document.write("<script src='https://open.leaddevelop.net/wxShare.js'></script>");
+!_isHostLen && document.write("<script src='https://open.leaddevelop.net/wxShare2.0.js'></script>");
 
 var http = {
 
@@ -126,7 +126,7 @@ var http = {
         // 环境检测
         let checkAppBrowser = http.checkAppBrowser();
 
-        if (http.globalData.checkAppBrowser && checkAppBrowser != http.globalData.checkAppBrowser) {
+        if (http.globalData.checkAppBrowser && checkAppBrowser != http.globalData.checkAppBrowser && !_isHostLen) {
 
             for (var i = 0; i < checkAppBrowserList.length; i++) {
                 if (http.globalData.checkAppBrowser == 3 && checkAppBrowser == 1) {
