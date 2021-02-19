@@ -65,7 +65,7 @@ var http = {
         debug: false,
 
         /* 开启微信分享 */
-        openShare: true,
+        openShare: false,
 
         /* 开启微信授权 */
         openAuth: false,
