@@ -1059,7 +1059,76 @@ __lead_fail_block {
 html #__vconsole .vc-switch {
     font-size: 2em;
     right: 1.5em;
-    bottom: 1.5em;
+    bottom: 3.5em;
+}
+
+html #__vconsole .vc-logbox.vc-actived {
+    font-size: 24px;
+}
+
+html #__vconsole .vc-tabbar, html #__vconsole .vc-topbar {
+    height: 60px;
+    min-height: 60px;
+}
+
+html #__vconsole .vc-tabbar .vc-tab {
+    line-height: 60px;
+    font-size: 24px;
+}
+
+html #__vconsole .vc-topbar .vc-toptab {
+    font-size: 24px;
+    line-height: 60px;
+}
+
+html #__vconsole .vc-content {
+    top: 64px;
+    bottom: 128px;
+}
+
+html #__vconsole .vc-content.vc-has-topbar {
+    top: 124px;
+}
+
+html #__vconsole .vc-logbox .vc-cmd .vc-cmd-btn {
+    width: 100px;
+    height: 100%;
+}
+
+html #__vconsole .vc-logbox .vc-cmd .vc-cmd-input-wrap {
+    height: 100%;
+    margin-right: 100px;
+    padding: 10px 40px;
+}
+
+html #__vconsole .vc-logbox .vc-cmd .vc-cmd-input {
+    font-size: 24px;
+}
+
+html #__vconsole .vc-logbox .vc-cmd .vc-cmd-prompted li {
+    font-size: 24px;
+    line-height: 50px;
+}
+
+html #__vconsole .vc-toolbar {
+    line-height: 60px;
+    font-size: 24px;
+    bottom: 68px;
+}
+
+html #__vconsole .vc-logbox .vc-table .vc-table-col {
+    padding: 20px 10px;
+}
+
+html #__vconsole .vc-logbox .vc-table .vc-small .vc-table-col {
+    padding: 20px 10px;
+    font-size: 24px;
+}
+
+html .vcelm-l:before, html .vcelm-l.vc-toggle:before {
+    border-width: 6px;
+    top: 12px;
+    left: -3px;
 }
 
 /* 富文本增加默认样式 */
