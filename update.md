@@ -3,6 +3,12 @@
 
 <br>
 
+### 2021.02.19 更新
+```
+> reset.css
+1. vconsole样式更新
+```
+
 ### 2020.12.01 更新
 ```
 > reset.css、resetREM.css
