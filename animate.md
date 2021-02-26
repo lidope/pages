@@ -6,8 +6,8 @@
 4. UpToDown 从上至下
 5. LeftToRight 从左至右
 6. RightToLeft 从右至左
-7. showToHide 隐藏到显示
-8. hideToShow 显示到隐藏
+7. hideToShow 隐藏到显示
+8. showToHide 显示到隐藏
 9. ScrollRightIn 从右向左滚动
 10. scrollLeftIn 从左向右滚动
 11. rotate 顺时针限循转
