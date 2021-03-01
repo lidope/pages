@@ -1204,9 +1204,11 @@ var http = {
             let scrollHeight = _el[0].scrollHeight;
             let scrollTop = _el[0].scrollTop;
 
-            debug && _log(scrollTop + height, scrollHeight, scrollTop + height >= scrollHeight)
+            let Add = Math.round(scrollTop + height);
 
-            if (scrollTop + height >= scrollHeight) {
+            debug && _log(Add, scrollHeight, Add >= scrollHeight)
+
+            if (Add >= scrollHeight) {
                 if (callback) callback();
             }
         })

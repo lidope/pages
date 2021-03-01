@@ -23,6 +23,7 @@
 6. 增加环境检测 checkAppBrowser (本地环境不会检测)
     默认是在微信内打开，如需其他环境，请配置globalData.checkAppBrowser值
 7. 现在本地环境也可以写入分享文件了
+8. 增加onReachBottom的debug打印信息
 ```
 
 ### v1.1.5 更新 - 2021.01.04
