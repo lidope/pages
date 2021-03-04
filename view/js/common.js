@@ -335,7 +335,7 @@ var http = {
             }).then(_ => showPrompt())
             /*
             *   title: 标题 默认为提示
-            *   confirmColor: 确认颜色 默认为 #5f646e
+            *   confirmColor: 确认颜色 默认为 #576b95
             *   cancelColor: 取消颜色 默认为 #999
             *   confirmText: 确认文字
             *   cancelText: 取消文字
@@ -712,7 +712,7 @@ var http = {
         * content 要显示的消息，支持换行\n
         * otherParams
         *   title 标题 默认为提示
-        *   confirmColor 确认按钮的颜色 默认值 -> #5f646e
+        *   confirmColor 确认按钮的颜色 默认值 -> #576b95
         *   cancelColor 取消按钮的颜色  默认值 -> #999
         *   confirmText 确认按钮的文字  默认值 -> 确定
         *   cancelText 取消按钮的文字   默认值 -> 取消
@@ -735,7 +735,7 @@ var http = {
                     </div>
                     <div class="__lead_message_button row items center">
                         <span class="flex_group_1 button-active col items center" style="color: ${ otherParams && otherParams.cancelColor || '#999' }">${ otherParams && otherParams.cancelText || '取消' }</span>
-                        <span class="flex_group_1 button-active col items center" style="color: ${ otherParams && otherParams.confirmColor || '#5f646e' }">${ otherParams && otherParams.confirmText || '确定' }</span>
+                        <span class="flex_group_1 button-active col items center" style="color: ${ otherParams && otherParams.confirmColor || '#576b95' }">${ otherParams && otherParams.confirmText || '确定' }</span>
                     </div>
                 </div>
             </div>
@@ -782,6 +782,7 @@ var http = {
                             $('.__lead_mask').remove();
                         }
                         is_click = true;
+
                         _index == 1 && reslove('confirm');
                         _index == 0 && reject('cancel');
                     }, 250)
@@ -797,7 +798,7 @@ var http = {
         * content 要复制的消息，支持换行\n
         * otherParams
         *   title 标题 默认文字 -> 提示
-        *   confirmColor 确认按钮的颜色   默认值 -> #5f646e
+        *   confirmColor 确认按钮的颜色   默认值 -> #576b95
         *   cancelColor  取消按钮的颜色   默认值 -> #999
         *   confirmText  确认按钮的文字   默认值 -> 复制
         *   cancelText   取消按钮的文字   默认值 -> 取消
@@ -820,7 +821,7 @@ var http = {
                     </div>
                     <div class="__lead_copy_button row items center">
                         <span class="flex_group_1 button-active col items center" style="color: ${ otherParams && otherParams.cancelColor || '#999' }">${ otherParams && otherParams.cancelText || '取消' }</span>
-                        <span class="flex_group_1 button-active col items center" style="color: ${ otherParams && otherParams.confirmColor || '#5f646e' }">${ otherParams && otherParams.confirmText || '复制' }</span>
+                        <span class="flex_group_1 button-active col items center" style="color: ${ otherParams && otherParams.confirmColor || '#576b95' }">${ otherParams && otherParams.confirmText || '复制' }</span>
                     </div>
                 </div>
             </div>
@@ -898,7 +899,7 @@ var http = {
         * content 要显示的消息，支持换行\n
         * otherParams 其他参数
         *   title 标题            默认值 -> 提示
-        *   confirmColor 确认颜色  默认值 -> #5f646e
+        *   confirmColor 确认颜色  默认值 -> #576b95
         *   confirmText 确认文字   默认值 -> 我知道了
         *
         * */
@@ -908,17 +909,23 @@ var http = {
                 content = content.constructor == Array || content.constructor == Object? JSON.stringify(content): this.getLineFeedHtml(content);
             }
 
+            let titleHtml = otherParams && otherParams.title ? `
+                <div class="__lead_modal_title col items center">
+                    <span class="nowrap">${ otherParams && otherParams.title || '' }</span>
+                </div>
+              `: '';
+
             var __leadModal = `
             <div class="__lead __lead_modal_block col items center">
-                <div class="__lead_modal __lead_smallBig_animate col items">
-                    <div class="__lead_modal_title col items center">
-                        <span class="nowrap">${ otherParams && otherParams.title || '提示' }</span>
-                    </div>
+                <div class="__lead_modal __lead_smallBig_animate col items ${ otherParams && otherParams.title? '': 'lead_no_title' }">
+                    
+                    ${ titleHtml }
+                    
                     <div class="__lead_modal_content col items center">
                         <span>${ content || '' }</span>
                     </div>
                     <div class="__lead_modal_button row items center">
-                        <span class="flex_group_1 button-active col items center" style="color: ${ otherParams && otherParams.confirmColor || '#5f646e' }">${ otherParams && otherParams.confirmText || '我知道了' }</span>
+                        <span class="flex_group_1 button-active col items center" style="color: ${ otherParams && otherParams.confirmColor || '#576b95' }">${ otherParams && otherParams.confirmText || '我知道了' }</span>
                     </div>
                 </div>
             </div>

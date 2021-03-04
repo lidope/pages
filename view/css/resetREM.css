@@ -882,17 +882,27 @@ __lead_fail_block {
 .__lead_modal_block .__lead_modal .__lead_modal_button,
 .__lead_message_copy .__lead_copy .__lead_copy_button {
     width: 100%;
-    height: .9rem;
+    height: 1.2rem;
     border-top: 1px solid #e5e5e5;
 }
 
 .__lead_message_block .__lead_message .__lead_message_button span,
 .__lead_modal_block .__lead_modal .__lead_modal_button span,
 .__lead_message_copy .__lead_copy .__lead_copy_button span {
-    color: #5f646e;
+    color: #576b95;
     background: #fff;
     height: 100%;
     font-size: .3rem;
+    font-weight: 700;
+}
+
+.__lead .lead_no_title {
+    padding-top: .8rem;
+}
+
+.__lead .lead_no_title .__lead_modal_content span {
+    color: #000;
+    font-weight: 700;
 }
 
 .__lead_message_block .__lead_message .__lead_message_button span:active,
