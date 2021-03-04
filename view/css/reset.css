@@ -66,7 +66,7 @@ td {
     padding: 0;
     border: 0;
     outline: 0;
-    font-style: normal;
+    /*font-style: normal;*/
     vertical-align: top;
 }
 body, img, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, textarea, p, blockquote, th, td, hr, button, article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
