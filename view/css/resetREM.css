@@ -67,7 +67,7 @@ td {
     border: 0;
     outline: 0;
 }
-body, img, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, textarea, p, blockquote, th, td, hr, button, article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+body, img, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, form, input, textarea, p, th, td, hr, button, footer, header, section {
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
@@ -1005,7 +1005,11 @@ html #__vconsole .vc-switch {
     text-decoration: underline;
 }
 
-.rich-text span, .rich-text p {
+.rich-text span,
+.rich-text div,
+.rich-text p,
+.rich-text section,
+.rich-text p {
     user-select: text;
 }
 
