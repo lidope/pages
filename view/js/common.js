@@ -1827,9 +1827,6 @@ wrLoading.prototype = {
     },
     setPercent: function (p) {
         document.getElementsByClassName('percent')[0].innerHTML = p + '%';
-        $('.loading_progress div').css({
-            transform: 'translateX(-'+ ( 100 - p ) +'%)'
-        })
     }
 };
 
