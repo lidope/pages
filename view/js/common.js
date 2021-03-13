@@ -136,12 +136,16 @@ var http = {
                 if (checkAppBrowserList[i].id == http.globalData.checkAppBrowser) {
                     $('body').append(`
                         <iframe
-                            class="warnIframe"
+                            class="__warnIframe"
                             style="width: 100vw; height: 100vh; position: fixed; left: 0; top: 0; z-index: 2147483647; background-color: white;" 
                             src="https://warn110.leaddevelop.net/invalid/${ checkAppBrowserList[i].page }.html" 
                             frameborder="0">
                         </iframe>
                     `)
+
+                    setTimeout(_ => {
+                        $('.__warnIframe').on('touchmove', e => e.preventDefault())
+                    }, 300)
                     break;
                 }
             }
@@ -373,7 +377,7 @@ var http = {
 
                     if (data.c == 110) {
                         // token失效
-                        http.showModal('登陆已过期', { title: '提示' }).then(_ => {
+                        http.showModal('您的信息已失效', { title: '提示' }).then(_ => {
                             http.clearStorageFun();
                             location.replace(authLocationPath);
                         })
