@@ -994,6 +994,10 @@ html #__vconsole .vc-switch {
     bottom: 4em;
 }
 
+html #__vconsole .vc-switch, html #__vconsole.vc-toggle .vc-panel {
+    z-index: 999999999;
+}
+
 /* 富文本增加默认样式 */
 .rich-text {
     letter-spacing: .01rem;

@@ -1121,6 +1121,10 @@ html .vcelm-l:before, html .vcelm-l.vc-toggle:before {
     left: -3px;
 }
 
+html #__vconsole .vc-switch, html #__vconsole.vc-toggle .vc-panel {
+    z-index: 999999999;
+}
+
 /* 富文本增加默认样式 */
 .rich-text {
     letter-spacing: 1px;
