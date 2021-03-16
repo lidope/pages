@@ -1,6 +1,6 @@
 /*
- * Update Time 2021.01.30
- * common.js v1.1.6
+ * Update Time 2021.03.16
+ * common.js v1.1.7
  * 2019-2021 © lead
  */
 
@@ -1412,6 +1412,11 @@ document.body.addEventListener('touchstart', _ => {});
 
 /** 增加左右移动时禁止页面上下滚动 **/
 document.addEventListener('touchmove', event => event.comesFormScrollable && event.preventDefault(), { passive: false })
+
+/** 禁止页面右键功能 **/
+document.oncontextmenu = function (event) {
+    event.preventDefault();
+};
 
 /** 获取URL参数 **/
 function getQueryString(name) { var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i"), r = window.location.search.substr(1).match(reg);if (r != null) return unescape(r[2]);return null; }

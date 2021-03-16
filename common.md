@@ -1,5 +1,10 @@
 # common.js
 
+### v1.1.7 更新 - 2021.03.16
+```
+1. 禁止页面右键功能
+```
+
 ### v1.1.6 更新 - 2021.01.30
 ```
 1. 修改 "showModal"、 "showMessage"、"showCopyText" 方法，改为new Promise方式
