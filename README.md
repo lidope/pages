@@ -54,11 +54,6 @@
 │  │  └─resetREM.css rem的默认样式
 │  ├─fonts css统一存放目录
 │  ├─images 图片目录 注意：此目录内的图片都会被打包
-│  ├─invalid 页面提示
-│  │  ├─popo.html 公共文件
-│  │  ├─wechat.html 公共文件
-│  │  ├─weibo.html 公共文件
-│  │  └─workwechat.html 公共文件
 │  ├─js js存放目录
 │  │  ├─common.js 公共文件
 │  │  ├─docElRem.js rem配置文件
