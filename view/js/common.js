@@ -377,15 +377,18 @@ var http = {
 
                     if (data.c == 110) {
                         // token失效
+                        $('#main').addClass('hide');
                         http.showModal('您的信息已失效', { title: '提示' }).then(_ => {
                             http.clearStorageFun();
                             location.replace(authLocationPath);
                         })
                     } else if (data.c == 400) {
                         // 页面不存在
+                        $('#main').addClass('hide');
                         location.replace(baseUrl);
                     } else if (data.c == 10000) {
                         // 登录超时，请重新登录
+                        $('#main').addClass('hide');
                         http.showModal('登录超时，请重新登录').then(_ => {
                             http.clearStorageFun();
                             location.replace(authLocationPath);
