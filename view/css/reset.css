@@ -1048,8 +1048,6 @@ __lead_fail_block {
 /* vconsole */
 html #__vconsole .vc-switch {
     font-size: 2em;
-    right: 1.5em;
-    bottom: 3.5em;
 }
 
 html #__vconsole .vc-logbox.vc-actived {

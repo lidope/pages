@@ -990,8 +990,6 @@ __lead_fail_block {
 /* vconsole */
 html #__vconsole .vc-switch {
     font-size: 1.2em;
-    right: 2.5em;
-    bottom: 4em;
 }
 
 html #__vconsole .vc-switch, html #__vconsole.vc-toggle .vc-panel {
