@@ -233,6 +233,8 @@ var http = {
             http.globalData.debug = true;
         }
 
+        http.globalData.debug && setVConsoleStorage();
+
         // 创建微信授权监听对象
         function EventDispatcherWechatAuth() {
             this.events = {};
@@ -499,7 +501,12 @@ var http = {
         let { clearAllStorageType, clearAllStorageList, getTokenType } = http.globalData;
 
         if (clearAllStorageType) {
-            getTokenType? localStorage.clear(): sessionStorage.clear();
+            if (getTokenType) {
+                localStorage.clear();
+                http.globalData.debug && setVConsoleStorage();
+            } else {
+                sessionStorage.clear()
+            }
         } else {
             if (getTokenType) {
                 clearAllStorageList.length && clearAllStorageList.forEach(ele => {
@@ -1073,6 +1080,7 @@ var http = {
     /** 清除所有缓存 **/
     clearStorageSync() {
         localStorage.clear();
+        http.globalData.debug && setVConsoleStorage();
     },
 
     /** 验证 **/
@@ -2062,3 +2070,21 @@ wrLoading.prototype = {
         } catch (e) {}
     }
 })();
+
+function setVConsoleStorage() {
+    try {
+        !localStorage.getItem('vConsole_switch_y')
+        && (
+            localStorage.setItem('vConsole_switch_y', window.innerHeight - (window.innerHeight * .13)),
+            localStorage.setItem('vConsole_switch_x', window.innerWidth * .1)
+        )
+        && (
+            setTimeout(_ => {
+                $('.vc-switch').css({
+                    bottom: localStorage.getItem('vConsole_switch_y') + 'px',
+                    right: localStorage.getItem('vConsole_switch_x') + 'px'
+                })
+            }, 300)
+        )
+    } catch (e) {}
+}
