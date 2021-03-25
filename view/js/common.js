@@ -127,7 +127,6 @@ var http = {
         let checkAppBrowser = http.checkAppBrowser();
 
         if (http.globalData.checkAppBrowser && checkAppBrowser != http.globalData.checkAppBrowser && !_isHostLen) {
-
             for (var i = 0; i < checkAppBrowserList.length; i++) {
                 if (http.globalData.checkAppBrowser == 3 && checkAppBrowser == 1) {
                     break;
@@ -195,12 +194,18 @@ var http = {
                                         http.showModal('Tips: 请重新调取接口', () => {}, {
                                             title: '设置token成功'
                                         })
+
+                                        setTimeout(_ => {
+                                            document.dispatchEvent(wxAuth);
+                                        }, 500)
                                     }
                                 }
 
                                 showPrompt();
                             })
-                        }, 2000)
+                        }, 2000) || setTimeout(_ => {
+                            document.dispatchEvent(wxAuth);
+                        }, 500)
                     } else {
                         http.getUserAuth();
                     }
@@ -235,7 +240,9 @@ var http = {
 
         http.globalData.debug && setVConsoleStorage();
 
-        // 创建微信授权监听对象
+        wxAuth = new Event('wechatAuth');
+
+        /*// 创建微信授权监听对象
         function EventDispatcherWechatAuth() {
             this.events = {};
         }
@@ -254,7 +261,7 @@ var http = {
         };
 
         // 创建微信授权监听对象
-        wxAuth = new EventDispatcherWechatAuth();
+        wxAuth = new EventDispatcherWechatAuth();*/
 
         // 获取手机方向，如果是横屏则打开横屏提示
         if (openPhoneScreenX) {
@@ -466,18 +473,19 @@ var http = {
 
     /** 授权成功后的回调 **/
     getFunDetail() {
-        try {
-            window.onload = () => wxAuth.dispatchEvent('auth', {
-                status: 1,
-                msg: 'success',
-                data: {
-                    token: http.getStorageToken()
-                }
-            });
-
-            // 监听微信授权模拟，如果不加这个，页面会报错
-            wxAuth.addEventListener('auth', _ => _);
-        } catch (e) {}
+        setTimeout(_ => {
+            document.dispatchEvent(wxAuth);
+        }, 500)
+        // wxAuth.dispatchEvent('auth', {
+        //     status: 1,
+        //     msg: 'success',
+        //     data: {
+        //         token: http.getStorageToken()
+        //     }
+        // });
+        //
+        // // 监听微信授权模拟，如果不加这个，页面会报错
+        // wxAuth.addEventListener('auth', _ => _);
     },
 
     /**! 微信分享 !**/

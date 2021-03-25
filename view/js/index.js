@@ -6,9 +6,9 @@ var main = new Vue({
 
     mounted() {
         // 监听微信授权成功
-        wxAuth.addEventListener('auth', e => {
+        document.addEventListener('wechatAuth', _ => {
             this.getDetail();
-        })
+        });
     },
 
     methods: {
